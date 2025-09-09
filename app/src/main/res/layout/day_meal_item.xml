@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_marginBottom="12dp"
+  app:cardCornerRadius="12dp"
+  app:cardElevation="6dp"
+  app:cardBackgroundColor="#1E1E1E">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Título del día -->
+    <TextView
+      android:id="@+id/tvDayName"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Lunes"
+      android:textSize="20sp"
+      android:textStyle="bold"
+      android:textColor="#FAFAFA"
+      android:layout_marginBottom="12dp" />
+
+    <!-- Comida -->
+    <com.google.android.material.textfield.TextInputLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      android:hint="Comida"
+      style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+      app:hintTextColor="#BDBDBD"
+      app:boxStrokeColor="#fa9154"
+      app:boxStrokeWidth="2dp"
+      app:boxBackgroundColor="#2A2A2A">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etComida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FAFAFA"
+        android:hint="Ejemplo: Ensalada"
+        android:textColorHint="#BDBDBD"
+        android:inputType="textCapSentences"
+        android:maxLines="2" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Cena -->
+    <com.google.android.material.textfield.TextInputLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="Cena"
+      style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+      app:hintTextColor="#BDBDBD"
+      app:boxStrokeColor="#fa9154"
+      app:boxStrokeWidth="2dp"
+      app:boxBackgroundColor="#2A2A2A">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etCena"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FAFAFA"
+        android:hint="Ejemplo: Sopa de verduras"
+        android:textColorHint="#BDBDBD"
+        android:inputType="textCapSentences"
+        android:maxLines="2" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+  </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
