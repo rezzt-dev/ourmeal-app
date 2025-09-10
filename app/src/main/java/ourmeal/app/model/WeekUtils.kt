@@ -1,4 +1,4 @@
-package app.ourmeat.model
+package ourmeal.app.model
 
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/cardList"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_marginBottom="12dp"
+  app:cardCornerRadius="12dp"
+  app:cardElevation="6dp"
+  app:cardBackgroundColor="#1E1E1E"
+  android:clickable="true"
+  android:focusable="true"
+  android:foreground="?attr/selectableItemBackground">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Título y fecha -->
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_marginBottom="8dp">
+
+      <TextView
+        android:id="@+id/tvListName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/nombre_de_la_lista"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#FAFAFA"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+      <TextView
+        android:id="@+id/tvCreatedDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_12_sep_2024"
+        android:textSize="12sp"
+        android:textColor="#BDBDBD"
+        android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+    <!-- Información de items -->
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:gravity="center_vertical"
+      android:layout_marginBottom="8dp">
+
+      <TextView
+        android:id="@+id/tvItemCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/_5_items"
+        android:textSize="14sp"
+        android:textColor="#BDBDBD" />
+
+      <TextView
+        android:id="@+id/tvProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_3_5_60"
+        android:textSize="12sp"
+        android:textColor="#fa9154"
+        android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+      android:id="@+id/progressCompletion"
+      android:layout_width="match_parent"
+      android:layout_height="6dp"
+      android:progress="60"
+      android:max="100"
+      style="?android:attr/progressBarStyleHorizontal"
+      android:progressDrawable="@drawable/progress_bar_custom" />
+
+  </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

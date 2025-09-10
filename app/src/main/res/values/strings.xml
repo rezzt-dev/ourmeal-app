@@ -1,4 +1,8 @@
 <resources>
-  <string name="app_name">ourmeat</string>
+  <string name="app_name">ourmeal</string>
+  <string name="nombre_de_la_lista">Nombre de la Lista</string>
+  <string name="_12_sep_2024">12 Sep 2024</string>
+  <string name="_5_items">5 items</string>
+  <string name="_3_5_60">3/5 (60%)</string>
   <string name="semana_siguiente">Semana siguiente</string>
 </resources>

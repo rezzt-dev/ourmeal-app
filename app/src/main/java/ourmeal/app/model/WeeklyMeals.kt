@@ -1,4 +1,4 @@
-package app.ourmeat.model
+package ourmeal.app.model
 
 data class WeeklyMeals(
   var weekId: String = "",

@@ -1,9 +1,9 @@
-package app.ourmeat.controller
+package ourmeal.app.controller
 
 import android.content.Context
-import app.ourmeat.model.WeeklyMeals
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import ourmeal.app.model.WeeklyMeals
 import java.io.*
 
 class MealDataManager (private val context: Context) {

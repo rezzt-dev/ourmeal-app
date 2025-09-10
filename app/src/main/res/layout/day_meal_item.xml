@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#FAFAFA"
-        android:hint="Ejemplo: Ensalada"
+        android:hint=""
         android:textColorHint="#BDBDBD"
         android:inputType="textCapSentences"
         android:maxLines="2" />
@@ -66,7 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#FAFAFA"
-        android:hint="Ejemplo: Sopa de verduras"
+        android:hint=""
         android:textColorHint="#BDBDBD"
         android:inputType="textCapSentences"
         android:maxLines="2" />

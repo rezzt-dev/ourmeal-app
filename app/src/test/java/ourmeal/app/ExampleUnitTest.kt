@@ -1,4 +1,4 @@
-package app.ourmeat
+package ourmeal.app
 
 import org.junit.Test
 

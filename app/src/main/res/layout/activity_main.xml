@@ -26,6 +26,16 @@
       android:gravity="center_vertical"
       android:padding="12dp">
 
+      <!-- Botón para abrir listas (a la izquierda) -->
+      <ImageButton
+        android:id="@+id/btnOpenLists"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Abrir listas"
+        android:src="@android:drawable/ic_menu_agenda"
+        app:tint="#fa9154" />
+
       <!-- Botón semana anterior -->
       <ImageButton
         android:id="@+id/btnPreviousWeek"

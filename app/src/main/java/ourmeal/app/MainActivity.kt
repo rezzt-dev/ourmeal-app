@@ -1,6 +1,7 @@
-package app.ourmeat
+package ourmeal.app
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,10 +12,11 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import app.ourmeat.controller.MealDataManager
+import app.ourmeat.R
 import app.ourmeat.databinding.ActivityMainBinding
-import app.ourmeat.model.WeekUtils
-import app.ourmeat.model.WeeklyMeals
+import ourmeal.app.controller.MealDataManager
+import ourmeal.app.model.WeekUtils
+import ourmeal.app.model.WeeklyMeals
 import com.google.android.material.textfield.TextInputEditText
 import java.util.Calendar
 
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     setupData()
     setupListeners()
     setupCalendarButton()
+    setupOpenListsButton()
     loadCurrentWeek()
   }
 
@@ -75,8 +78,6 @@ class MainActivity : AppCompatActivity() {
           val selectedCalendar = Calendar.getInstance().apply {
             set(selectedYear, selectedMonth, selectedDay)
           }
-
-          // Calcular el weekId correspondiente y cargar la semana
           currentWeekId = WeekUtils.getWeekIdFromDate(selectedCalendar.time)
           loadCurrentWeek()
         },
@@ -84,8 +85,14 @@ class MainActivity : AppCompatActivity() {
         month,
         day
       )
-
       datePickerDialog.show()
+    }
+  }
+
+  private fun setupOpenListsButton() {
+    binding.btnOpenLists.setOnClickListener {
+      val intent = Intent(this, ListActivity::class.java)
+      startActivity(intent)
     }
   }
 
@@ -114,14 +121,12 @@ class MainActivity : AppCompatActivity() {
 
       tvDayName.text = day
 
-      // Cargar datos existentes
       currentWeeklyMeals?.let { weeklyMeals ->
         val meal = weeklyMeals.getMealForDay(day)
         etComida.setText(meal.comida)
         etCena.setText(meal.cena)
       }
 
-      // Configurar listeners para autoguardado
       setupTextWatcher(etComida, day, true)
       setupTextWatcher(etCena, day, false)
 
@@ -133,23 +138,13 @@ class MainActivity : AppCompatActivity() {
   private fun setupTextWatcher(editText: TextInputEditText, day: String, isComida: Boolean) {
     editText.addTextChangedListener(object : TextWatcher {
       override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
       override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
       override fun afterTextChanged(s: Editable?) {
         currentWeeklyMeals?.let { weeklyMeals ->
           val meal = weeklyMeals.getMealForDay(day)
-
-          if (isComida) {
-            meal.comida = s.toString()
-          } else {
-            meal.cena = s.toString()
-          }
-
+          if (isComida) meal.comida = s.toString() else meal.cena = s.toString()
           weeklyMeals.setMealForDay(day, meal)
         }
-
-        // Autoguardar después de un breve delay
         scheduleAutoSave()
       }
     })
@@ -157,9 +152,8 @@ class MainActivity : AppCompatActivity() {
 
   private fun scheduleAutoSave() {
     saveRunnable?.let { saveHandler.removeCallbacks(it) }
-
     saveRunnable = Runnable { saveCurrentWeek() }
-    saveRunnable?.let { saveHandler.postDelayed(it, 1000) } // Guardar después de 1s de inactividad
+    saveRunnable?.let { saveHandler.postDelayed(it, 1000) }
   }
 
   private fun saveCurrentWeek() {
