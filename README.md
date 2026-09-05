@@ -44,6 +44,6 @@ contributions are welcome. if you want to collaborate:
 
 ## LICENSE
 
-this project currently has no specific license. if you want to use or contribute, please contact the author or set an appropriate license.
+this project is licensed under a custom non-commercial license. personal, educational and evaluation use is allowed; commercial use requires prior written permission from the author. see the [license](./LICENSE) file for full details.
 
 ---
