@@ -2,91 +2,104 @@
 <com.google.android.material.card.MaterialCardView
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/cardList"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:layout_marginBottom="12dp"
-  app:cardCornerRadius="12dp"
-  app:cardElevation="6dp"
-  app:cardBackgroundColor="#1E1E1E"
+  android:layout_marginBottom="10dp"
   android:clickable="true"
   android:focusable="true"
-  android:foreground="?attr/selectableItemBackground">
+  app:cardBackgroundColor="@color/cream"
+  app:cardCornerRadius="12dp"
+  app:cardElevation="0dp"
+  app:rippleColor="@color/ripple_dark"
+  app:strokeWidth="0dp">
 
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="18dp">
 
-    <!-- Título y fecha -->
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      android:layout_marginBottom="8dp">
+      android:gravity="center_vertical">
 
       <TextView
         android:id="@+id/tvListName"
+        style="@style/TextAppearance.Ourmeal.CardTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/nombre_de_la_lista"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#FAFAFA"
-        android:maxLines="2"
-        android:ellipsize="end" />
+        android:ellipsize="end"
+        android:maxLines="2" />
 
-      <TextView
-        android:id="@+id/tvCreatedDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/_12_sep_2024"
-        android:textSize="12sp"
-        android:textColor="#BDBDBD"
-        android:layout_marginStart="8dp" />
-
+      <ImageButton
+        android:id="@+id/btnDeleteList"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/delete_list_generic"
+        android:padding="12dp"
+        android:src="@drawable/ic_delete"
+        app:tint="@color/cream_muted" />
     </LinearLayout>
 
-    <!-- Información de items -->
+    <TextView
+      android:id="@+id/tvCreatedDate"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="2dp"
+      android:fontFamily="@font/source_sans_3"
+      android:textColor="@color/cream_muted"
+      android:textSize="13sp" />
+
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_marginTop="14dp"
       android:orientation="horizontal"
-      android:gravity="center_vertical"
-      android:layout_marginBottom="8dp">
+      android:gravity="center_vertical">
 
       <TextView
         android:id="@+id/tvItemCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/_5_items"
-        android:textSize="14sp"
-        android:textColor="#BDBDBD" />
+        android:fontFamily="@font/source_sans_3_semibold"
+        android:textColor="@color/cream_deep"
+        android:textSize="15sp" />
 
       <TextView
         android:id="@+id/tvProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/_3_5_60"
-        android:textSize="12sp"
-        android:textColor="#fa9154"
-        android:textStyle="bold" />
-
+        android:fontFamily="@font/source_sans_3_semibold"
+        android:textColor="@color/cream_deep"
+        android:textSize="14sp" />
     </LinearLayout>
 
-    <!-- Progress Bar -->
     <ProgressBar
       android:id="@+id/progressCompletion"
-      android:layout_width="match_parent"
-      android:layout_height="6dp"
-      android:progress="60"
-      android:max="100"
       style="?android:attr/progressBarStyleHorizontal"
-      android:progressDrawable="@drawable/progress_bar_custom" />
+      android:layout_width="match_parent"
+      android:layout_height="5dp"
+      android:layout_marginTop="10dp"
+      android:max="100"
+      android:progressBackgroundTint="@color/cream_track"
+      android:progressTint="@color/cream_deep" />
 
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      app:drawableEndCompat="@drawable/ic_arrow_forward"
+      android:drawablePadding="6dp"
+      app:drawableTint="@color/cream_deep"
+      android:fontFamily="@font/source_sans_3_semibold"
+      android:text="@string/list_open"
+      android:textColor="@color/cream_deep"
+      android:textSize="14sp" />
   </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>

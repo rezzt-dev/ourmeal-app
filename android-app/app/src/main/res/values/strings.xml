@@ -1,8 +1,133 @@
 <resources>
-  <string name="app_name">ourmeal</string>
-  <string name="nombre_de_la_lista">Nombre de la Lista</string>
-  <string name="_12_sep_2024">12 Sep 2024</string>
-  <string name="_5_items">5 items</string>
-  <string name="_3_5_60">3/5 (60%)</string>
-  <string name="semana_siguiente">Semana siguiente</string>
+  <string name="app_name">OurMeal</string>
+
+  <!-- Inicio -->
+  <string name="home_wordmark">OurMeal</string>
+  <string name="home_title_first">Tu semana,</string>
+  <string name="home_title_second">sobre la mesa.</string>
+  <string name="home_intro">Menos improvisar. Más disfrutar.</string>
+  <string name="week_label">El menú de la semana</string>
+  <string name="week_today_action">Volver a hoy</string>
+  <string name="week_pick_date">Elegir fecha</string>
+  <string name="week_days">7 días</string>
+  <string name="menu_section_title">El menú</string>
+  <string name="menu_footnote">Tus platos de siempre. En el día que tú elijas.</string>
+  <string name="menu_day_description">%1$s, %2$s</string>
+  <string name="menu_day_today_description">%1$s, %2$s, hoy</string>
+  <string name="menu_loading">Cargando tu menú…</string>
+  <string name="menu_error_title">No pudimos abrir tu menú.</string>
+  <string name="menu_error_body">Tus datos siguen guardados. Vuelve a intentarlo.</string>
+  <string name="save_idle">Tus cambios se guardan automáticamente.</string>
+  <string name="save_saving">Guardando cambios…</string>
+  <string name="save_saved">Cambios guardados.</string>
+  <string name="save_error">No se pudieron guardar los cambios.</string>
+  <string name="day_lunch">Comida</string>
+  <string name="day_dinner">Cena</string>
+  <string name="day_lunch_placeholder">¿Qué te apetece?</string>
+  <string name="day_dinner_placeholder">Algo rico para terminar el día</string>
+  <string name="day_today">Hoy</string>
+  <string name="open_lists">Mis listas</string>
+  <string name="week_previous">Semana anterior</string>
+  <string name="week_next">Semana siguiente</string>
+  <string name="open_calendar">Elegir semana en el calendario</string>
+
+  <!-- Listas -->
+  <string name="lists_kicker">La compra, en orden</string>
+  <string name="lists_title_first">Una lista para</string>
+  <string name="lists_title_second">cada plan.</string>
+  <string name="lists_intro">La compra semanal o una cena especial. Cada cosa en su sitio.</string>
+  <string name="lists_section_title">Mis listas</string>
+  <string name="lists_loading">Cargando tus listas…</string>
+  <string name="lists_empty_title">Tu próxima compra empieza aquí.</string>
+  <string name="lists_empty_body">Crea una lista para tener todo lo que necesitas a mano.</string>
+  <string name="lists_error_title">No pudimos abrir tus listas.</string>
+  <string name="lists_error_body">Tus datos siguen guardados. Vuelve a intentarlo.</string>
+  <string name="add_list">Nueva lista</string>
+  <string name="list_created">Lista creada</string>
+  <string name="list_create_error">No se pudo guardar. Inténtalo de nuevo.</string>
+  <string name="list_name_label">Nombre de la lista</string>
+  <string name="list_name_required">Escribe un nombre para la lista</string>
+  <string name="list_created_date">Creada el %1$s</string>
+  <string name="list_open">Abrir lista</string>
+  <string name="delete_list_generic">Eliminar lista</string>
+  <string name="delete_item_generic">Eliminar producto</string>
+  <string name="delete_list_title">Eliminar lista</string>
+  <string name="delete_list_message">¿Eliminar «%1$s» y todos sus productos?</string>
+  <string name="delete_list_message_empty">¿Eliminar «%1$s»?</string>
+  <string name="list_deleted">Lista eliminada</string>
+  <string name="list_delete_error">No se pudo eliminar la lista</string>
+  <string name="back_to_menu">Volver al menú</string>
+
+  <!-- Detalle de lista -->
+  <string name="detail_kicker">Tu compra, en orden</string>
+  <string name="detail_subtitle">Marca los productos mientras compras.</string>
+  <string name="detail_loading">Abriendo tu lista…</string>
+  <string name="detail_error_title">No pudimos abrir la lista.</string>
+  <string name="detail_error_body">Tus datos siguen guardados. Vuelve a intentarlo.</string>
+  <string name="detail_missing_title">Esta lista ya no existe.</string>
+  <string name="detail_missing_body">Vuelve a mis listas para elegir otra.</string>
+  <string name="back_to_lists">Mis listas</string>
+  <string name="back_to_lists_action">Volver a mis listas</string>
+  <string name="items_section_title">Productos</string>
+  <string name="items_empty_title">Todavía no hay productos.</string>
+  <string name="items_empty_body">Añade el primero y prepara tu próxima compra.</string>
+  <string name="items_empty_label">Una lista en blanco</string>
+  <string name="progress_empty">Todo empieza con una idea.</string>
+  <string name="progress_done">¡Compra completada!</string>
+  <string name="progress_partial">%1$d de %2$d en la cesta</string>
+  <string name="add_item">Añadir producto</string>
+  <string name="add_item_title">Añadir producto</string>
+  <string name="add_item_message">¿Qué necesitas para tu próxima compra?</string>
+  <string name="item_name_label">Producto</string>
+  <string name="item_name_required">Escribe el nombre del producto</string>
+  <string name="item_added">Producto añadido</string>
+  <string name="item_exists">Ese producto ya está en la lista</string>
+  <string name="item_save_error">No se pudo guardar. Inténtalo de nuevo.</string>
+  <string name="item_deleted">Producto eliminado</string>
+  <string name="item_delete_error">No se pudo eliminar el producto</string>
+  <string name="item_toggle_error">No se pudo guardar el cambio</string>
+  <string name="delete_item_title">Quitar producto</string>
+  <string name="delete_item_message">¿Quitar «%1$s» de esta lista?</string>
+  <string name="mark_bought">Marcar %1$s como comprado</string>
+  <string name="mark_pending">Marcar %1$s como pendiente</string>
+  <string name="delete_item">Eliminar %1$s</string>
+  <string name="delete_list">Eliminar %1$s</string>
+  <string name="share_list">Compartir lista</string>
+  <string name="share_chooser">Compartir lista con</string>
+  <string name="share_header">OurMeal · lista de la compra</string>
+  <string name="share_error">No hay ninguna app disponible para compartir la lista.</string>
+
+  <!-- Acciones y estados compartidos -->
+  <string name="retry">Reintentar</string>
+  <string name="create">Crear</string>
+  <string name="creating">Creando…</string>
+  <string name="add">Añadir</string>
+  <string name="adding">Añadiendo…</string>
+  <string name="cancel">Cancelar</string>
+  <string name="delete">Eliminar</string>
+  <string name="undo">Deshacer</string>
+  <string name="back">Volver</string>
+  <string name="list_name_dialog_message">Ponle un nombre fácil de reconocer.</string>
+  <string name="progress_completion">Progreso de la compra</string>
+
+  <plurals name="list_count">
+    <item quantity="one">%d lista</item>
+    <item quantity="other">%d listas</item>
+  </plurals>
+  <plurals name="item_count">
+    <item quantity="one">%d producto</item>
+    <item quantity="other">%d productos</item>
+  </plurals>
+  <plurals name="week_progress">
+    <item quantity="one">%1$d de %2$d comida planificada</item>
+    <item quantity="other">%1$d de %2$d comidas planificadas</item>
+  </plurals>
+  <plurals name="list_progress">
+    <item quantity="one">%1$d de %2$d comprado</item>
+    <item quantity="other">%1$d de %2$d comprados</item>
+  </plurals>
+  <plurals name="share_summary">
+    <item quantity="one">%1$d de %2$d producto comprado</item>
+    <item quantity="other">%1$d de %2$d productos comprados</item>
+  </plurals>
 </resources>

@@ -1,5 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="black">#FF000000</color>
-  <color name="white">#FFFFFFFF</color>
+  <color name="canvas">#121212</color>
+  <color name="surface">#20221D</color>
+  <color name="surface_raised">#292C25</color>
+  <color name="brand">#FA9154</color>
+  <color name="brand_pressed">#FFAC79</color>
+  <color name="sage">#C7DAB4</color>
+  <color name="sage_deep">#9AAD8C</color>
+  <color name="cream">#F3F4EF</color>
+  <color name="cream_muted">#515B48</color>
+  <color name="cream_deep">#35492D</color>
+  <color name="cream_track">#D5DCD0</color>
+  <color name="ink">#FAFAFA</color>
+  <color name="dark_ink">#22291E</color>
+  <color name="muted">#B8B8B8</color>
+  <color name="outline">#4C5048</color>
+  <color name="hairline">#33FFFFFF</color>
+  <color name="error">#FFB4AB</color>
 </resources>

@@ -4,126 +4,73 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import app.ourmeat.R
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.checkbox.MaterialCheckBox
 import ourmeal.app.model.ListItem
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ItemAdapter(
-  private val items: MutableList<ListItem>,
-  private val onItemLongClick: (Int) -> Unit,
-  private val onItemCheckedChange: (Int, Boolean) -> Unit
-) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+  private val onCheck: (ListItem, Boolean) -> Unit,
+  private val onDelete: (ListItem) -> Unit
+) : RecyclerView.Adapter<ItemAdapter.Holder>() {
+  private val items = mutableListOf<ListItem>()
 
-  inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val cardView: MaterialCardView = itemView.findViewById(R.id.cardItem)
-    val checkBox: MaterialCheckBox = itemView.findViewById(R.id.cbItemCompleted)
-    val tvItemName: TextView = itemView.findViewById(R.id.tvItemName)
-    val tvCreatedDate: TextView = itemView.findViewById(R.id.tvItemDate)
-
-    init {
-      // Long click para eliminar item
-      cardView.setOnLongClickListener {
-        if (adapterPosition != RecyclerView.NO_POSITION) {
-          onItemLongClick(adapterPosition)
-        }
-        true
-      }
-
-      // Click en checkbox para marcar/desmarcar
-      checkBox.setOnCheckedChangeListener { _, isChecked ->
-        val position = adapterPosition
-        if (position != RecyclerView.NO_POSITION) {
-          items[position].isCompleted = isChecked
-          items[position].updatedAt = System.currentTimeMillis()
-          updateItemAppearance(this, items[position])
-
-          // Notificar a la Activity/Fragment
-          onItemCheckedChange(position, isChecked)
-        }
-      }
-    }
+  init {
+    setHasStableIds(true)
   }
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-    val view = LayoutInflater.from(parent.context)
-      .inflate(R.layout.item_list_item, parent, false)
-    return ItemViewHolder(view)
+  class Holder(view: View) : RecyclerView.ViewHolder(view) {
+    val check: MaterialCheckBox = view.findViewById(R.id.cbItemCompleted)
+    val name: TextView = view.findViewById(R.id.tvItemName)
+    val delete: ImageButton = view.findViewById(R.id.btnDeleteItem)
   }
 
-  override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+  fun submitList(newItems: List<ListItem>) {
+    // Keep an immutable snapshot so DiffUtil can detect changes made to the model objects.
+    val snapshot = newItems.map { it.copy() }
+    val oldItems = items.toList()
+    val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+      override fun getOldListSize(): Int = oldItems.size
+      override fun getNewListSize(): Int = snapshot.size
+      override fun areItemsTheSame(oldPosition: Int, newPosition: Int): Boolean =
+        oldItems[oldPosition].id == snapshot[newPosition].id
+      override fun areContentsTheSame(oldPosition: Int, newPosition: Int): Boolean =
+        oldItems[oldPosition] == snapshot[newPosition]
+    })
+    items.clear()
+    items.addAll(snapshot)
+    result.dispatchUpdatesTo(this)
+  }
+
+  override fun getItemId(position: Int): Long = items[position].id
+
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
+    Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_list_item, parent, false))
+
+  override fun onBindViewHolder(holder: Holder, position: Int) {
     val item = items[position]
-
-    // Configurar datos
-    holder.tvItemName.text = item.name
-    holder.checkBox.isChecked = item.isCompleted
-
-    // Fecha de creación
-    val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-    holder.tvCreatedDate.text = dateFormat.format(Date(item.createdAt))
-
-    // Actualizar apariencia según estado
-    updateItemAppearance(holder, item)
-
-    // Animación al hacer clic
-    holder.cardView.setOnClickListener {
-      holder.checkBox.isChecked = !holder.checkBox.isChecked
+    val context = holder.itemView.context
+    holder.name.text = item.name
+    holder.name.paintFlags = if (item.isCompleted) {
+      holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+    } else {
+      holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
     }
+    holder.name.alpha = if (item.isCompleted) 0.55f else 1f
+    holder.check.setOnCheckedChangeListener(null)
+    holder.check.isChecked = item.isCompleted
+    holder.check.contentDescription = context.getString(
+      if (item.isCompleted) R.string.mark_pending else R.string.mark_bought,
+      item.name
+    )
+    holder.check.setOnCheckedChangeListener { _, checked -> onCheck(item, checked) }
+    holder.itemView.setOnClickListener { holder.check.toggle() }
+    holder.delete.contentDescription = context.getString(R.string.delete_item, item.name)
+    holder.delete.setOnClickListener { onDelete(item) }
   }
 
   override fun getItemCount(): Int = items.size
-
-  /**
-   * Actualiza la apariencia del item según su estado de completado
-   */
-  private fun updateItemAppearance(holder: ItemViewHolder, item: ListItem) {
-    if (item.isCompleted) {
-      holder.tvItemName.paintFlags =
-        holder.tvItemName.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-      holder.tvItemName.alpha = 0.6f
-      holder.tvCreatedDate.alpha = 0.6f
-      holder.cardView.alpha = 0.7f
-    } else {
-      holder.tvItemName.paintFlags =
-        holder.tvItemName.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-      holder.tvItemName.alpha = 1.0f
-      holder.tvCreatedDate.alpha = 0.8f
-      holder.cardView.alpha = 1.0f
-    }
-  }
-
-  /** Añade un nuevo item */
-  fun addItem(item: ListItem) {
-    items.add(0, item)
-    notifyItemInserted(0)
-  }
-
-  /** Elimina un item */
-  fun removeItem(position: Int) {
-    if (position in items.indices) {
-      items.removeAt(position)
-      notifyItemRemoved(position)
-    }
-  }
-
-  /** Actualiza un item específico */
-  fun updateItem(position: Int, item: ListItem) {
-    if (position in items.indices) {
-      items[position] = item
-      notifyItemChanged(position)
-    }
-  }
-
-  /** Obtiene todos los items */
-  fun getItems(): List<ListItem> = items.toList()
-
-  /** Obtiene solo los items completados */
-  fun getCompletedItems(): List<ListItem> = items.filter { it.isCompleted }
-
-  /** Obtiene solo los items pendientes */
-  fun getPendingItems(): List<ListItem> = items.filter { !it.isCompleted }
 }

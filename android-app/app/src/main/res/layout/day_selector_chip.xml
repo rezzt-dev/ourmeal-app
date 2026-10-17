@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="0dp"
+  android:layout_height="wrap_content"
+  android:minHeight="62dp"
+  android:paddingTop="6dp"
+  android:paddingBottom="6dp"
+  android:layout_marginHorizontal="1dp"
+  android:layout_weight="1"
+  android:background="@drawable/bg_day_chip_normal"
+  android:clickable="true"
+  android:focusable="true"
+  android:foreground="@drawable/ripple_day_chip"
+  android:gravity="center"
+  android:importantForAccessibility="yes"
+  android:orientation="vertical">
+
+  <TextView
+    android:id="@+id/tvChipDay"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/source_sans_3_semibold"
+    android:importantForAccessibility="no"
+    android:textColor="@color/ink"
+    android:textSize="12sp" />
+
+  <TextView
+    android:id="@+id/tvChipDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:fontFamily="@font/source_sans_3"
+    android:importantForAccessibility="no"
+    android:textColor="@color/muted"
+    android:textSize="11sp" />
+</LinearLayout>

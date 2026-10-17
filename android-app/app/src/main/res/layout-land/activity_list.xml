@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/rootLists"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:baselineAligned="false"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="16dp">
+
+    <ScrollView
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="0.85"
+      android:fillViewport="true"
+      android:scrollbars="none">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBackToMain"
+        style="@style/Widget.Ourmeal.Button.Text.Muted"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:contentDescription="@string/back"
+        android:text="@string/back_to_menu"
+        app:icon="@drawable/ic_arrow_back"
+        app:iconTint="@color/muted" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/lists_kicker" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/lists_title_first"
+        android:accessibilityHeading="true"
+        android:textSize="30sp" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Display.Accent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lists_title_second"
+        android:textSize="30sp" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Muted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/lists_intro" />
+
+      </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1.15"
+      android:layout_marginStart="32dp">
+
+      <RelativeLayout
+        android:id="@+id/listsSectionRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <TextView
+          style="@style/TextAppearance.Ourmeal.SectionTitle"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_toStartOf="@id/tvListCount"
+          android:layout_marginEnd="12dp"
+          android:ellipsize="end"
+          android:maxLines="1"
+          android:text="@string/lists_section_title" />
+
+        <TextView
+          android:id="@+id/tvListCount"
+          style="@style/TextAppearance.Ourmeal.Label"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_centerVertical="true"
+          android:textColor="@color/sage" />
+      </RelativeLayout>
+
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddList"
+        style="@style/Widget.Ourmeal.Button.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="@string/add_list"
+        android:text="@string/add_list"
+        app:icon="@drawable/ic_plus" />
+
+      <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/listsSectionRow"
+        android:layout_above="@id/btnAddList"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/recyclerViewLists"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:clipToPadding="false"
+          android:paddingBottom="12dp"
+          android:scrollbars="none" />
+
+        <include
+          android:id="@+id/loadingPanel"
+          layout="@layout/view_loading"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:visibility="gone" />
+
+        <include
+          android:id="@+id/statePanel"
+          layout="@layout/view_state_panel"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:visibility="gone" />
+      </FrameLayout>
+    </RelativeLayout>
+  </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

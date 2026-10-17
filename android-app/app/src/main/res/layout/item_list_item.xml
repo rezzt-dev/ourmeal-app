@@ -2,74 +2,52 @@
 <com.google.android.material.card.MaterialCardView
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/cardItem"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:layout_marginBottom="8dp"
-  app:cardCornerRadius="12dp"
-  app:cardElevation="4dp"
-  app:cardBackgroundColor="#1E1E1E"
-  android:clickable="true"
-  android:focusable="true"
-  android:foreground="?attr/selectableItemBackground">
+  app:cardBackgroundColor="@color/surface"
+  app:cardCornerRadius="10dp"
+  app:cardElevation="0dp"
+  app:rippleColor="@color/ripple_dark"
+  app:strokeColor="@color/hairline"
+  app:strokeWidth="1dp">
 
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="60dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:padding="16dp">
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp">
 
-    <!-- Checkbox -->
     <com.google.android.material.checkbox.MaterialCheckBox
       android:id="@+id/cbItemCompleted"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="12dp"
-      app:buttonTint="#fa9154"
-      android:scaleX="1.2"
-      android:scaleY="1.2" />
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:padding="12dp"
+      app:buttonTint="@color/checkbox_tint" />
 
-    <!-- Contenido del item -->
-    <LinearLayout
+    <TextView
+      android:id="@+id/tvItemName"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:orientation="vertical">
+      android:layout_marginStart="6dp"
+      android:ellipsize="end"
+      android:fontFamily="@font/source_sans_3_semibold"
+      android:maxLines="3"
+      android:textColor="@color/ink"
+      android:textSize="16sp" />
 
-      <!-- Nombre del item -->
-      <TextView
-        android:id="@+id/tvItemName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nombre del Item"
-        android:textSize="16sp"
-        android:textColor="#FAFAFA"
-        android:textStyle="normal"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:layout_marginBottom="4dp" />
-
-      <!-- Fecha de creación -->
-      <TextView
-        android:id="@+id/tvItemDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="12/09/2024 14:30"
-        android:textSize="12sp"
-        android:textColor="#BDBDBD" />
-
-    </LinearLayout>
-
-    <!-- Indicador visual (opcional) -->
-    <View
-      android:id="@+id/viewIndicator"
-      android:layout_width="4dp"
-      android:layout_height="32dp"
-      android:background="#fa9154"
-      android:layout_marginStart="8dp"
-      android:visibility="gone" />
-
+    <ImageButton
+      android:id="@+id/btnDeleteItem"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:background="?attr/selectableItemBackgroundBorderless"
+      android:contentDescription="@string/delete_item_generic"
+      android:padding="13dp"
+      android:src="@drawable/ic_delete"
+      app:tint="@color/muted" />
   </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>

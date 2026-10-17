@@ -11,8 +11,7 @@ data class WeeklyMeals(
   }
 
   private fun initializeWeek() {
-    val days = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
-    days.forEach { day ->
+    DAYS.forEach { day ->
       meals[day] = Meal()
     }
   }
@@ -23,5 +22,10 @@ data class WeeklyMeals(
 
   fun setMealForDay(day: String, meal: Meal) {
     meals[day] = meal
+  }
+
+  companion object {
+    /** Shared order and storage keys for the week days. */
+    val DAYS = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
   }
 }

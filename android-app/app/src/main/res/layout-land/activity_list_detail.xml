@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/rootDetail"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:baselineAligned="false"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="16dp">
+
+    <ScrollView
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="0.9"
+      android:fillViewport="true"
+      android:scrollbars="none">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBack"
+        style="@style/Widget.Ourmeal.Button.Text.Muted"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:contentDescription="@string/back"
+        android:text="@string/back_to_lists"
+        app:icon="@drawable/ic_arrow_back"
+        app:iconTint="@color/muted" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/detail_kicker" />
+
+      <TextView
+        android:id="@+id/tvListTitle"
+        android:accessibilityHeading="true"
+        style="@style/TextAppearance.Ourmeal.Display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="30sp" />
+
+      <TextView
+        android:id="@+id/tvListSubtitle"
+        style="@style/TextAppearance.Ourmeal.Muted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/detail_subtitle" />
+
+      <LinearLayout
+        android:id="@+id/progressCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_sage"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+          android:id="@+id/tvProgress"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:fontFamily="@font/bricolage_grotesque"
+          android:letterSpacing="-0.01"
+          android:textColor="@color/dark_ink"
+          android:textSize="19sp"
+          android:textStyle="bold" />
+
+        <ProgressBar
+          android:id="@+id/progressCompletion"
+          style="?android:attr/progressBarStyleHorizontal"
+          android:layout_width="match_parent"
+          android:layout_height="6dp"
+          android:layout_marginTop="10dp"
+          android:max="100"
+          android:progressBackgroundTint="@color/sage_deep"
+          android:progressTint="@color/cream_deep" />
+      </LinearLayout>
+
+      </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1.1"
+      android:layout_marginStart="32dp">
+
+      <RelativeLayout
+        android:id="@+id/itemsSectionRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <TextView
+          style="@style/TextAppearance.Ourmeal.SectionTitle"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_toStartOf="@id/tvItemCount"
+          android:layout_marginEnd="12dp"
+          android:ellipsize="end"
+          android:maxLines="1"
+          android:text="@string/items_section_title" />
+
+        <TextView
+          android:id="@+id/tvItemCount"
+          style="@style/TextAppearance.Ourmeal.Label"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_centerVertical="true"
+          android:textColor="@color/sage" />
+      </RelativeLayout>
+
+      <LinearLayout
+        android:id="@+id/actionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnShare"
+          style="@style/Widget.Ourmeal.Button.Icon"
+          android:layout_width="56dp"
+          android:layout_height="56dp"
+          android:contentDescription="@string/share_list"
+          app:icon="@drawable/ic_share"
+          app:iconGravity="textStart"
+          app:iconPadding="0dp"
+          app:iconTint="@color/button_secondary_text" />
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnAddItem"
+          style="@style/Widget.Ourmeal.Button.Primary"
+          android:layout_width="0dp"
+          android:layout_height="56dp"
+          android:layout_marginStart="8dp"
+          android:layout_weight="1"
+          android:contentDescription="@string/add_item"
+          android:text="@string/add_item"
+          app:icon="@drawable/ic_plus" />
+      </LinearLayout>
+
+      <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/itemsSectionRow"
+        android:layout_above="@id/actionBar"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/recyclerViewItems"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:clipToPadding="false"
+          android:paddingBottom="12dp"
+          android:scrollbars="none" />
+
+        <include
+          android:id="@+id/loadingPanel"
+          layout="@layout/view_loading"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:visibility="gone" />
+
+        <include
+          android:id="@+id/statePanel"
+          layout="@layout/view_state_panel"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:visibility="gone" />
+      </FrameLayout>
+    </RelativeLayout>
+  </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

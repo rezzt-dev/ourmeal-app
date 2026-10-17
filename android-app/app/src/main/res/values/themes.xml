@@ -1,9 +1,272 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <!-- Base application theme. -->
-  <style name="Base.Theme.Ourmeal" parent="Theme.Material3.DayNight.NoActionBar">
-    <!-- Customize your light theme here. -->
-    <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+  <style name="Base.Theme.Ourmeal" parent="Theme.Material3.Dark.NoActionBar">
+    <item name="colorPrimary">@color/brand</item>
+    <item name="colorOnPrimary">@color/canvas</item>
+    <item name="colorPrimaryContainer">@color/brand</item>
+    <item name="colorOnPrimaryContainer">@color/canvas</item>
+    <item name="colorSecondary">@color/sage</item>
+    <item name="colorOnSecondary">@color/dark_ink</item>
+    <item name="colorSurface">@color/surface</item>
+    <item name="colorOnSurface">@color/ink</item>
+    <item name="colorSurfaceVariant">@color/surface_raised</item>
+    <item name="colorOnSurfaceVariant">@color/muted</item>
+    <item name="colorOutline">@color/outline</item>
+    <item name="colorError">@color/error</item>
+    <item name="android:colorBackground">@color/canvas</item>
+    <item name="android:windowBackground">@color/canvas</item>
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">@android:color/transparent</item>
+    <item name="android:windowLightStatusBar">false</item>
+    <item name="android:windowLightNavigationBar">false</item>
+    <item name="android:forceDarkAllowed">false</item>
+    <item name="elevationOverlayEnabled">false</item>
+    <item name="android:windowSplashScreenBackground">@color/canvas</item>
+    <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+    <item name="materialAlertDialogTheme">@style/ThemeOverlay.Ourmeal.AlertDialog</item>
+    <item name="snackbarStyle">@style/Widget.Ourmeal.Snackbar</item>
+    <item name="snackbarButtonStyle">@style/Widget.Ourmeal.Snackbar.Button</item>
   </style>
 
   <style name="Theme.Ourmeal" parent="Base.Theme.Ourmeal" />
+
+  <!-- TIPOGRAFIA -->
+
+  <style name="TextAppearance.Ourmeal.Display" parent="TextAppearance.Material3.DisplaySmall">
+    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:textSize">38sp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:letterSpacing">-0.02</item>
+    <item name="android:lineSpacingMultiplier">0.94</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Display.Accent" parent="TextAppearance.Ourmeal.Display">
+    <item name="android:textColor">@color/brand</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.SectionTitle" parent="TextAppearance.Material3.TitleLarge">
+    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:textSize">23sp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:letterSpacing">-0.01</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.CardTitle" parent="TextAppearance.Ourmeal.SectionTitle">
+    <item name="android:textColor">@color/dark_ink</item>
+    <item name="android:textSize">20sp</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Body" parent="TextAppearance.Material3.BodyLarge">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:textSize">16sp</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Muted" parent="TextAppearance.Ourmeal.Body">
+    <item name="android:textColor">@color/muted</item>
+    <item name="android:textSize">15sp</item>
+    <item name="android:lineSpacingExtra">3dp</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Label" parent="TextAppearance.Material3.LabelLarge">
+    <item name="android:fontFamily">@font/source_sans_3_semibold</item>
+    <item name="android:textColor">@color/brand</item>
+    <item name="android:textSize">14sp</item>
+    <item name="android:letterSpacing">0</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Meta" parent="TextAppearance.Ourmeal.Body">
+    <item name="android:textColor">@color/muted</item>
+    <item name="android:textSize">13sp</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Button" parent="TextAppearance.Material3.LabelLarge">
+    <item name="android:fontFamily">@font/source_sans_3_semibold</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:letterSpacing">0</item>
+    <item name="android:textAllCaps">false</item>
+  </style>
+
+  <!-- BOTONES -->
+
+  <style name="Widget.Ourmeal.Button" parent="Widget.Material3.Button">
+    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
+    <item name="android:minHeight">56dp</item>
+    <item name="android:insetTop">0dp</item>
+    <item name="android:insetBottom">0dp</item>
+    <item name="android:stateListAnimator">@null</item>
+    <item name="android:letterSpacing">0</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="cornerRadius">8dp</item>
+    <item name="elevation">0dp</item>
+    <item name="iconPadding">10dp</item>
+    <item name="iconGravity">textStart</item>
+    <item name="iconSize">20dp</item>
+    <item name="android:paddingStart">18dp</item>
+    <item name="android:paddingEnd">18dp</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Primary">
+    <item name="backgroundTint">@color/button_primary_background</item>
+    <item name="android:textColor">@color/button_primary_text</item>
+    <item name="iconTint">@color/button_primary_text</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
+    <item name="android:minHeight">48dp</item>
+    <item name="android:insetTop">0dp</item>
+    <item name="android:insetBottom">0dp</item>
+    <item name="android:stateListAnimator">@null</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="cornerRadius">8dp</item>
+    <item name="strokeColor">@color/button_outline_stroke</item>
+    <item name="android:textColor">@color/button_secondary_text</item>
+    <item name="iconTint">@color/button_secondary_text</item>
+    <item name="iconPadding">8dp</item>
+    <item name="iconSize">18dp</item>
+    <item name="android:paddingStart">16dp</item>
+    <item name="android:paddingEnd">16dp</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Text" parent="Widget.Material3.Button.TextButton">
+    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Label</item>
+    <item name="android:minHeight">48dp</item>
+    <item name="android:minWidth">0dp</item>
+    <item name="android:insetTop">0dp</item>
+    <item name="android:insetBottom">0dp</item>
+    <item name="android:stateListAnimator">@null</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:letterSpacing">0</item>
+    <item name="iconTint">@color/brand</item>
+    <item name="iconPadding">8dp</item>
+    <item name="iconSize">18dp</item>
+    <item name="android:paddingStart">0dp</item>
+    <item name="android:paddingEnd">10dp</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Icon" parent="Widget.Material3.Button.IconButton.Outlined">
+    <item name="android:minWidth">56dp</item>
+    <item name="android:minHeight">56dp</item>
+    <item name="android:insetTop">0dp</item>
+    <item name="android:insetBottom">0dp</item>
+    <item name="cornerRadius">8dp</item>
+    <item name="strokeColor">@color/button_outline_stroke</item>
+    <item name="backgroundTint">@color/canvas</item>
+    <item name="iconTint">@color/button_secondary_text</item>
+    <item name="iconSize">22dp</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Cream" parent="Widget.Material3.Button">
+    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
+    <item name="android:minHeight">48dp</item>
+    <item name="android:insetTop">0dp</item>
+    <item name="android:insetBottom">0dp</item>
+    <item name="android:stateListAnimator">@null</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:letterSpacing">0</item>
+    <item name="android:textColor">@color/dark_ink</item>
+    <item name="backgroundTint">@color/cream</item>
+    <item name="iconTint">@color/dark_ink</item>
+    <item name="iconPadding">8dp</item>
+    <item name="iconSize">18dp</item>
+    <item name="cornerRadius">8dp</item>
+    <item name="elevation">0dp</item>
+    <item name="rippleColor">@color/ripple_dark</item>
+    <item name="android:paddingStart">14dp</item>
+    <item name="android:paddingEnd">14dp</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Text.OnSage" parent="Widget.Ourmeal.Button.Text">
+    <item name="android:textColor">@color/cream_deep</item>
+    <item name="iconTint">@color/cream_deep</item>
+  </style>
+
+
+  <!-- CAMPOS DE TEXTO -->
+
+  <style name="Widget.Ourmeal.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+    <item name="boxBackgroundColor">@color/surface_raised</item>
+    <item name="boxStrokeColor">@color/input_stroke</item>
+    <item name="boxStrokeWidth">1dp</item>
+    <item name="boxStrokeWidthFocused">2dp</item>
+    <item name="hintTextColor">@color/input_hint</item>
+    <item name="boxCornerRadiusTopStart">8dp</item>
+    <item name="boxCornerRadiusTopEnd">8dp</item>
+    <item name="boxCornerRadiusBottomStart">8dp</item>
+    <item name="boxCornerRadiusBottomEnd">8dp</item>
+    <item name="endIconTint">@color/muted</item>
+    <item name="android:textColorHint">@color/muted</item>
+  </style>
+
+  <style name="Widget.Ourmeal.TextInputEditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:fontFamily">@font/source_sans_3</item>
+  </style>
+
+  <!-- DIALOGOS Y SNACKBAR -->
+
+  <style name="ThemeOverlay.Ourmeal.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+    <item name="colorSurface">@color/surface</item>
+    <item name="colorSurfaceContainerHigh">@color/surface</item>
+    <item name="colorOnSurface">@color/ink</item>
+    <item name="colorOnSurfaceVariant">@color/muted</item>
+    <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Ourmeal.Dialog</item>
+    <item name="materialAlertDialogTitleTextStyle">@style/TextAppearance.Ourmeal.DialogTitle</item>
+    <item name="materialAlertDialogBodyTextStyle">@style/TextAppearance.Ourmeal.Muted</item>
+    <item name="buttonBarPositiveButtonStyle">@style/Widget.Ourmeal.Button.Dialog</item>
+    <item name="buttonBarNegativeButtonStyle">@style/Widget.Ourmeal.Button.Dialog.Muted</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.DialogTitle" parent="MaterialAlertDialog.Material3.Title.Text">
+    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textSize">22sp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:letterSpacing">-0.01</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Text.Muted" parent="Widget.Ourmeal.Button.Text">
+    <item name="android:textColor">@color/muted</item>
+    <item name="iconTint">@color/muted</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Dialog" parent="Widget.Material3.Button.TextButton.Dialog">
+    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
+    <item name="android:textSize">15sp</item>
+    <item name="android:textColor">@color/button_dialog_text</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:letterSpacing">0</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Dialog.Muted" parent="Widget.Ourmeal.Button.Dialog">
+    <item name="android:textColor">@color/muted</item>
+  </style>
+
+  <style name="ShapeAppearance.Ourmeal.Dialog" parent="ShapeAppearance.Material3.MediumComponent">
+    <item name="cornerSize">16dp</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Snackbar" parent="Widget.Material3.Snackbar">
+    <item name="backgroundTint">@color/surface_raised</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="shapeAppearance">@style/ShapeAppearance.Ourmeal.Snackbar</item>
+  </style>
+
+  <style name="ShapeAppearance.Ourmeal.Snackbar" parent="ShapeAppearance.Material3.Corner.Small">
+    <item name="cornerSize">8dp</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Snackbar.Button" parent="Widget.Material3.Button.TextButton.Snackbar">
+    <item name="android:textColor">@color/button_dialog_text</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:fontFamily">@font/source_sans_3_semibold</item>
+  </style>
+
 </resources>

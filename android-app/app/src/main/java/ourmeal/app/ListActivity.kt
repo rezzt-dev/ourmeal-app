@@ -1,176 +1,273 @@
 package ourmeal.app
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
-import android.widget.LinearLayout
-import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
+import android.view.WindowManager
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.ourmeat.R
+import app.ourmeat.databinding.ActivityListBinding
+import app.ourmeat.databinding.DialogCreateListBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ourmeal.app.controller.DataManager
 import ourmeal.app.controller.ListAdapter
-import ourmeal.app.model.RecyclerItemClickListener
 import ourmeal.app.model.UserList
+import ourmeal.app.model.normalizeName
+import java.io.IOException
 
 class ListActivity : AppCompatActivity() {
-  private lateinit var recyclerView: RecyclerView
-  private lateinit var listAdapter: ListAdapter
+  private lateinit var binding: ActivityListBinding
   private lateinit var dataManager: DataManager
-  private var userLists = mutableListOf<UserList>()
+  private lateinit var adapter: ListAdapter
+  private var lists: List<UserList> = emptyList()
+  private var loadJob: Job? = null
+  private var firstResume = true
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_list)
-
-    val btnBackToMain = findViewById<ImageButton>(R.id.btnBackToMain)
-    btnBackToMain.setOnClickListener {
-      finish() // Esto cierra ListActivity y vuelve a MainActivity
-    }
-
-
-    // Inicializar componentes
-    initComponents()
-    setupRecyclerView()
-    loadData()
-    setupFab()
-  }
-
-  private fun initComponents() {
-    recyclerView = findViewById(R.id.recyclerViewLists)
+    enableEdgeToEdge(
+      statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
+      navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+    )
+    binding = ActivityListBinding.inflate(layoutInflater)
+    setContentView(binding.root)
+    binding.root.applyScreenInsets()
     dataManager = DataManager(this)
-  }
 
-  private fun showDeleteListDialog(position: Int) {
-    val list = userLists[position]
-
-    val dialog = MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog)
-      .setTitle("Eliminar Lista")
-      .setMessage("¿Deseas eliminar '${list.name}'?")
-      .setPositiveButton("Eliminar") { _, _ ->
-        deleteList(position)
-      }
-      .setNegativeButton("Cancelar", null)
-      .show()
-
-    // Cambiar color de botones
-    dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(Color.parseColor("#fa9154"))
-    dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(Color.LTGRAY)
-  }
-
-  private fun deleteList(position: Int) {
-    val list = userLists[position]
-
-    // Eliminar del adapter
-    listAdapter.removeList(position)
-
-    // Eliminar del almacenamiento
-    dataManager.deleteList(list.id)
-
-    Toast.makeText(this, "Lista '${list.name}' eliminada", Toast.LENGTH_SHORT).show()
-  }
-
-  private fun setupRecyclerView() {
-    listAdapter = ListAdapter(userLists) { position ->
-      openListDetail(userLists[position])
-    }
-
-    recyclerView.apply {
-      layoutManager = LinearLayoutManager(this@ListActivity)
-      adapter = listAdapter
-    }
-
-    // Agregar long click a cada item
-    recyclerView.addOnItemTouchListener(
-      RecyclerItemClickListener(
-        this,
-        recyclerView,
-        object : RecyclerItemClickListener.OnItemClickListener {
-          override fun onItemClick(view: View, position: Int) {
-            openListDetail(userLists[position])
-          }
-
-          override fun onItemLongClick(view: View, position: Int) {
-            showDeleteListDialog(position)
-          }
-        }
-      )
-    )
-  }
-
-  private fun loadData() {
-    userLists.clear()
-    userLists.addAll(dataManager.loadLists())
-    listAdapter.notifyDataSetChanged()
-  }
-
-  private fun setupFab() {
-    val fab = findViewById<FloatingActionButton>(R.id.fabAddList)
-    fab.setOnClickListener {
-      showCreateListDialog()
-    }
-  }
-
-  private fun showCreateListDialog() {
-    val dialogView = layoutInflater.inflate(R.layout.dialog_create_list, null)
-    val etListName = dialogView.findViewById<TextInputEditText>(R.id.etListName)
-
-    MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog)
-      .setTitle("Nueva Lista")
-      .setView(dialogView)
-      .setPositiveButton("Crear") { _, _ ->
-        val listName = etListName.text.toString().trim()
-        if (listName.isNotEmpty()) {
-          createNewList(listName)
-        } else {
-          Toast.makeText(this, "Por favor ingresa un nombre", Toast.LENGTH_SHORT).show()
-        }
-      }
-      .setNegativeButton("Cancelar", null)
-      .show()
-  }
-
-  private fun createNewList(name: String) {
-    val newList = UserList(
-      id = System.currentTimeMillis(),
-      name = name,
-      items = mutableListOf(),
-      createdAt = System.currentTimeMillis()
-    )
-
-    userLists.add(0, newList)
-    listAdapter.notifyItemInserted(0)
-    recyclerView.scrollToPosition(0)
-
-    // Guardar datos
-    dataManager.saveLists(userLists)
-
-    Toast.makeText(this, "Lista '$name' creada", Toast.LENGTH_SHORT).show()
-  }
-
-  private fun openListDetail(list: UserList) {
-    val intent = Intent(this, ListDetailActivity::class.java)
-    intent.putExtra("LIST_ID", list.id)
-    startActivity(intent)
+    adapter = ListAdapter(onOpen = ::openList, onDelete = ::confirmDelete)
+    binding.recyclerViewLists.layoutManager = LinearLayoutManager(this)
+    binding.recyclerViewLists.adapter = adapter
+    binding.btnBackToMain.setOnClickListener { finish() }
+    binding.btnAddList.setOnClickListener { showCreateDialog() }
+    loadLists()
   }
 
   override fun onResume() {
     super.onResume()
-    loadData() // Recargar datos cuando volvemos a la actividad principal
+    if (firstResume) {
+      firstResume = false
+    } else {
+      loadLists(showLoading = false)
+    }
   }
 
-  override fun onBackPressed() {
-    super.onBackPressed()
-    finish() // vuelve a MainActivity
+  private fun loadLists(showLoading: Boolean = true) {
+    loadJob?.cancel()
+    if (showLoading) {
+      binding.recyclerViewLists.isVisible = false
+      binding.statePanel.root.isVisible = false
+      binding.loadingPanel.root.isVisible = true
+      binding.loadingPanel.bindLoading(getString(R.string.lists_loading))
+      binding.tvListCount.text = ""
+      binding.btnAddList.isEnabled = false
+    }
+
+    loadJob = lifecycleScope.launch {
+      val loaded = try {
+        withContext(Dispatchers.IO) { dataManager.loadLists() }
+      } catch (_: IOException) {
+        null
+      }
+      binding.loadingPanel.root.isVisible = false
+      if (loaded == null) {
+        showErrorState()
+        return@launch
+      }
+      lists = loaded.sortedByDescending { it.createdAt }
+      adapter.submitList(lists)
+      binding.tvListCount.text =
+        resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
+      binding.btnAddList.isEnabled = true
+      if (lists.isEmpty()) {
+        showEmptyState()
+      } else {
+        binding.recyclerViewLists.isVisible = true
+        binding.statePanel.root.isVisible = false
+      }
+    }
+  }
+
+  private fun showEmptyState() {
+    binding.recyclerViewLists.isVisible = false
+    binding.statePanel.root.isVisible = true
+    binding.statePanel.bindState(
+      title = getString(R.string.lists_empty_title),
+      body = getString(R.string.lists_empty_body),
+      icon = R.drawable.ic_basket
+    )
+  }
+
+  private fun showErrorState() {
+    adapter.submitList(emptyList())
+    lists = emptyList()
+    binding.recyclerViewLists.isVisible = false
+    binding.tvListCount.text = ""
+    binding.btnAddList.isEnabled = false
+    binding.statePanel.root.isVisible = true
+    binding.statePanel.bindState(
+      title = getString(R.string.lists_error_title),
+      body = getString(R.string.lists_error_body),
+      icon = R.drawable.ic_alert,
+      actionLabel = getString(R.string.retry),
+      onAction = { loadLists() }
+    )
+  }
+
+  private fun showCreateDialog() {
+    val dialogBinding = DialogCreateListBinding.inflate(layoutInflater)
+    val dialog = ourmealDialog()
+      .setTitle(R.string.add_list)
+      .setMessage(R.string.list_name_dialog_message)
+      .setView(dialogBinding.root)
+      .setNegativeButton(R.string.cancel, null)
+      .setPositiveButton(R.string.create, null)
+      .create()
+
+    dialog.setOnShowListener {
+      val confirm = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+      confirm.isEnabled = false
+      dialogBinding.etListName.doAfterTextChanged { text ->
+        confirm.isEnabled = text?.isNotBlank() == true
+        dialogBinding.listNameField.error = null
+      }
+      dialogBinding.etListName.setOnEditorActionListener { _, _, _ ->
+        if (confirm.isEnabled) {
+          confirm.performClick()
+          true
+        } else {
+          false
+        }
+      }
+      dialogBinding.etListName.requestFocus()
+      dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+      confirm.setOnClickListener { createList(dialog, confirm, dialogBinding) }
+    }
+    dialog.show()
+  }
+
+  private fun createList(
+    dialog: AlertDialog,
+    confirm: android.widget.Button,
+    dialogBinding: DialogCreateListBinding
+  ) {
+    val name = normalizeName(dialogBinding.etListName.text?.toString().orEmpty())
+    if (name.isEmpty()) {
+      dialogBinding.listNameField.error = getString(R.string.list_name_required)
+      return
+    }
+    dialogBinding.listNameField.error = null
+    confirm.isEnabled = false
+    confirm.setText(R.string.creating)
+
+    lifecycleScope.launch {
+      val list = UserList(nextListId(), name, mutableListOf(), System.currentTimeMillis())
+      val saved = withContext(Dispatchers.IO) { dataManager.saveLists(listOf(list) + lists) }
+      if (isFinishing || isDestroyed) return@launch
+      confirm.setText(R.string.create)
+      if (!saved) {
+        confirm.isEnabled = true
+        if (dialog.isShowing) {
+          dialogBinding.listNameField.error = getString(R.string.list_create_error)
+        } else {
+          binding.rootLists.showSnackbar(
+            message = getString(R.string.list_create_error),
+            anchor = binding.btnAddList
+          )
+        }
+        return@launch
+      }
+      dialog.dismiss()
+      lists = (listOf(list) + lists).sortedByDescending { it.createdAt }
+      adapter.submitList(lists)
+      binding.tvListCount.text =
+        resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
+      binding.btnAddList.isEnabled = true
+      binding.recyclerViewLists.isVisible = true
+      binding.statePanel.root.isVisible = false
+      binding.recyclerViewLists.scrollToPosition(0)
+      binding.rootLists.showSnackbar(
+        message = getString(R.string.list_created),
+        anchor = binding.btnAddList
+      )
+    }
+  }
+
+  private fun nextListId(): Long =
+    generateSequence(System.currentTimeMillis()) { it + 1 }
+      .first { candidate -> lists.none { it.id == candidate } }
+
+  private fun confirmDelete(list: UserList) {
+    val message = if (list.items.isEmpty()) {
+      getString(R.string.delete_list_message_empty, list.name)
+    } else {
+      getString(R.string.delete_list_message, list.name)
+    }
+    ourmealDialog()
+      .setTitle(R.string.delete_list_title)
+      .setMessage(message)
+      .setNegativeButton(R.string.cancel, null)
+      .setPositiveButton(R.string.delete) { _, _ -> deleteList(list) }
+      .show()
+  }
+
+  private fun deleteList(list: UserList) {
+    lifecycleScope.launch {
+      val deleted = withContext(Dispatchers.IO) { dataManager.deleteList(list.id) }
+      if (isFinishing || isDestroyed) return@launch
+      if (!deleted) {
+        binding.rootLists.showSnackbar(
+          message = getString(R.string.list_delete_error),
+          anchor = binding.btnAddList
+        )
+        return@launch
+      }
+      lists = lists.filterNot { it.id == list.id }
+      adapter.submitList(lists)
+      binding.tvListCount.text =
+        resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
+      if (lists.isEmpty()) showEmptyState()
+      binding.rootLists.showSnackbar(
+        message = getString(R.string.list_deleted),
+        actionLabel = getString(R.string.undo),
+        anchor = binding.btnAddList,
+        onAction = { restoreList(list) }
+      )
+    }
+  }
+
+  private fun restoreList(list: UserList) {
+    lifecycleScope.launch {
+      val saved = withContext(Dispatchers.IO) { dataManager.saveLists(lists + list) }
+      if (isFinishing || isDestroyed) return@launch
+      if (!saved) {
+        binding.rootLists.showSnackbar(
+          message = getString(R.string.list_create_error),
+          anchor = binding.btnAddList
+        )
+        return@launch
+      }
+      lists = (lists + list).sortedByDescending { it.createdAt }
+      adapter.submitList(lists)
+      binding.tvListCount.text =
+        resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
+      binding.recyclerViewLists.isVisible = true
+      binding.statePanel.root.isVisible = false
+    }
+  }
+
+  private fun openList(list: UserList) {
+    startActivity(
+      Intent(this, ListDetailActivity::class.java)
+        .putExtra(ListDetailActivity.EXTRA_LIST_ID, list.id)
+    )
   }
 }

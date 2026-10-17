@@ -21,7 +21,7 @@ Revisando la configuración central a nivel módulo en <b>app/build.gradle.kts<
 - **Identificador Universal (Application ID):** `app.ourmeat`
 - **Mínima Versión Compatible (Min SDK):** Configurado a **SDK 34**. Esto se traduce a un requisito inquebrantable: la app exige que los dispositivos del consumidor corran sobre al menos **Android 14 (Upside Down Cake)**. Esta es una limitación muy restrictiva sobre la compatibilidad con móviles de hace tan solo unos años, pero indica un enfoque muy estricto e inflexible hacia la máxima modernidad de interfaces y de políticas de privacidad integradas en el sistema.
 - **Plataforma de Compilación (Target y Compile SDK):** Fijado a nivel **35**, indicando preparación del entorno directo para integrarse con **Android 15 (Vanilla Ice Cream)**. Se certifica que la aplicación no romperá cambios deprecados por este último gran parche de SO.
-- **Nivel de Bytecode (Java Version):** Compilado exportando bajo la plataforma general **Java 8 (JVM Target 1.8)**.
+- **Nivel de Bytecode (Java Version):** Compilado exportando bajo la plataforma general **Java 17 (JVM Target 17)**.
 ---
 ##   OURMEAL  |  TIPOLOGIA DE CODIGO, ARQUITECTURA Y PAQUETES
 <div align="justify">
