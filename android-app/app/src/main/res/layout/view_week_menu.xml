@@ -11,11 +11,22 @@
   android:paddingBottom="16dp"
   android:visibility="gone">
 
-  <LinearLayout
-    android:id="@+id/layoutDaySelector"
+  <HorizontalScrollView
+    android:id="@+id/daySelectorScroll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" />
+    android:fillViewport="true"
+    android:requiresFadingEdge="horizontal"
+    android:fadingEdgeLength="12dp"
+    android:scrollbars="none">
+
+    <LinearLayout
+      android:id="@+id/layoutDaySelector"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:orientation="horizontal" />
+  </HorizontalScrollView>
 
   <TextView
     android:id="@+id/tvSelectedDay"
@@ -51,7 +62,7 @@
       android:text="@string/day_today"
       android:textAllCaps="true"
       android:textColor="@color/brand"
-      android:textSize="11sp"
+      android:textSize="12sp"
       android:visibility="gone" />
   </LinearLayout>
 
@@ -77,7 +88,7 @@
         android:text="@string/day_lunch"
         android:textAllCaps="true"
         android:textColor="@color/muted"
-        android:textSize="11sp" />
+        android:textSize="12sp" />
 
       <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etComida"
@@ -119,7 +130,7 @@
         android:text="@string/day_dinner"
         android:textAllCaps="true"
         android:textColor="@color/muted"
-        android:textSize="11sp" />
+        android:textSize="12sp" />
 
       <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etCena"

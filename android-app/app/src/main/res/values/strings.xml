@@ -76,6 +76,7 @@
   <string name="progress_done">¡Compra completada!</string>
   <string name="progress_partial">%1$d de %2$d en la cesta</string>
   <string name="add_item">Añadir producto</string>
+  <string name="add_item_short">Añadir</string>
   <string name="add_item_title">Añadir producto</string>
   <string name="add_item_message">¿Qué necesitas para tu próxima compra?</string>
   <string name="item_name_label">Producto</string>
@@ -90,6 +91,8 @@
   <string name="delete_item_message">¿Quitar «%1$s» de esta lista?</string>
   <string name="mark_bought">Marcar %1$s como comprado</string>
   <string name="mark_pending">Marcar %1$s como pendiente</string>
+  <string name="item_status_pending">Pendiente</string>
+  <string name="item_status_bought">Comprado</string>
   <string name="delete_item">Eliminar %1$s</string>
   <string name="delete_list">Eliminar %1$s</string>
   <string name="share_list">Compartir lista</string>

@@ -17,6 +17,7 @@ class ItemAdapter(
   private val onDelete: (ListItem) -> Unit
 ) : RecyclerView.Adapter<ItemAdapter.Holder>() {
   private val items = mutableListOf<ListItem>()
+  private var interactionsEnabled = true
 
   init {
     setHasStableIds(true)
@@ -25,6 +26,7 @@ class ItemAdapter(
   class Holder(view: View) : RecyclerView.ViewHolder(view) {
     val check: MaterialCheckBox = view.findViewById(R.id.cbItemCompleted)
     val name: TextView = view.findViewById(R.id.tvItemName)
+    val status: TextView = view.findViewById(R.id.tvItemStatus)
     val delete: ImageButton = view.findViewById(R.id.btnDeleteItem)
   }
 
@@ -45,6 +47,12 @@ class ItemAdapter(
     result.dispatchUpdatesTo(this)
   }
 
+  fun setInteractionsEnabled(enabled: Boolean) {
+    if (interactionsEnabled == enabled) return
+    interactionsEnabled = enabled
+    notifyItemRangeChanged(0, items.size)
+  }
+
   override fun getItemId(position: Int): Long = items[position].id
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
@@ -60,14 +68,28 @@ class ItemAdapter(
       holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
     }
     holder.name.alpha = if (item.isCompleted) 0.55f else 1f
+    holder.status.setText(
+      if (item.isCompleted) R.string.item_status_bought else R.string.item_status_pending
+    )
+    holder.status.setTextColor(
+      androidx.core.content.ContextCompat.getColor(
+        context,
+        if (item.isCompleted) R.color.sage else R.color.muted
+      )
+    )
     holder.check.setOnCheckedChangeListener(null)
     holder.check.isChecked = item.isCompleted
+    holder.check.isEnabled = interactionsEnabled
+    holder.delete.isEnabled = interactionsEnabled
+    holder.itemView.isEnabled = interactionsEnabled
     holder.check.contentDescription = context.getString(
       if (item.isCompleted) R.string.mark_pending else R.string.mark_bought,
       item.name
     )
     holder.check.setOnCheckedChangeListener { _, checked -> onCheck(item, checked) }
-    holder.itemView.setOnClickListener { holder.check.toggle() }
+    holder.itemView.setOnClickListener {
+      if (interactionsEnabled) holder.check.toggle()
+    }
     holder.delete.contentDescription = context.getString(R.string.delete_item, item.name)
     holder.delete.setOnClickListener { onDelete(item) }
   }

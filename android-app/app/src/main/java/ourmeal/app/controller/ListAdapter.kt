@@ -19,6 +19,7 @@ class ListAdapter(
   private val onDelete: (UserList) -> Unit
 ) : RecyclerView.Adapter<ListAdapter.Holder>() {
   private val items = mutableListOf<UserList>()
+  private var interactionsEnabled = true
   private val dateFormat = SimpleDateFormat("d MMM yyyy", Locale.forLanguageTag("es-ES"))
 
   init {
@@ -49,6 +50,12 @@ class ListAdapter(
     result.dispatchUpdatesTo(this)
   }
 
+  fun setInteractionsEnabled(enabled: Boolean) {
+    if (interactionsEnabled == enabled) return
+    interactionsEnabled = enabled
+    notifyItemRangeChanged(0, items.size)
+  }
+
   override fun getItemId(position: Int): Long = items[position].id
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
@@ -72,8 +79,12 @@ class ListAdapter(
     }
     holder.bar.progress = list.getCompletionPercentage()
     holder.bar.contentDescription = context.getString(R.string.progress_completion)
-    holder.itemView.setOnClickListener { onOpen(list) }
+    holder.itemView.isEnabled = interactionsEnabled
+    holder.itemView.setOnClickListener {
+      if (interactionsEnabled) onOpen(list)
+    }
     holder.delete.contentDescription = context.getString(R.string.delete_list, list.name)
+    holder.delete.isEnabled = interactionsEnabled
     holder.delete.setOnClickListener { onDelete(list) }
   }
 

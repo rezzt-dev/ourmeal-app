@@ -106,6 +106,9 @@ const products = [
         <p class="shopping-status" role="status">
           0 de {products.length} productos en la cesta
         </p>
+        <div class="shopping-progress" aria-hidden="true">
+          <span data-shopping-progress></span>
+        </div>
         <div class="shopping-actions">
           <button
             class="button button-small"
@@ -159,6 +162,9 @@ const products = [
     const resetButton = demo.querySelector<HTMLButtonElement>("[data-reset]")!;
     const status = demo.querySelector<HTMLElement>(".shopping-status")!;
     const feedback = demo.querySelector<HTMLElement>(".export-status")!;
+    const progress = demo.querySelector<HTMLElement>("[data-shopping-progress]")!;
+    const dayMenu = demo.querySelector<HTMLElement>("#day-menu")!;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => {
       const count = inputs.filter((input) => input.checked).length;
       status.textContent =
@@ -167,12 +173,15 @@ const products = [
           : `${count} de ${inputs.length} productos en la cesta`;
       exportButton.disabled = count === inputs.length;
       resetButton.disabled = count === 0;
+      progress.style.transform = `scaleX(${count / inputs.length})`;
       feedback.textContent = "";
     };
     dayButtons.forEach((button) => {
       button.disabled = false;
       button.addEventListener("click", () => {
         const index = Number(button.dataset.day);
+        if (!Number.isInteger(index) || !data.days[index] || !data.meals[index]) return;
+        if (button.getAttribute("aria-pressed") === "true") return;
         dayButtons.forEach((day) =>
           day.setAttribute("aria-pressed", String(day === button)),
         );
@@ -180,6 +189,16 @@ const products = [
           `${data.days[index]}, sobre la mesa`;
         demo.querySelector("[data-lunch]")!.textContent = data.meals[index][0];
         demo.querySelector("[data-dinner]")!.textContent = data.meals[index][1];
+        if (!reducedMotion.matches) {
+          dayMenu.getAnimations().forEach((animation) => animation.cancel());
+          dayMenu.animate(
+            [
+              { opacity: 0.65, transform: "translateY(5px)" },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+            { duration: 220, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+          );
+        }
       });
     });
     inputs.forEach((input) => {

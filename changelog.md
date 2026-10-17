@@ -27,6 +27,14 @@
 - sustituye los botones basados en `TextView` por `MaterialButton` con estados, ripple y tamaños táctiles accesibles.
 - serializa las operaciones de persistencia con un bloqueo compartido a nivel de proceso para mantener atómicas las lecturas y escrituras entre actividades.
 - simplifica el tema a una única variante oscura y configura el arranque, los diálogos y los snackbars desde `themes.xml`.
+- pule la tipografía y los cambios de estado de la aplicación, y hace desplazable el selector semanal para conservar áreas táctiles cómodas en pantallas estrechas.
+- mejora la demo web con transiciones breves, progreso visible de la compra y una composición móvil más equilibrada.
+- refina las tarjetas de listas y productos con estados visibles, controles táctiles accesibles, progreso animado y acciones deshabilitadas durante el guardado.
+- adapta el selector semanal y la demo web a contenidos largos y tamaños de texto ampliados, manteniendo el desplazamiento y las áreas táctiles utilizables.
+
+#### CORREGIDO
+- corrige la actualización concurrente de listas y productos al añadir, marcar, eliminar o restaurar elementos mediante snapshots de persistencia y bloqueo temporal de interacciones.
+- corrige el contraste de los checkboxes, el desbordamiento de resúmenes y el recorte de acciones en pantallas estrechas o con fuentes ampliadas.
 
 #### ELIMINADO
 - retira la estructura Android anterior ubicada directamente en la raiz del repositorio para sustituirla por la nueva organizacion en `android-app/`.
@@ -58,6 +66,14 @@
 - replace `TextView`-based buttons with `MaterialButton` components that expose states, ripple, and accessible touch targets.
 - serialize persistence operations with a process-wide lock so read-modify-write cycles stay atomic across activities.
 - simplify the theme to a single dark variant and configure launch, dialogs, and snackbars from `themes.xml`.
+- refine typography and state changes in the application, and make the weekly selector scrollable to preserve comfortable touch targets on narrow screens.
+- improve the web demo with brief transitions, visible shopping progress, and a more balanced mobile composition.
+- refine list and product cards with visible states, accessible touch controls, animated progress, and disabled actions while saving.
+- adapt the weekly selector and web demo to long content and larger text sizes while keeping scrolling and touch targets usable.
+
+#### FIXED
+- fix concurrent list and product updates when adding, checking, deleting, or restoring items by using persistence snapshots and temporarily locking interactions.
+- fix checkbox contrast, summary overflow, and clipped actions on narrow screens or with larger font sizes.
 
 #### REMOVED
 - remove the previous Android structure located directly in the repository root and replace it with the new `android-app/` organization.

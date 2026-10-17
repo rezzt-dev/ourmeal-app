@@ -117,14 +117,14 @@ class MainActivity : AppCompatActivity() {
       }
       currentWeeklyMeals = plan
       bindWeek()
-      binding.menuBoard.root.isVisible = true
+      binding.menuBoard.root.reveal()
       setSaveStatus(SaveStatus.Idle)
     }
   }
 
   private fun showMenuError() {
     binding.menuBoard.root.isVisible = false
-    binding.menuError.root.isVisible = true
+    binding.menuError.root.reveal()
     binding.menuError.bindState(
       title = getString(R.string.menu_error_title),
       body = getString(R.string.menu_error_body),
@@ -216,6 +216,15 @@ class MainActivity : AppCompatActivity() {
           chip.binding.tvChipDay.setTextColor(ink)
           chip.binding.tvChipDate.setTextColor(muted)
         }
+      }
+    }
+    dayChips.getOrNull(selectedDayIndex)?.binding?.root?.let { selected ->
+      binding.menuBoard.daySelectorScroll.post {
+        val scroll = binding.menuBoard.daySelectorScroll
+        val target = (selected.left + selected.width / 2 - scroll.width / 2)
+          .coerceAtLeast(0)
+        if (android.animation.ValueAnimator.areAnimatorsEnabled()) scroll.smoothScrollTo(target, 0)
+        else scroll.scrollTo(target, 0)
       }
     }
   }

@@ -10,7 +10,7 @@ internal fun View.showSnackbar(
   anchor: View? = null,
   onAction: (() -> Unit)? = null
 ) {
-  val duration = if (actionLabel != null) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT
+  val duration = if (actionLabel != null) 6000 else Snackbar.LENGTH_SHORT
   Snackbar.make(this, message, duration).apply {
     anchor?.let(::setAnchorView)
     if (actionLabel != null && onAction != null) {

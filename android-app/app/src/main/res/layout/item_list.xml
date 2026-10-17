@@ -53,28 +53,27 @@
       android:layout_marginTop="2dp"
       android:fontFamily="@font/source_sans_3"
       android:textColor="@color/cream_muted"
-      android:textSize="13sp" />
+      android:textSize="14sp" />
 
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="14dp"
-      android:orientation="horizontal"
-      android:gravity="center_vertical">
+      android:orientation="vertical">
 
       <TextView
         android:id="@+id/tvItemCount"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:fontFamily="@font/source_sans_3_semibold"
         android:textColor="@color/cream_deep"
         android:textSize="15sp" />
 
       <TextView
         android:id="@+id/tvProgress"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:fontFamily="@font/source_sans_3_semibold"
         android:textColor="@color/cream_deep"
         android:textSize="14sp" />

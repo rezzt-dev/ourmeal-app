@@ -31,6 +31,8 @@ class ListActivity : AppCompatActivity() {
   private var lists: List<UserList> = emptyList()
   private var loadJob: Job? = null
   private var firstResume = true
+  private var isSaving = false
+  private var pendingUndo: (() -> Unit)? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -90,7 +92,7 @@ class ListActivity : AppCompatActivity() {
       if (lists.isEmpty()) {
         showEmptyState()
       } else {
-        binding.recyclerViewLists.isVisible = true
+        binding.recyclerViewLists.reveal()
         binding.statePanel.root.isVisible = false
       }
     }
@@ -98,7 +100,7 @@ class ListActivity : AppCompatActivity() {
 
   private fun showEmptyState() {
     binding.recyclerViewLists.isVisible = false
-    binding.statePanel.root.isVisible = true
+    binding.statePanel.root.reveal()
     binding.statePanel.bindState(
       title = getString(R.string.lists_empty_title),
       body = getString(R.string.lists_empty_body),
@@ -112,7 +114,7 @@ class ListActivity : AppCompatActivity() {
     binding.recyclerViewLists.isVisible = false
     binding.tvListCount.text = ""
     binding.btnAddList.isEnabled = false
-    binding.statePanel.root.isVisible = true
+    binding.statePanel.root.reveal()
     binding.statePanel.bindState(
       title = getString(R.string.lists_error_title),
       body = getString(R.string.lists_error_body),
@@ -123,6 +125,7 @@ class ListActivity : AppCompatActivity() {
   }
 
   private fun showCreateDialog() {
+    if (isSaving) return
     val dialogBinding = DialogCreateListBinding.inflate(layoutInflater)
     val dialog = ourmealDialog()
       .setTitle(R.string.add_list)
@@ -167,11 +170,13 @@ class ListActivity : AppCompatActivity() {
     dialogBinding.listNameField.error = null
     confirm.isEnabled = false
     confirm.setText(R.string.creating)
+    setSaving(true)
 
     lifecycleScope.launch {
       val list = UserList(nextListId(), name, mutableListOf(), System.currentTimeMillis())
       val saved = withContext(Dispatchers.IO) { dataManager.saveLists(listOf(list) + lists) }
       if (isFinishing || isDestroyed) return@launch
+      setSaving(false)
       confirm.setText(R.string.create)
       if (!saved) {
         confirm.isEnabled = true
@@ -191,7 +196,7 @@ class ListActivity : AppCompatActivity() {
       binding.tvListCount.text =
         resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
       binding.btnAddList.isEnabled = true
-      binding.recyclerViewLists.isVisible = true
+      binding.recyclerViewLists.reveal()
       binding.statePanel.root.isVisible = false
       binding.recyclerViewLists.scrollToPosition(0)
       binding.rootLists.showSnackbar(
@@ -206,6 +211,7 @@ class ListActivity : AppCompatActivity() {
       .first { candidate -> lists.none { it.id == candidate } }
 
   private fun confirmDelete(list: UserList) {
+    if (isSaving) return
     val message = if (list.items.isEmpty()) {
       getString(R.string.delete_list_message_empty, list.name)
     } else {
@@ -220,9 +226,12 @@ class ListActivity : AppCompatActivity() {
   }
 
   private fun deleteList(list: UserList) {
+    if (isSaving) return
+    setSaving(true)
     lifecycleScope.launch {
       val deleted = withContext(Dispatchers.IO) { dataManager.deleteList(list.id) }
       if (isFinishing || isDestroyed) return@launch
+      setSaving(false)
       if (!deleted) {
         binding.rootLists.showSnackbar(
           message = getString(R.string.list_delete_error),
@@ -245,9 +254,16 @@ class ListActivity : AppCompatActivity() {
   }
 
   private fun restoreList(list: UserList) {
+    if (isSaving) {
+      pendingUndo = { restoreList(list) }
+      return
+    }
+    if (lists.any { it.id == list.id }) return
+    setSaving(true)
     lifecycleScope.launch {
       val saved = withContext(Dispatchers.IO) { dataManager.saveLists(lists + list) }
       if (isFinishing || isDestroyed) return@launch
+      setSaving(false)
       if (!saved) {
         binding.rootLists.showSnackbar(
           message = getString(R.string.list_create_error),
@@ -259,15 +275,28 @@ class ListActivity : AppCompatActivity() {
       adapter.submitList(lists)
       binding.tvListCount.text =
         resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
-      binding.recyclerViewLists.isVisible = true
+      binding.recyclerViewLists.reveal()
       binding.statePanel.root.isVisible = false
     }
   }
 
   private fun openList(list: UserList) {
+    if (isSaving) return
     startActivity(
       Intent(this, ListDetailActivity::class.java)
         .putExtra(ListDetailActivity.EXTRA_LIST_ID, list.id)
     )
+  }
+
+  private fun setSaving(saving: Boolean) {
+    isSaving = saving
+    adapter.setInteractionsEnabled(!saving)
+    binding.btnAddList.isEnabled = !saving
+    if (!saving) {
+      pendingUndo?.let { undo ->
+        pendingUndo = null
+        binding.root.post(undo)
+      }
+    }
   }
 }

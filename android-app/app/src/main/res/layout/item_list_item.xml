@@ -15,30 +15,44 @@
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="60dp"
+    android:minHeight="72dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:paddingStart="4dp"
-    android:paddingEnd="4dp">
+    android:paddingStart="6dp"
+    android:paddingEnd="6dp">
 
     <com.google.android.material.checkbox.MaterialCheckBox
       android:id="@+id/cbItemCompleted"
       android:layout_width="48dp"
       android:layout_height="48dp"
       android:padding="12dp"
+      android:focusable="true"
       app:buttonTint="@color/checkbox_tint" />
 
-    <TextView
-      android:id="@+id/tvItemName"
+    <LinearLayout
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
       android:layout_marginStart="6dp"
-      android:ellipsize="end"
-      android:fontFamily="@font/source_sans_3_semibold"
-      android:maxLines="3"
-      android:textColor="@color/ink"
-      android:textSize="16sp" />
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/tvItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/source_sans_3_semibold"
+        android:textColor="@color/ink"
+        android:textSize="16sp" />
+
+      <TextView
+        android:id="@+id/tvItemStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/source_sans_3"
+        android:textColor="@color/muted"
+        android:textSize="14sp" />
+    </LinearLayout>
 
     <ImageButton
       android:id="@+id/btnDeleteItem"

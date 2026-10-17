@@ -34,6 +34,8 @@ class ListDetailActivity : AppCompatActivity() {
   private var currentList: UserList? = null
   private var listId = -1L
   private var loadJob: Job? = null
+  private var isSaving = false
+  private var pendingUndo: (() -> Unit)? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -118,16 +120,21 @@ class ListDetailActivity : AppCompatActivity() {
       done == total -> getString(R.string.progress_done)
       else -> getString(R.string.progress_partial, done, total)
     }
-    binding.progressCompletion.progress = percentage
+    binding.progressCompletion.setProgressWithMotion(percentage)
     binding.progressCompletion.contentDescription =
       "${getString(R.string.progress_completion)}: $percentage%"
-    binding.btnShare.isEnabled = total > 0
+    binding.btnShare.isEnabled = total > 0 && !isSaving
     renderItemsState(total == 0)
   }
 
   private fun renderItemsState(empty: Boolean) {
-    binding.recyclerViewItems.isVisible = !empty
-    binding.statePanel.root.isVisible = empty
+    if (empty) {
+      binding.recyclerViewItems.isVisible = false
+      binding.statePanel.root.reveal()
+    } else {
+      binding.statePanel.root.isVisible = false
+      binding.recyclerViewItems.reveal()
+    }
     if (empty) {
       binding.statePanel.bindState(
         title = getString(R.string.items_empty_title),
@@ -146,7 +153,7 @@ class ListDetailActivity : AppCompatActivity() {
     binding.tvListSubtitle.isVisible = false
     binding.tvItemCount.text = ""
     binding.recyclerViewItems.isVisible = false
-    binding.statePanel.root.isVisible = true
+    binding.statePanel.root.reveal()
     binding.statePanel.bindState(
       title = getString(R.string.detail_error_title),
       body = getString(R.string.detail_error_body),
@@ -165,7 +172,7 @@ class ListDetailActivity : AppCompatActivity() {
     binding.tvListSubtitle.isVisible = false
     binding.tvItemCount.text = ""
     binding.recyclerViewItems.isVisible = false
-    binding.statePanel.root.isVisible = true
+    binding.statePanel.root.reveal()
     binding.statePanel.bindState(
       title = getString(R.string.detail_missing_title),
       body = getString(R.string.detail_missing_body),
@@ -176,6 +183,7 @@ class ListDetailActivity : AppCompatActivity() {
   }
 
   private fun showAddDialog() {
+    if (isSaving) return
     val list = currentList ?: return
     val dialogBinding = DialogAddItemBinding.inflate(layoutInflater)
     val dialog = ourmealDialog()
@@ -231,9 +239,12 @@ class ListDetailActivity : AppCompatActivity() {
 
     val item = ListItem(nextItemId(list), name, false, System.currentTimeMillis())
     list.items.add(0, item)
+    setSaving(true)
+    val snapshot = list.snapshot()
     lifecycleScope.launch {
-      val saved = withContext(Dispatchers.IO) { dataManager.updateList(list) }
+      val saved = withContext(Dispatchers.IO) { dataManager.updateList(snapshot) }
       if (isFinishing || isDestroyed) return@launch
+      setSaving(false)
       confirm.setText(R.string.add)
       if (!saved) {
         list.items.remove(item)
@@ -264,20 +275,25 @@ class ListDetailActivity : AppCompatActivity() {
       .first { candidate -> list.items.none { it.id == candidate } }
 
   private fun setCompleted(adapterItem: ListItem, completed: Boolean) {
+    if (isSaving) return
     val list = currentList ?: return
     val item = list.items.firstOrNull { it.id == adapterItem.id } ?: return
     val previous = item.isCompleted
+    val previousUpdatedAt = item.updatedAt
     if (previous == completed) return
+    setSaving(true)
     item.isCompleted = completed
     item.updatedAt = System.currentTimeMillis()
     adapter.submitList(list.items.toList())
     updateSummary()
+    val snapshot = list.snapshot()
 
     lifecycleScope.launch {
-      val saved = withContext(Dispatchers.IO) { dataManager.updateList(list) }
+      val saved = withContext(Dispatchers.IO) { dataManager.updateList(snapshot) }
       if (isFinishing || isDestroyed) return@launch
-      if (!saved && item.isCompleted == completed) {
+      if (!saved) {
         item.isCompleted = previous
+        item.updatedAt = previousUpdatedAt
         adapter.submitList(list.items.toList())
         updateSummary()
         binding.rootDetail.showSnackbar(
@@ -285,10 +301,12 @@ class ListDetailActivity : AppCompatActivity() {
           anchor = binding.actionBar
         )
       }
+      setSaving(false)
     }
   }
 
   private fun confirmDelete(adapterItem: ListItem) {
+    if (isSaving) return
     ourmealDialog()
       .setTitle(R.string.delete_item_title)
       .setMessage(getString(R.string.delete_item_message, adapterItem.name))
@@ -298,17 +316,21 @@ class ListDetailActivity : AppCompatActivity() {
   }
 
   private fun deleteItem(adapterItem: ListItem) {
+    if (isSaving) return
     val list = currentList ?: return
     val item = list.items.firstOrNull { it.id == adapterItem.id } ?: return
     val index = list.items.indexOfFirst { it.id == item.id }
     if (index < 0) return
+    setSaving(true)
     list.items.removeAt(index)
     adapter.submitList(list.items.toList())
     updateSummary()
+    val snapshot = list.snapshot()
 
     lifecycleScope.launch {
-      val saved = withContext(Dispatchers.IO) { dataManager.updateList(list) }
+      val saved = withContext(Dispatchers.IO) { dataManager.updateList(snapshot) }
       if (isFinishing || isDestroyed) return@launch
+      setSaving(false)
       if (!saved) {
         list.items.add(index.coerceAtMost(list.items.size), item)
         adapter.submitList(list.items.toList())
@@ -329,13 +351,21 @@ class ListDetailActivity : AppCompatActivity() {
   }
 
   private fun restoreItem(item: ListItem, index: Int) {
+    if (isSaving) {
+      pendingUndo = { restoreItem(item, index) }
+      return
+    }
     val list = currentList ?: return
+    if (list.items.any { it.id == item.id }) return
+    setSaving(true)
     list.items.add(index.coerceAtMost(list.items.size), item)
     adapter.submitList(list.items.toList())
     updateSummary()
+    val snapshot = list.snapshot()
     lifecycleScope.launch {
-      val saved = withContext(Dispatchers.IO) { dataManager.updateList(list) }
+      val saved = withContext(Dispatchers.IO) { dataManager.updateList(snapshot) }
       if (isFinishing || isDestroyed) return@launch
+      setSaving(false)
       if (!saved) {
         list.items.remove(item)
         adapter.submitList(list.items.toList())
@@ -381,6 +411,21 @@ class ListDetailActivity : AppCompatActivity() {
       )
     }
   }
+
+  private fun setSaving(saving: Boolean) {
+    isSaving = saving
+    adapter.setInteractionsEnabled(!saving)
+    binding.btnAddItem.isEnabled = !saving
+    binding.btnShare.isEnabled = !saving && (currentList?.items?.isNotEmpty() == true)
+    if (!saving) {
+      pendingUndo?.let { undo ->
+        pendingUndo = null
+        binding.root.post(undo)
+      }
+    }
+  }
+
+  private fun UserList.snapshot(): UserList = copy(items = items.map { it.copy() }.toMutableList())
 
   companion object {
     const val EXTRA_LIST_ID = "LIST_ID"
