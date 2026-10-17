@@ -1,0 +1,69 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  introduction: string;
+}
+
+const { title, description, introduction } = Astro.props;
+const legalLinks = [
+  { href: '/aviso-legal/', label: 'Aviso legal' },
+  { href: '/privacidad/', label: 'Privacidad' },
+  { href: '/cookies/', label: 'Cookies' },
+].filter(({ href }) => href !== `${Astro.url.pathname.replace(/\/$/, '')}/`);
+---
+
+<BaseLayout title={`${title} — OurMeal`} description={description}>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <SiteHeader />
+  <main id="contenido">
+    <div class="container legal-page">
+      <nav class="breadcrumb" aria-label="Ruta de navegación">
+        <a href="/">Inicio</a><span aria-hidden="true">/</span><span aria-current="page">{title}</span>
+      </nav>
+      <header class="legal-intro">
+        <p class="legal-kicker">Información y transparencia</p>
+        <h1>{title}</h1>
+        <p>{introduction}</p>
+      </header>
+      <div class="legal-content"><slot /></div>
+      <nav class="legal-more" aria-label="Otras páginas legales">
+        <h2>También puede interesarte</h2>
+        <div>
+          {legalLinks.map(({ href, label }) => <a href={href}>{label} <span aria-hidden="true">↗</span></a>)}
+        </div>
+      </nav>
+    </div>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+.legal-page { padding-block: 2rem clamp(5rem, 9vw, 8rem); }
+.breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; color: var(--color-muted); font-size: 0.9rem; }
+.breadcrumb a, .legal-content :global(a) { color: var(--color-brand); text-underline-offset: 0.2em; }
+.breadcrumb a:hover, .legal-content :global(a:hover) { color: #ffb687; }
+.legal-intro { max-width: 800px; padding-block: clamp(3rem, 7vw, 5.5rem) 3rem; border-bottom: 1px solid #ffffff25; }
+.legal-kicker { margin: 0 0 1rem; color: var(--color-brand); font-weight: 700; }
+h1, h2 { font-family: var(--font-display); text-wrap: balance; }
+h1 { margin: 0 0 1.25rem; font-size: clamp(2.6rem, 5vw, 4.8rem); line-height: 1.1; letter-spacing: -0.035em; overflow-wrap: anywhere; }
+.legal-intro > p:last-child { max-width: 65ch; margin: 0; color: var(--color-muted); font-size: 1.1rem; line-height: 1.7; }
+.legal-content { max-width: 760px; padding-block: 2rem 3.5rem; }
+.legal-content :global(section) { padding-block: 1.25rem; }
+.legal-content :global(h2) { margin: 0 0 0.9rem; font-family: var(--font-display); font-size: clamp(1.4rem, 2.5vw, 1.8rem); line-height: 1.25; }
+.legal-content :global(p), .legal-content :global(li) { color: var(--color-muted); font-size: 1.02rem; line-height: 1.75; text-wrap: pretty; }
+.legal-content :global(p) { margin: 0 0 1rem; }
+.legal-content :global(ul) { margin: 0 0 1rem; padding-left: 1.5rem; }
+.legal-content :global(li + li) { margin-top: 0.4rem; }
+.legal-content :global(strong) { color: var(--color-ink); }
+.legal-more { padding-top: 2rem; border-top: 1px solid #ffffff25; }
+.legal-more h2 { margin: 0 0 1.4rem; font-size: 1.3rem; }
+.legal-more div { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.legal-more a { display: inline-flex; justify-content: space-between; gap: 2rem; min-width: 180px; padding: 0.8rem 1rem; border: 1px solid #ffffff30; border-radius: 10px; color: var(--color-ink); text-decoration: none; font-weight: 650; transition: border-color 0.18s ease, background 0.18s ease; }
+.legal-more a:hover { border-color: var(--color-brand); background: #fa91541b; }
+@media (prefers-reduced-motion: reduce) { .legal-more a { transition: none; } }
+</style>

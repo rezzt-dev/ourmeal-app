@@ -1,0 +1,287 @@
+---
+import { Image } from "astro:assets";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  UtensilsCrossed,
+  MoveDown,
+} from "@lucide/astro";
+import food from "../assets/vegetables.jpg";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import MealDemo from "../components/MealDemo.astro";
+import "../styles/home.css";
+const questions = [
+  [
+    "¿Qué puedo organizar con OurMeal?",
+    "Puedes planificar comidas y cenas por días o semanas, gestionar varias listas de la compra y editar sus productos. La aplicación conserva automáticamente la información registrada.",
+  ],
+  [
+    "¿OurMeal decide qué tengo que comer?",
+    "Tú eliges tus platos y organizas tu menú. OurMeal te ayuda a mantener ese plan a mano; no sustituye el consejo nutricional profesional.",
+  ],
+  [
+    "¿Puedo compartir la lista de la compra?",
+    "Sí. La aplicación permite exportar las listas como texto para guardarlas, imprimirlas o compartirlas con quien haga la compra. También puedes probar la exportación en la demo de esta página.",
+  ],
+  [
+    "¿La demo guarda mis cambios?",
+    "No. Es una demostración independiente de la aplicación Android. Los cambios se mantienen solo mientras esta página está abierta y no se envían a ningún servidor.",
+  ],
+  [
+    "¿Dónde puedo descargar la aplicación?",
+    "Esta web todavía no ofrece una descarga actual verificada. Puedes consultar el perfil del autor o contactar para conocer la disponibilidad. El APK del archivo histórico no se presenta como una versión nueva.",
+  ],
+];
+---
+
+<BaseLayout
+  title="OurMeal — tu semana, sobre la mesa"
+  description="Haz sitio a tus platos favoritos. Organiza comidas, cenas y listas de la compra con OurMeal para Android. Explora la demo interactiva."
+>
+  <a class="skip-link" href="#contenido">
+    Saltar al contenido
+  </a>
+  <SiteHeader />
+  <main id="contenido">
+    <section class="hero container" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-topline">
+        <span>Menos improvisar. Más disfrutar.</span>
+        <span>Planificación cotidiana / Android</span>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1 id="hero-title">
+            Tu semana,
+            <br />
+            sobre la <span>mesa.</span>
+          </h1>
+          <p>
+            Que la pregunta «qué comemos hoy» tenga respuesta. Organiza tus
+            comidas y tu compra con OurMeal.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#pruebalo">
+              Prueba cómo se siente <ArrowRight size={19} aria-hidden="true" />
+            </a>
+            <a class="text-link" href="#como-funciona">
+              Así funciona <MoveDown size={16} aria-hidden="true" />
+            </a>
+          </div>
+          <div class="hero-note">
+            <span class="note-mark" aria-hidden="true">
+              <UtensilsCrossed size={18} />
+            </span>
+            Para tus rutinas reales.
+            <br />Y tus platos de siempre.
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="photo-frame">
+            <Image
+              src={food}
+              alt="Un plato lleno de verduras frescas, aguacate y legumbres listo para llevar a la mesa"
+              width={800}
+              height={900}
+              widths={[400, 600, 800]}
+              sizes="(max-width: 760px) 90vw, 45vw"
+              format="webp"
+              quality={85}
+              loading="eager"
+              fetchpriority="high"
+            />
+            <div class="photo-caption">
+              <span>Un buen plan empieza aquí.</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+          </div>
+          <div class="meal-note">
+            <span class="meal-note-label">Lunes · Comida</span>
+            <strong>
+              Algo rico.
+              <br />
+              Algo previsto.
+            </strong>
+            <span>
+              <Check size={15} aria-hidden="true" /> Un día menos que improvisar
+            </span>
+          </div>
+          <span class="art-stamp" aria-hidden="true">
+            A TU GUSTO
+            <br />
+            <UtensilsCrossed size={25} />
+            <br />A TU RITMO
+          </span>
+        </div>
+      </div>
+      <div class="hero-bottom">
+        <span>Un menú. Una lista. Un poco más de calma.</span>
+        <a href="#funciones" aria-label="Descubrir las funciones de OurMeal">
+          <MoveDown size={20} aria-hidden="true" />
+        </a>
+      </div>
+    </section>
+    <section
+      id="funciones"
+      class="manifesto section"
+      aria-labelledby="functions-title"
+    >
+      <div class="container manifesto-grid">
+        <p class="section-label">
+          La vida ya tiene suficientes listas mentales.
+        </p>
+        <div>
+          <h2 id="functions-title">
+            Haz sitio a lo que
+            <br />
+            <span>te apetece.</span>
+          </h2>
+          <p class="lead">
+            La cena del martes. La compra del sábado. Ese plato que siempre
+            funciona. Cada cosa en su lugar.
+          </p>
+          <div class="feature-lines">
+            <article>
+              <span aria-hidden="true">↳</span>
+              <div>
+                <h3>Tu menú, con perspectiva</h3>
+                <p>
+                  Organiza comidas y cenas por días o semanas. Mira el conjunto
+                  y da variedad a tus platos.
+                </p>
+              </div>
+            </article>
+            <article>
+              <span aria-hidden="true">↳</span>
+              <div>
+                <h3>Una lista para cada plan</h3>
+                <p>
+                  La compra semanal o una cena especial. Crea distintas listas y
+                  edita sus ingredientes cuando lo necesites.
+                </p>
+              </div>
+            </article>
+            <article>
+              <span aria-hidden="true">↳</span>
+              <div>
+                <h3>La compra va contigo</h3>
+                <p>
+                  Exporta tus listas como texto. Guárdalas, imprímelas o
+                  compártelas con quien pase por el supermercado.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+    <MealDemo />
+    <section
+      class="workflow-section section"
+      id="como-funciona"
+      aria-labelledby="workflow-title"
+    >
+      <div class="container workflow-grid">
+        <div class="workflow-intro">
+          <span class="round-symbol" aria-hidden="true">
+            <UtensilsCrossed size={36} />
+          </span>
+          <h2 id="workflow-title">
+            Un hábito pequeño.
+            <br />
+            <span>Una semana más clara.</span>
+          </h2>
+          <p>Empieza por tu próxima comida. El resto puede venir después.</p>
+          <a class="text-link" href="#pruebalo">
+            Haz una prueba <ArrowRight size={17} aria-hidden="true" />
+          </a>
+        </div>
+        <ol class="steps">
+          <li>
+            <span>01</span>
+            <div>
+              <h3>Piensa en lo que te apetece</h3>
+              <p>
+                Reparte tus platos entre comidas y cenas. Planifica un día o la
+                semana completa.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>02</span>
+            <div>
+              <h3>Apunta lo que te falta</h3>
+              <p>
+                Revisa tus ingredientes y prepara una lista para tu próxima
+                compra.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>03</span>
+            <div>
+              <h3>Llévate el plan contigo</h3>
+              <p>
+                Consulta el menú y exporta la lista cuando quieras guardarla o
+                compartirla.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <section
+      class="faq-section section container"
+      id="preguntas"
+      aria-labelledby="faq-title"
+    >
+      <div>
+        <p class="section-label">Antes de poner la mesa</p>
+        <h2 id="faq-title">Todo claro.</h2>
+        <p>Un poco más sobre OurMeal.</p>
+      </div>
+      <div class="faq-list">
+        {questions.map(([question, answer]) => (
+          <details>
+            <summary>
+              {question}
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+    <section class="closing-section" id="proyecto">
+      <div class="container closing-inner">
+        <p>Tu próxima semana empieza con una idea.</p>
+        <h2>
+          Que sea
+          <br />
+          <span>un buen plan.</span>
+        </h2>
+        <div class="closing-bottom">
+          <p>
+            OurMeal es una aplicación para Android.
+            <br />
+            Conoce a su autor y sigue el proyecto.
+          </p>
+          <a
+            class="button button-dark"
+            href="https://github.com/rezzt-dev"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Conoce el proyecto <ArrowUpRight size={20} aria-hidden="true" />
+            <span class="sr-only">
+              (perfil del autor, se abre en otra pestaña)
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

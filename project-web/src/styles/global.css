@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Bricolage Grotesque Variable";
+  src: url("@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2")
+    format("woff2");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans 3 Variable";
+  src: url("@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2")
+    format("woff2");
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+@theme {
+  --font-display:
+    "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Source Sans 3 Variable", ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #fa9154;
+  --color-canvas: #121212;
+  --color-surface: #1e1e1e;
+  --color-ink: #fafafa;
+  --color-muted: #b8b8b8;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: var(--font-body);
+  font-kerning: normal;
+  scroll-padding-top: 7rem;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-brand);
+  color: var(--color-canvas);
+}
+
+.container {
+  width: min(100% - 3rem, 1160px);
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: absolute;
+  top: -5rem;
+  left: 1rem;
+  z-index: 30;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--color-brand);
+  color: var(--color-canvas);
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+@media (max-width: 650px) {
+  :root {
+    scroll-padding-top: 9rem;
+  }
+  .container {
+    width: min(100% - 2rem, 1160px);
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+}
+
+button,
+a,
+input,
+summary {
+  touch-action: manipulation;
+}
+button {
+  font: inherit;
+}
+[hidden] {
+  display: none !important;
+}

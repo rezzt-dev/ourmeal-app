@@ -1,0 +1,226 @@
+---
+import { ArrowDownToLine, Check, RotateCcw } from "@lucide/astro";
+const days = [
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+  "Domingo",
+];
+const meals = [
+  ["Ensalada de pasta", "Crema de calabacín"],
+  ["Arroz con verduras", "Tortilla y ensalada"],
+  ["Lentejas con verduras", "Tostadas de tomate"],
+  ["Pollo al horno", "Ensalada de garbanzos"],
+  ["Pasta con tomate", "Verduras al horno"],
+  ["Arroz con setas", "Tortilla de patatas"],
+  ["Tu plato favorito", "Cena por decidir"],
+];
+const products = [
+  "Pasta",
+  "Tomates",
+  "Calabacín",
+  "Arroz",
+  "Huevos",
+  "Lentejas",
+];
+---
+
+<section
+  class="demo-section section"
+  data-menu={JSON.stringify({ meals, days })}
+  id="pruebalo"
+  aria-labelledby="demo-title"
+>
+  <div class="container">
+    <div class="demo-heading">
+      <div>
+        <p class="section-label">Un pequeño ensayo para tu semana</p>
+        <h2 id="demo-title">
+          Del «qué comemos»
+          <br />
+          al «ya lo tengo».
+        </h2>
+      </div>
+      <p>
+        Elige un día, revisa el menú y marca tu compra. Prueba esta demostración
+        sin registrarte.
+      </p>
+    </div>
+    <div class="demo-board">
+      <div class="menu-demo">
+        <div class="board-title">
+          <h3>Una semana a tu gusto</h3>
+          <span>Menú de ejemplo</span>
+        </div>
+        <div class="day-picker" role="group" aria-label="Día de la semana">
+          {days.map((day, index) => (
+            <button
+              type="button"
+              data-day={index}
+              aria-pressed={index === 0}
+              aria-controls="day-menu"
+              disabled
+            >
+              <span class="day-short" aria-hidden="true">
+                {day.slice(0, 3)}
+              </span>
+              <span class="sr-only">{day}</span>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+            </button>
+          ))}
+        </div>
+        <div id="day-menu" aria-live="polite" aria-atomic="true">
+          <p class="selected-day">Lunes, sobre la mesa</p>
+          <div class="meal-line">
+            <span>Comida</span>
+            <strong data-lunch>{meals[0][0]}</strong>
+          </div>
+          <div class="meal-line">
+            <span>Cena</span>
+            <strong data-dinner>{meals[0][1]}</strong>
+          </div>
+        </div>
+        <p class="menu-footnote">
+          Tus platos de siempre. En el día que tú elijas.
+        </p>
+      </div>
+      <div class="shopping-demo">
+        <div class="board-title">
+          <h3>La compra de la semana</h3>
+          <Check size={20} aria-hidden="true" />
+        </div>
+        <p class="shopping-hint">Marca lo que ya tienes en la cesta.</p>
+        <div class="product-list">
+          {products.map((product) => (
+            <label>
+              <input type="checkbox" name="product" value={product} disabled />
+              <span>{product}</span>
+            </label>
+          ))}
+        </div>
+        <p class="shopping-status" role="status">
+          0 de {products.length} productos en la cesta
+        </p>
+        <div class="shopping-actions">
+          <button
+            class="button button-small"
+            type="button"
+            data-export
+            disabled
+          >
+            <ArrowDownToLine size={16} aria-hidden="true" /> Exportar pendientes
+          </button>
+          <button
+            class="reset-button"
+            type="button"
+            data-reset
+            disabled
+            aria-label="Reiniciar lista de ejemplo"
+          >
+            <RotateCcw size={18} aria-hidden="true" />
+          </button>
+        </div>
+        <p class="export-status" role="status"></p>
+      </div>
+    </div>
+    <p class="demo-disclaimer">
+      Demo ilustrativa, no una captura de la app. Los cambios solo duran
+      mientras esta página está abierta.
+    </p>
+    <noscript>
+      <p>
+        Activa JavaScript para cambiar de día, marcar productos y exportar la
+        lista. Puedes consultar el ejemplo sin activarlo.
+      </p>
+    </noscript>
+  </div>
+</section>
+
+<script>
+  const demo = document.querySelector<HTMLElement>(".demo-section");
+  if (demo) {
+    const data = JSON.parse(demo.dataset.menu ?? "{}") as {
+      meals: string[][];
+      days: string[];
+    };
+    const dayButtons = [
+      ...demo.querySelectorAll<HTMLButtonElement>("[data-day]"),
+    ];
+    const inputs = [
+      ...demo.querySelectorAll<HTMLInputElement>('input[name="product"]'),
+    ];
+    const exportButton =
+      demo.querySelector<HTMLButtonElement>("[data-export]")!;
+    const resetButton = demo.querySelector<HTMLButtonElement>("[data-reset]")!;
+    const status = demo.querySelector<HTMLElement>(".shopping-status")!;
+    const feedback = demo.querySelector<HTMLElement>(".export-status")!;
+    const update = () => {
+      const count = inputs.filter((input) => input.checked).length;
+      status.textContent =
+        count === inputs.length
+          ? "¡Compra completa! Ya lo tienes todo."
+          : `${count} de ${inputs.length} productos en la cesta`;
+      exportButton.disabled = count === inputs.length;
+      resetButton.disabled = count === 0;
+      feedback.textContent = "";
+    };
+    dayButtons.forEach((button) => {
+      button.disabled = false;
+      button.addEventListener("click", () => {
+        const index = Number(button.dataset.day);
+        dayButtons.forEach((day) =>
+          day.setAttribute("aria-pressed", String(day === button)),
+        );
+        demo.querySelector(".selected-day")!.textContent =
+          `${data.days[index]}, sobre la mesa`;
+        demo.querySelector("[data-lunch]")!.textContent = data.meals[index][0];
+        demo.querySelector("[data-dinner]")!.textContent = data.meals[index][1];
+      });
+    });
+    inputs.forEach((input) => {
+      input.disabled = false;
+      input.addEventListener("change", update);
+    });
+    resetButton.addEventListener("click", () => {
+      inputs.forEach((input) => (input.checked = false));
+      update();
+    });
+    exportButton.addEventListener("click", () => {
+      const pending = inputs.filter((input) => !input.checked);
+      if (!pending.length) return;
+      let url: string | undefined;
+      try {
+        url = URL.createObjectURL(
+          new Blob(
+            [
+              `Lista de la compra · OurMeal\n\n${pending.map((input) => `☐ ${input.value}`).join("\n")}\n`,
+            ],
+            { type: "text/plain;charset=utf-8" },
+          ),
+        );
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "ourmeal-compra.txt";
+        document.body.append(link);
+        link.click();
+        link.remove();
+        feedback.textContent =
+          "Lista preparada. Revisa las descargas de tu navegador.";
+      } catch {
+        feedback.textContent =
+          "No se pudo exportar. Vuelve a intentarlo o copia los productos de la lista.";
+      } finally {
+        if (url) {
+          const downloadUrl = url;
+          window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+        }
+      }
+    });
+    update();
+  }
+</script>

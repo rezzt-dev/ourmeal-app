@@ -1,0 +1,146 @@
+---
+import { ArrowRight, UtensilsCrossed } from "@lucide/astro";
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="OurMeal, ir al inicio">
+      <span class="brand-mark">
+        <UtensilsCrossed size={20} aria-hidden="true" />
+      </span>
+      OurMeal
+    </a>
+    <nav aria-label="Navegación principal" class="site-nav">
+      <a href="/#funciones">Funciones</a>
+      <a href="/#como-funciona">Cómo funciona</a>
+      <a href="/#preguntas" class="nav-faq">
+        Preguntas
+      </a>
+      <a class="nav-project" href="/#pruebalo">
+        Pruébalo <ArrowRight size={15} aria-hidden="true" />
+      </a>
+    </nav>
+  </div>
+  <div class="scroll-progress" aria-hidden="true"></div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid #ffffff15;
+    background: #121212ed;
+    backdrop-filter: blur(16px);
+    transition:
+      box-shadow 0.25s ease,
+      background 0.25s ease;
+  }
+  .site-header.is-scrolled {
+    background: #121212f7;
+    box-shadow: 0 8px 24px #0003;
+  }
+  .scroll-progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--color-brand);
+    transform: scaleX(0);
+    transform-origin: left;
+    pointer-events: none;
+  }
+  .header-inner,
+  .site-nav,
+  .brand,
+  .nav-project {
+    display: flex;
+    align-items: center;
+  }
+  .header-inner {
+    justify-content: space-between;
+    min-height: 82px;
+    gap: 2rem;
+  }
+  .brand {
+    gap: 0.7rem;
+    color: var(--color-ink);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 1.27rem;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    white-space: nowrap;
+  }
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: var(--color-brand);
+    color: var(--color-canvas);
+  }
+  .site-nav {
+    gap: clamp(1rem, 3vw, 2.4rem);
+    font-size: 0.91rem;
+    font-weight: 600;
+  }
+  .site-nav a {
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+  .site-nav a:hover {
+    color: var(--color-ink);
+  }
+  .site-nav a[aria-current="location"] {
+    color: var(--color-ink);
+  }
+  .site-nav a[aria-current="location"]::after {
+    content: "";
+    display: block;
+    height: 2px;
+    margin-top: 3px;
+    background: var(--color-brand);
+  }
+  .site-nav .nav-project {
+    gap: 0.45rem;
+    color: var(--color-canvas);
+    background: var(--color-brand);
+    padding: 0.65rem 1rem;
+    border-radius: 5px;
+  }
+  .site-nav .nav-project:hover {
+    background: #ffac79;
+  }
+  .site-nav .nav-project[aria-current="location"]::after {
+    display: none;
+  }
+  @media (max-width: 650px) {
+    .nav-faq {
+      display: none;
+    }
+    .header-inner {
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.7rem;
+      padding-block: 1rem;
+    }
+    .site-nav {
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 0.5rem 1.2rem;
+      font-size: 0.82rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-nav a,
+    .site-header {
+      transition: none;
+    }
+  }
+</style>
