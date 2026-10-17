@@ -17,6 +17,8 @@
 - añade pruebas unitarias para semanas ISO, progreso de listas, días semanales y normalización de nombres.
 
 #### CAMBIOS
+- reduce el tamaño de la cabecera de listas en `activity_list.xml` y ajusta el espacio previo a la sección para conservar una composición más compacta en pantallas verticales.
+- ajusta la variante horizontal de `activity_list.xml` para mantener una jerarquía visual compacta al mostrar el título y la descripción.
 - reorganiza la aplicacion Android desde la raiz del repositorio hacia `android-app/` para separar el cliente movil del resto de productos.
 - añade `android-app/.gitignore` para excluir artefactos de Gradle, compilacion, IDE y configuracion local del proyecto Android.
 - configura la aplicacion web con Astro, TypeScript, Tailwind CSS, tipografias locales, iconos Lucide y comandos de comprobacion, compilacion y previsualizacion.
@@ -56,6 +58,8 @@
 - add unit tests for ISO weeks, list progress, week days, and name normalization.
 
 #### CHANGED
+- reduce the list header size in `activity_list.xml` and adjust the spacing before the section to keep a more compact composition on portrait screens.
+- adjust the landscape variant of `activity_list.xml` to keep a compact visual hierarchy when showing the title and description.
 - move the Android application from the repository root to `android-app/` to separate the mobile client from the other products.
 - add `android-app/.gitignore` to exclude Gradle, build, IDE, and local configuration artifacts from the Android project.
 - configure the web application with Astro, TypeScript, Tailwind CSS, local fonts, Lucide icons, and check, build, and preview commands.
