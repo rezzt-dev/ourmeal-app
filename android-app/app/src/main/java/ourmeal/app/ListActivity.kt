@@ -2,13 +2,11 @@ package ourmeal.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.ourmeat.R
@@ -31,11 +29,13 @@ class ListActivity : AppCompatActivity() {
   private var lists: List<UserList> = emptyList()
   private var loadJob: Job? = null
   private var firstResume = true
+  private lateinit var creationForm: CreationFormState
   private var isSaving = false
   private var pendingUndo: (() -> Unit)? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    creationForm = CreationFormState(this)
     enableEdgeToEdge(
       statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
       navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
@@ -95,6 +95,7 @@ class ListActivity : AppCompatActivity() {
         binding.recyclerViewLists.reveal()
         binding.statePanel.root.isVisible = false
       }
+      creationForm.restore(::showCreateDialog)
     }
   }
 
@@ -125,34 +126,19 @@ class ListActivity : AppCompatActivity() {
   }
 
   private fun showCreateDialog() {
-    if (isSaving) return
-    val dialogBinding = DialogCreateListBinding.inflate(layoutInflater)
-    val dialog = ourmealDialog()
+    if (isSaving || creationForm.isShowing) return
+    val builder = ourmealDialog()
+    val dialogBinding = DialogCreateListBinding.inflate(android.view.LayoutInflater.from(builder.context))
+    val dialog = builder
       .setTitle(R.string.add_list)
-      .setMessage(R.string.list_name_dialog_message)
       .setView(dialogBinding.root)
       .setNegativeButton(R.string.cancel, null)
       .setPositiveButton(R.string.create, null)
       .create()
 
-    dialog.setOnShowListener {
-      val confirm = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-      confirm.isEnabled = false
-      dialogBinding.etListName.doAfterTextChanged { text ->
-        confirm.isEnabled = text?.isNotBlank() == true
-        dialogBinding.listNameField.error = null
-      }
-      dialogBinding.etListName.setOnEditorActionListener { _, _, _ ->
-        if (confirm.isEnabled) {
-          confirm.performClick()
-          true
-        } else {
-          false
-        }
-      }
-      dialogBinding.etListName.requestFocus()
-      dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-      confirm.setOnClickListener { createList(dialog, confirm, dialogBinding) }
+    creationForm.attach(dialog, dialogBinding.etListName)
+    dialog.prepareForm(dialogBinding.listNameField, dialogBinding.etListName) { confirm ->
+      createList(dialog, confirm, dialogBinding)
     }
     dialog.show()
   }
@@ -162,13 +148,14 @@ class ListActivity : AppCompatActivity() {
     confirm: android.widget.Button,
     dialogBinding: DialogCreateListBinding
   ) {
+    if (isSaving) return
     val name = normalizeName(dialogBinding.etListName.text?.toString().orEmpty())
     if (name.isEmpty()) {
       dialogBinding.listNameField.error = getString(R.string.list_name_required)
       return
     }
     dialogBinding.listNameField.error = null
-    confirm.isEnabled = false
+    dialog.setFormSaving(dialogBinding.listNameField, true)
     confirm.setText(R.string.creating)
     setSaving(true)
 
@@ -177,6 +164,7 @@ class ListActivity : AppCompatActivity() {
       val saved = withContext(Dispatchers.IO) { dataManager.saveLists(listOf(list) + lists) }
       if (isFinishing || isDestroyed) return@launch
       setSaving(false)
+      dialog.setFormSaving(dialogBinding.listNameField, false)
       confirm.setText(R.string.create)
       if (!saved) {
         confirm.isEnabled = true
@@ -217,7 +205,7 @@ class ListActivity : AppCompatActivity() {
     } else {
       getString(R.string.delete_list_message, list.name)
     }
-    ourmealDialog()
+    ourmealDialog(destructive = true)
       .setTitle(R.string.delete_list_title)
       .setMessage(message)
       .setNegativeButton(R.string.cancel, null)

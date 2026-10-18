@@ -97,14 +97,14 @@
       android:textColor="@color/ink"
       android:textColorHint="@color/muted"
       android:gravity="center_vertical|start"
-      android:imeOptions="actionNext"
+      android:imeOptions="actionNext|flagNoExtractUi"
       android:importantForAutofill="no"
       android:inputType="textCapSentences|textMultiLine"
       android:maxLength="120"
       android:minHeight="48dp"
-      android:paddingHorizontal="4dp"
-      android:paddingVertical="8dp"
-      android:textSize="19sp" />
+      android:paddingHorizontal="12dp"
+      android:paddingVertical="12dp"
+      android:textSize="18sp" />
 
     <View
       android:layout_width="match_parent"
@@ -141,13 +141,13 @@
       android:textColor="@color/ink"
       android:textColorHint="@color/muted"
       android:gravity="center_vertical|start"
-      android:imeOptions="actionDone"
+      android:imeOptions="actionDone|flagNoExtractUi"
       android:importantForAutofill="no"
       android:inputType="textCapSentences|textMultiLine"
       android:maxLength="120"
       android:minHeight="48dp"
-      android:paddingHorizontal="4dp"
-      android:paddingVertical="8dp"
-      android:textSize="19sp" />
+      android:paddingHorizontal="12dp"
+      android:paddingVertical="12dp"
+      android:textSize="18sp" />
   </LinearLayout>
 </LinearLayout>

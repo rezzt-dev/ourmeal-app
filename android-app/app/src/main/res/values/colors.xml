@@ -16,4 +16,5 @@
   <color name="outline">#4C5048</color>
   <color name="hairline">#33FFFFFF</color>
   <color name="error">#FFB4AB</color>
+  <color name="input_border">#858A7F</color>
 </resources>

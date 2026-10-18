@@ -100,9 +100,9 @@
 
   <!-- Acciones y estados compartidos -->
   <string name="retry">Reintentar</string>
-  <string name="create">Crear</string>
+  <string name="create">Crear lista</string>
   <string name="creating">Creando…</string>
-  <string name="add">Añadir</string>
+  <string name="add">Añadir producto</string>
   <string name="adding">Añadiendo…</string>
   <string name="cancel">Cancelar</string>
   <string name="delete">Eliminar</string>
@@ -131,4 +131,7 @@
     <item quantity="one">%1$d de %2$d producto comprado</item>
     <item quantity="other">%1$d de %2$d productos comprados</item>
   </plurals>
+  <string name="list_name_example">Por ejemplo: Compra de la semana</string>
+  <string name="item_name_example">Por ejemplo: Tomates, 500 g</string>
+  <string name="select_date">Elegir fecha</string>
 </resources>

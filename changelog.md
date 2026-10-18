@@ -15,9 +15,15 @@
 - añade variantes de disposición para landscape en las tres pantallas, con columnas adaptadas al espacio disponible.
 - mejora la accesibilidad con encabezados de pantalla, descripciones de acciones y estados anunciados por lectores de pantalla.
 - añade pruebas unitarias para semanas ISO, progreso de listas, días semanales y normalización de nombres.
+- añade `CreationFormTest.kt` para comprobar que los nombres vacíos no se envían, que el borrador del formulario sobrevive a la recreación de la pantalla y que la aplicación mantiene el tema oscuro con independencia del teléfono.
 
 #### CAMBIOS
 
+- unifica los formularios de creación de listas y productos en un contenedor desplazable con mensaje propio, texto de ayuda, contador de caracteres y espacio reservado para errores.
+- distingue la acción principal de los diálogos con un botón relleno y aplica color de error a las confirmaciones destructivas mediante `ThemeOverlay.Ourmeal.DestructiveDialog`.
+- aplica `ThemeOverlay.Ourmeal.Calendar` al selector de fecha con las etiquetas `Elegir fecha` y `Cancelar`, y cierra la edición del menú antes de abrirlo.
+- amplía el relleno de los campos del menú semanal y unifica su tamaño de texto en `18sp` para dar aire al panel diario.
+- conserva los borradores de creación al recrear la pantalla, bloquea envíos repetidos durante el guardado y fija el modo oscuro de la aplicación con independencia del tema del teléfono.
 - rediseña el menú con una tira de fechas compacta, un panel diario unificado, edición directa con foco visible y estado de guardado breve; asegura la visibilidad del día seleccionado y cierra la edición al cambiar de día.
 - sustituye los campos sobredimensionados por un panel diario compacto con separadores, iconos de edición, etiquetas persistentes y estados de foco; ajusta los textos de ayuda a `Añadir comida` y `Añadir cena`.
 - reduce el selector de días a una tira horizontal con el día activo resaltado, conserva objetivos táctiles accesibles y elimina fondos y recursos gráficos que ya no participan en la composición.
@@ -39,6 +45,7 @@
 - adapta el selector semanal y la demo web a contenidos largos y tamaños de texto ampliados, manteniendo el desplazamiento y las áreas táctiles utilizables.
 
 #### CORREGIDO
+- corrige la prueba instrumentada de contexto para comparar el `applicationId` real `app.ourmeat` y homogeneizar sus finales de línea.
 - corrige la actualización concurrente de listas y productos al añadir, marcar, eliminar o restaurar elementos mediante snapshots de persistencia y bloqueo temporal de interacciones.
 - corrige el contraste de los checkboxes, el desbordamiento de resúmenes y el recorte de acciones en pantallas estrechas o con fuentes ampliadas.
 
@@ -61,9 +68,15 @@
 - add landscape layout variants for all three screens, with columns adapted to the available space.
 - improve accessibility with screen headings, action descriptions, and states announced by screen readers.
 - add unit tests for ISO weeks, list progress, week days, and name normalization.
+- add `CreationFormTest.kt` to check that blank names cannot be submitted, that the creation draft survives screen recreation, and that the app keeps its dark theme regardless of the phone setting.
 
 #### CHANGED
 
+- unify list and product creation forms in a scrollable container with their own message, helper text, character counter, and reserved space for errors.
+- distinguish the primary dialog action with a filled button and apply the error color to destructive confirmations through `ThemeOverlay.Ourmeal.DestructiveDialog`.
+- apply `ThemeOverlay.Ourmeal.Calendar` to the date picker with the `Elegir fecha` and `Cancelar` labels, and close meal editing before opening it.
+- increase the padding of the weekly menu fields and unify their text size at `18sp` to give the daily panel more breathing room.
+- preserve creation drafts when recreating the screen, prevent repeated submissions while saving and keep the app dark independently of the device theme.
 - redesign the menu with a compact date strip, a unified daily panel, inline editing with visible focus and brief save status; keep the selected day visible and close editing when switching days.
 - replace oversized fields with a compact daily panel using separators, edit icons, persistent labels, and focus states; update helper copy to `Añadir comida` and `Añadir cena`.
 - reduce the day selector to a horizontal strip with the active day highlighted, preserve accessible touch targets, and remove backgrounds and graphic resources no longer used by the composition.
@@ -85,6 +98,7 @@
 - adapt the weekly selector and web demo to long content and larger text sizes while keeping scrolling and touch targets usable.
 
 #### FIXED
+- fix the instrumented context test to compare the real `app.ourmeat` `applicationId` and normalize its line endings.
 - fix concurrent list and product updates when adding, checking, deleting, or restoring items by using persistence snapshots and temporarily locking interactions.
 - fix checkbox contrast, summary overflow, and clipped actions on narrow screens or with larger font sizes.
 

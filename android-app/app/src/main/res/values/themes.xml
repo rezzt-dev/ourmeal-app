@@ -1,6 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
   <style name="Base.Theme.Ourmeal" parent="Theme.Material3.Dark.NoActionBar">
+    <item name="colorAccent">@color/brand</item>
+    <item name="android:colorAccent">@color/brand</item>
+    <item name="textInputStyle">@style/Widget.Ourmeal.TextInputLayout</item>
+    <item name="materialCalendarTheme">@style/ThemeOverlay.Ourmeal.Calendar</item>
     <item name="colorPrimary">@color/brand</item>
     <item name="colorOnPrimary">@color/canvas</item>
     <item name="colorPrimaryContainer">@color/brand</item>
@@ -190,6 +194,9 @@
   <!-- CAMPOS DE TEXTO -->
 
   <style name="Widget.Ourmeal.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+    <item name="helperTextTextColor">@color/muted</item>
+    <item name="counterTextColor">@color/muted</item>
+    <item name="errorTextColor">@color/error</item>
     <item name="boxBackgroundColor">@color/surface_raised</item>
     <item name="boxStrokeColor">@color/input_stroke</item>
     <item name="boxStrokeWidth">1dp</item>
@@ -219,7 +226,7 @@
     <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Ourmeal.Dialog</item>
     <item name="materialAlertDialogTitleTextStyle">@style/TextAppearance.Ourmeal.DialogTitle</item>
     <item name="materialAlertDialogBodyTextStyle">@style/TextAppearance.Ourmeal.Muted</item>
-    <item name="buttonBarPositiveButtonStyle">@style/Widget.Ourmeal.Button.Dialog</item>
+    <item name="buttonBarPositiveButtonStyle">@style/Widget.Ourmeal.Button.Dialog.Primary</item>
     <item name="buttonBarNegativeButtonStyle">@style/Widget.Ourmeal.Button.Dialog.Muted</item>
   </style>
 
@@ -238,7 +245,9 @@
 
   <style name="Widget.Ourmeal.Button.Dialog" parent="Widget.Material3.Button.TextButton.Dialog">
     <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
-    <item name="android:textSize">15sp</item>
+    <item name="android:minHeight">48dp</item>
+    <item name="cornerRadius">8dp</item>
+    <item name="android:textSize">16sp</item>
     <item name="android:textColor">@color/button_dialog_text</item>
     <item name="android:textAllCaps">false</item>
     <item name="android:letterSpacing">0</item>
@@ -267,6 +276,32 @@
     <item name="android:textColor">@color/button_dialog_text</item>
     <item name="android:textAllCaps">false</item>
     <item name="android:fontFamily">@font/source_sans_3_semibold</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Dialog.Primary" parent="Widget.Ourmeal.Button.Dialog">
+    <item name="backgroundTint">@color/button_primary_background</item>
+    <item name="android:textColor">@color/button_primary_text</item>
+    <item name="android:paddingHorizontal">16dp</item>
+  </style>
+
+  <style name="ThemeOverlay.Ourmeal.DestructiveDialog" parent="ThemeOverlay.Ourmeal.AlertDialog">
+    <item name="buttonBarPositiveButtonStyle">@style/Widget.Ourmeal.Button.Dialog.Destructive</item>
+  </style>
+
+  <style name="Widget.Ourmeal.Button.Dialog.Destructive" parent="Widget.Ourmeal.Button.Dialog">
+    <item name="android:textColor">@color/error</item>
+  </style>
+
+  <style name="ThemeOverlay.Ourmeal.Calendar" parent="ThemeOverlay.Material3.MaterialCalendar">
+    <item name="colorPrimary">@color/brand</item>
+    <item name="colorOnPrimary">@color/canvas</item>
+    <item name="colorSurface">@color/surface</item>
+    <item name="colorSurfaceContainerHigh">@color/surface</item>
+    <item name="colorOnSurface">@color/ink</item>
+    <item name="colorOnSurfaceVariant">@color/muted</item>
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="buttonBarPositiveButtonStyle">@style/Widget.Ourmeal.Button.Dialog.Primary</item>
+    <item name="buttonBarNegativeButtonStyle">@style/Widget.Ourmeal.Button.Dialog.Muted</item>
   </style>
 
 </resources>
