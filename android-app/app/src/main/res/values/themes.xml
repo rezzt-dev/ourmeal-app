@@ -31,6 +31,10 @@
     <item name="materialAlertDialogTheme">@style/ThemeOverlay.Ourmeal.AlertDialog</item>
     <item name="snackbarStyle">@style/Widget.Ourmeal.Snackbar</item>
     <item name="snackbarButtonStyle">@style/Widget.Ourmeal.Snackbar.Button</item>
+    <item name="snackbarTextViewStyle">@style/Widget.Ourmeal.Snackbar.Text</item>
+    <item name="colorSurfaceInverse">@color/surface_raised</item>
+    <item name="colorOnSurfaceInverse">@color/ink</item>
+    <item name="colorPrimaryInverse">@color/brand</item>
   </style>
 
   <style name="Theme.Ourmeal" parent="Base.Theme.Ourmeal" />
@@ -263,13 +267,19 @@
 
   <style name="Widget.Ourmeal.Snackbar" parent="Widget.Material3.Snackbar">
     <item name="backgroundTint">@color/surface_raised</item>
-    <item name="android:textColor">@color/ink</item>
-    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="actionTextColorAlpha">1</item>
     <item name="shapeAppearance">@style/ShapeAppearance.Ourmeal.Snackbar</item>
   </style>
 
+  <style name="Widget.Ourmeal.Snackbar.Text" parent="Widget.Material3.Snackbar.TextView">
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:textSize">15sp</item>
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="android:maxLines">3</item>
+  </style>
+
   <style name="ShapeAppearance.Ourmeal.Snackbar" parent="ShapeAppearance.Material3.Corner.Small">
-    <item name="cornerSize">8dp</item>
+    <item name="cornerSize">12dp</item>
   </style>
 
   <style name="Widget.Ourmeal.Snackbar.Button" parent="Widget.Material3.Button.TextButton.Snackbar">

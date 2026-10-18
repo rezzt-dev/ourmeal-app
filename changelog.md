@@ -48,6 +48,7 @@
 - corrige la prueba instrumentada de contexto para comparar el `applicationId` real `app.ourmeat` y homogeneizar sus finales de línea.
 - corrige la actualización concurrente de listas y productos al añadir, marcar, eliminar o restaurar elementos mediante snapshots de persistencia y bloqueo temporal de interacciones.
 - corrige el contraste de los checkboxes, el desbordamiento de resúmenes y el recorte de acciones en pantallas estrechas o con fuentes ampliadas.
+- corrige el color del texto de los snackbars, que se veía oscuro sobre fondo oscuro, y ajusta su forma y tipografía al resto de la interfaz.
 
 #### ELIMINADO
 - retira la estructura Android anterior ubicada directamente en la raiz del repositorio para sustituirla por la nueva organizacion en `android-app/`.
@@ -101,6 +102,7 @@
 - fix the instrumented context test to compare the real `app.ourmeat` `applicationId` and normalize its line endings.
 - fix concurrent list and product updates when adding, checking, deleting, or restoring items by using persistence snapshots and temporarily locking interactions.
 - fix checkbox contrast, summary overflow, and clipped actions on narrow screens or with larger font sizes.
+- fix snackbar text, which rendered dark on a dark background, and align the snackbar shape and typography with the rest of the interface.
 
 #### REMOVED
 - remove the previous Android structure located directly in the repository root and replace it with the new `android-app/` organization.
