@@ -27,6 +27,7 @@
 - rediseña el menú con una tira de fechas compacta, un panel diario unificado, edición directa con foco visible y estado de guardado breve; asegura la visibilidad del día seleccionado y cierra la edición al cambiar de día.
 - sustituye los campos sobredimensionados por un panel diario compacto con separadores, iconos de edición, etiquetas persistentes y estados de foco; ajusta los textos de ayuda a `Añadir comida` y `Añadir cena`.
 - reduce el selector de días a una tira horizontal con el día activo resaltado, conserva objetivos táctiles accesibles y elimina fondos y recursos gráficos que ya no participan en la composición.
+- mejora el icono del lanzador reemplazando el dibujo anterior por un icono `utensils` limpio de lucide icons, sin fondo cuadrado innecesario.
 - reduce el tamaño de la cabecera de listas en `activity_list.xml` y ajusta el espacio previo a la sección para conservar una composición más compacta en pantallas verticales.
 - ajusta la variante horizontal de `activity_list.xml` para mantener una jerarquía visual compacta al mostrar el título y la descripción.
 - reorganiza la aplicacion Android desde la raiz del repositorio hacia `android-app/` para separar el cliente movil del resto de productos.
@@ -81,6 +82,7 @@
 - redesign the menu with a compact date strip, a unified daily panel, inline editing with visible focus and brief save status; keep the selected day visible and close editing when switching days.
 - replace oversized fields with a compact daily panel using separators, edit icons, persistent labels, and focus states; update helper copy to `Añadir comida` and `Añadir cena`.
 - reduce the day selector to a horizontal strip with the active day highlighted, preserve accessible touch targets, and remove backgrounds and graphic resources no longer used by the composition.
+- improve the app icon by replacing the previous launcher icon with a clean `utensils` icon from lucide icons, removing the unnecessary square background.
 - reduce the list header size in `activity_list.xml` and adjust the spacing before the section to keep a more compact composition on portrait screens.
 - adjust the landscape variant of `activity_list.xml` to keep a compact visual hierarchy when showing the title and description.
 - move the Android application from the repository root to `android-app/` to separate the mobile client from the other products.
