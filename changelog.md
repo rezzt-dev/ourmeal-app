@@ -42,6 +42,7 @@
 - retira la estructura Android anterior ubicada directamente en la raiz del repositorio para sustituirla por la nueva organizacion en `android-app/`.
 - retira recursos y estilos obsoletos de la interfaz anterior, incluidos el tema nocturno duplicado y los iconos sin uso.
 - retira la tarjeta diaria `day_meal_item.xml` al sustituirla por el tablero semanal del menú.
+- retira `project-web/` y sus dependencias, paginas, estilos, recursos y artefactos generados al finalizar la fase temporal del sitio web.
 
 ### ENGLISH
 
@@ -83,3 +84,4 @@
 - remove the previous Android structure located directly in the repository root and replace it with the new `android-app/` organization.
 - remove obsolete resources and styles from the previous interface, including the duplicated night theme and unused icons.
 - remove the daily card `day_meal_item.xml` in favor of the weekly menu board.
+- remove `project-web/` and its dependencies, pages, styles, assets, and generated artifacts after completing the temporary website phase.
