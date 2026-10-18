@@ -10,6 +10,7 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.ColorRes
@@ -18,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.doOnLayout
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import app.ourmeat.R
 import app.ourmeat.databinding.ActivityMainBinding
@@ -149,7 +153,7 @@ class MainActivity : AppCompatActivity() {
       )
       val date = startDate.plusDays(index.toLong())
       val isToday = date == today
-      chip.tvChipDay.text = day.take(2)
+      chip.tvChipDay.text = day.take(3)
       chip.tvChipDate.text = date.format(dayNumberFormat)
       chip.root.contentDescription = getString(
         if (isToday) R.string.menu_day_today_description else R.string.menu_day_description,
@@ -183,6 +187,7 @@ class MainActivity : AppCompatActivity() {
     binding.menuBoard.tvSelectedDate.text = chip.date.format(dateFormat)
     binding.menuBoard.tvSelectedTodayBadge.isVisible = chip.isToday
 
+    finishMealEditing()
     isBindingMeals = true
     binding.menuBoard.etComida.setText(meal.comida)
     binding.menuBoard.etCena.setText(meal.cena)
@@ -218,13 +223,12 @@ class MainActivity : AppCompatActivity() {
         }
       }
     }
-    dayChips.getOrNull(selectedDayIndex)?.binding?.root?.let { selected ->
-      binding.menuBoard.daySelectorScroll.post {
-        val scroll = binding.menuBoard.daySelectorScroll
+    // Wait until the visible board is measured before centering its selection.
+    binding.menuBoard.daySelectorScroll.doOnLayout { scroll ->
+      dayChips.getOrNull(selectedDayIndex)?.binding?.root?.let { selected ->
         val target = (selected.left + selected.width / 2 - scroll.width / 2)
           .coerceAtLeast(0)
-        if (android.animation.ValueAnimator.areAnimatorsEnabled()) scroll.smoothScrollTo(target, 0)
-        else scroll.scrollTo(target, 0)
+        binding.menuBoard.daySelectorScroll.scrollTo(target, 0)
       }
     }
   }
@@ -232,6 +236,24 @@ class MainActivity : AppCompatActivity() {
   private fun setupMealFields() {
     watchMeal(binding.menuBoard.etComida, isLunch = true)
     watchMeal(binding.menuBoard.etCena, isLunch = false)
+    binding.menuBoard.etComida.setOnEditorActionListener { _, action, _ ->
+      if (action == EditorInfo.IME_ACTION_NEXT) {
+        binding.menuBoard.etCena.requestFocus()
+        true
+      } else false
+    }
+    binding.menuBoard.etCena.setOnEditorActionListener { _, action, _ ->
+      if (action == EditorInfo.IME_ACTION_DONE) {
+        finishMealEditing()
+        true
+      } else false
+    }
+  }
+
+  private fun finishMealEditing() {
+    if (!binding.menuBoard.etComida.hasFocus() && !binding.menuBoard.etCena.hasFocus()) return
+    binding.menuBoard.root.requestFocus()
+    WindowCompat.getInsetsController(window, binding.root).hide(WindowInsetsCompat.Type.ime())
   }
 
   private fun watchMeal(input: AppCompatEditText, isLunch: Boolean) {

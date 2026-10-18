@@ -199,13 +199,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/menu_section_title" />
-
-          <TextView
-            style="@style/TextAppearance.Ourmeal.Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/week_days"
-            android:textColor="@color/sage" />
         </LinearLayout>
 
         <include
