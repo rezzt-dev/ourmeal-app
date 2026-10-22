@@ -51,7 +51,8 @@ la aplicación permite, según el código actual:
 - preparar la compra desde el menú de la semana: agrupar los platos planificados, proponer los ingredientes que el usuario indicó antes para cada plato, revisarlos y añadirlos a una lista nueva o existente sin duplicar productos.
 - crear y eliminar listas de la compra, con deshacer.
 - añadir, marcar como comprados y eliminar productos de cada lista, con detección de duplicados y deshacer.
-- compartir una lista como texto para imprimirla, guardarla o enviarla.
+- aprender el recorrido de compra a partir del orden en que se marcan los productos y ordenar los pendientes de las listas según él, con interruptor para volver al orden de la lista y opción de olvidar lo aprendido, con deshacer.
+- compartir una lista como texto, en el orden mostrado, para imprimirla, guardarla o enviarla.
 
 las funcionalidades propuestas y todavía no implementadas se especifican en `.docs/new-features/`. no se deben presentar como existentes hasta que estén implementadas y verificadas.
 
@@ -70,7 +71,7 @@ datos verificados en `android-app/app/build.gradle.kts` y `android-app/gradle/li
 - objetivo jvm: java 17, `jvmTarget = "17"`.
 - interfaz: vistas xml con view binding, material components con tema `Theme.Material3.Dark.NoActionBar` y variantes en `res/layout-land/`.
 - organización: paquetes `model/` y `controller/`, junto con `MainActivity.kt`, `MenuShoppingActivity.kt`, `ListActivity.kt`, `ListDetailActivity.kt` y utilidades de interfaz compartidas en `ourmeal.app`.
-- persistencia: ficheros json en `filesDir` escritos con `AtomicFile` y `gson` (`user_lists.json`, `meal_plans.json`, `dish_suggestions.json` y `dish_ingredients.json`).
+- persistencia: ficheros json en `filesDir` escritos con `AtomicFile` y `gson` (`user_lists.json`, `meal_plans.json`, `dish_suggestions.json`, `dish_ingredients.json` y `shopping_route.json`).
 - pruebas: junit en `app/src/test/` y pruebas instrumentadas con androidx junit en `app/src/androidTest/`.
 
 si `.docs/info-project/informacion-tecnica.md` contradice estos datos, prevalece la configuración del proyecto.

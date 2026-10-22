@@ -178,6 +178,30 @@
   <string name="share_header">OurMeal · lista de la compra</string>
   <string name="share_error">No hay ninguna app disponible para compartir la lista.</string>
 
+  <!-- Recorrido de compra -->
+  <string name="route_follow">Seguir mi recorrido</string>
+  <string name="route_forget">Olvidar</string>
+  <string name="route_forget_description">Olvidar el recorrido aprendido</string>
+  <string name="route_status_learning">Marca los productos según los cojas: OurMeal aprenderá el orden de tu tienda.</string>
+  <string name="route_status_unplaced">Aún no sabe dónde están estos productos. Márcalos según los cojas.</string>
+  <string name="route_status_all">Tus pendientes siguen el orden de tu recorrido.</string>
+  <string name="route_status_done">Lo que ya está en la cesta baja al final.</string>
+  <string name="route_status_list_order">En el orden en que los añadiste. OurMeal sigue aprendiendo tu recorrido.</string>
+  <string name="route_status_unavailable">No pudimos leer tu recorrido; la lista sigue el orden en que la escribiste.</string>
+  <string name="route_forget_title">¿Olvidar tu recorrido?</string>
+  <string name="route_forget_message">OurMeal olvidará el orden aprendido en todas tus listas, por ejemplo si cambias de tienda. Tus listas y productos no cambian.</string>
+  <string name="route_forgotten">Recorrido olvidado</string>
+  <string name="route_forget_error">No se pudo olvidar el recorrido</string>
+  <string name="route_save_error">No se pudo guardar el orden elegido</string>
+  <plurals name="route_status_partial">
+    <item quantity="one">%1$d de %2$d pendiente sigue tu recorrido; el resto va al final.</item>
+    <item quantity="other">%1$d de %2$d pendientes siguen tu recorrido; el resto va al final.</item>
+  </plurals>
+  <plurals name="route_learned">
+    <item quantity="one">OurMeal aprendió dónde coges %d producto en tu última compra.</item>
+    <item quantity="other">OurMeal aprendió el orden de %d productos de tu última compra.</item>
+  </plurals>
+
   <!-- Acciones y estados compartidos -->
   <string name="retry">Reintentar</string>
   <string name="create">Crear lista</string>

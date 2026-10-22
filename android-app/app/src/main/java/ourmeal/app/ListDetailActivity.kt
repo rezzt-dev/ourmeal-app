@@ -4,10 +4,12 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,19 +19,29 @@ import app.ourmeat.databinding.DialogAddItemBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import ourmeal.app.controller.DataManager
 import ourmeal.app.controller.ItemAdapter
+import ourmeal.app.controller.ShoppingRouteManager
 import ourmeal.app.model.ListItem
+import ourmeal.app.model.RouteChange
+import ourmeal.app.model.RouteStop
+import ourmeal.app.model.ShoppingRoute
 import ourmeal.app.model.UserList
+import ourmeal.app.model.inRouteOrder
 import ourmeal.app.model.matchKey
+import ourmeal.app.model.routePlacement
 import ourmeal.app.model.normalizeName
 import java.io.IOException
 
 class ListDetailActivity : AppCompatActivity() {
   private lateinit var binding: ActivityListDetailBinding
   private lateinit var dataManager: DataManager
+  private lateinit var routeManager: ShoppingRouteManager
   private lateinit var adapter: ItemAdapter
   private var currentList: UserList? = null
   private var listId = -1L
@@ -39,6 +51,10 @@ class ListDetailActivity : AppCompatActivity() {
   private var pendingUndo: (() -> Unit)? = null
   /** A result from the menu is announced once, not again after recreation. */
   private var showMenuResult = false
+  /** Null while the route file cannot be read; the list then keeps its stored order. */
+  private var route: ShoppingRoute? = null
+  private val routeMutex = Mutex()
+  private var isBindingRoute = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -52,6 +68,7 @@ class ListDetailActivity : AppCompatActivity() {
     setContentView(binding.root)
     binding.root.applyScreenInsets()
     dataManager = DataManager(this)
+    routeManager = ShoppingRouteManager(this)
     listId = intent.getLongExtra(EXTRA_LIST_ID, -1L)
 
     adapter = ItemAdapter(onCheck = ::setCompleted, onDelete = ::confirmDelete)
@@ -60,6 +77,8 @@ class ListDetailActivity : AppCompatActivity() {
     binding.btnBack.setOnClickListener { finish() }
     binding.btnAddItem.setOnClickListener { showAddDialog() }
     binding.btnShare.setOnClickListener { shareList() }
+    binding.routeOrder.switchRouteOrder.setOnCheckedChangeListener { _, checked -> setSortByRoute(checked) }
+    binding.routeOrder.btnForgetRoute.setOnClickListener { confirmForgetRoute() }
     loadList()
   }
 
@@ -69,11 +88,15 @@ class ListDetailActivity : AppCompatActivity() {
     renderLoading()
     loadJob = lifecycleScope.launch {
       var failed = false
-      val list = try {
-        withContext(Dispatchers.IO) { dataManager.getListById(listId) }
+      val (list, learned) = try {
+        withContext(Dispatchers.IO) {
+          // A trip that ended since the last visit is learned now, before sorting the list.
+          val settled = routeManager.update { it.settle(System.currentTimeMillis()) }
+          dataManager.getListById(listId) to settled
+        }
       } catch (_: IOException) {
         failed = true
-        null
+        null to null
       }
       binding.loadingPanel.root.isVisible = false
       if (failed) {
@@ -84,14 +107,16 @@ class ListDetailActivity : AppCompatActivity() {
         showMissingState()
         return@launch
       }
+      route = learned?.route
       bindList(list)
-      announceMenuResult()
+      if (!announceMenuResult()) announceLearnedRoute(learned?.learned ?: 0)
       creationForm.restore(::showAddDialog)
     }
   }
 
-  private fun announceMenuResult() {
-    if (!showMenuResult) return
+  /** True when a result was announced. */
+  private fun announceMenuResult(): Boolean {
+    if (!showMenuResult) return false
     showMenuResult = false
     val added = intent.getIntExtra(EXTRA_ADDED_COUNT, 0).coerceAtLeast(0)
     val skipped = intent.getIntExtra(EXTRA_SKIPPED_COUNT, 0).coerceAtLeast(0)
@@ -113,6 +138,15 @@ class ListDetailActivity : AppCompatActivity() {
       anchor = binding.actionBar,
       duration = Snackbar.LENGTH_LONG
     )
+    return true
+  }
+
+  private fun announceLearnedRoute(learned: Int) {
+    if (learned <= 0) return
+    binding.rootDetail.showSnackbar(
+      message = resources.getQuantityString(R.plurals.route_learned, learned, learned),
+      anchor = binding.actionBar
+    )
   }
 
   private fun renderLoading() {
@@ -124,6 +158,7 @@ class ListDetailActivity : AppCompatActivity() {
     binding.actionBar.isVisible = false
     binding.tvListTitle.isVisible = false
     binding.tvListSubtitle.isVisible = false
+    binding.routeOrder.root.isVisible = false
     binding.tvItemCount.text = ""
   }
 
@@ -136,7 +171,7 @@ class ListDetailActivity : AppCompatActivity() {
       resources.getQuantityString(R.plurals.item_count, list.items.size, list.items.size)
     binding.progressCard.isVisible = true
     binding.actionBar.isVisible = true
-    adapter.submitList(list.items.toList())
+    adapter.submitList(displayedItems(list))
     updateSummary()
   }
 
@@ -157,6 +192,7 @@ class ListDetailActivity : AppCompatActivity() {
       "${getString(R.string.progress_completion)}: $percentage%"
     binding.btnShare.isEnabled = total > 0 && !isSaving
     renderItemsState(total == 0)
+    renderRoute(list)
   }
 
   private fun renderItemsState(empty: Boolean) {
@@ -183,6 +219,7 @@ class ListDetailActivity : AppCompatActivity() {
     binding.actionBar.isVisible = false
     binding.tvListTitle.isVisible = false
     binding.tvListSubtitle.isVisible = false
+    binding.routeOrder.root.isVisible = false
     binding.tvItemCount.text = ""
     binding.recyclerViewItems.isVisible = false
     binding.statePanel.root.reveal()
@@ -202,6 +239,7 @@ class ListDetailActivity : AppCompatActivity() {
     binding.actionBar.isVisible = false
     binding.tvListTitle.isVisible = false
     binding.tvListSubtitle.isVisible = false
+    binding.routeOrder.root.isVisible = false
     binding.tvItemCount.text = ""
     binding.recyclerViewItems.isVisible = false
     binding.statePanel.root.reveal()
@@ -246,7 +284,7 @@ class ListDetailActivity : AppCompatActivity() {
       return
     }
     val key = matchKey(name)
-    val duplicate = list.items.indexOfFirst { matchKey(it.name) == key }
+    val duplicate = displayedItems(list).indexOfFirst { matchKey(it.name) == key }
     if (duplicate >= 0) {
       dialogBinding.itemNameField.error = getString(R.string.item_exists)
       binding.recyclerViewItems.scrollToPosition(duplicate)
@@ -280,8 +318,9 @@ class ListDetailActivity : AppCompatActivity() {
         return@launch
       }
       dialog.dismiss()
-      adapter.submitList(list.items.toList())
-      binding.recyclerViewItems.scrollToPosition(0)
+      val shown = displayedItems(list)
+      adapter.submitList(shown)
+      binding.recyclerViewItems.scrollToPosition(shown.indexOfFirst { it.id == item.id }.coerceAtLeast(0))
       updateSummary()
       binding.rootDetail.showSnackbar(
         message = getString(R.string.item_added),
@@ -301,10 +340,12 @@ class ListDetailActivity : AppCompatActivity() {
     val previous = item.isCompleted
     val previousUpdatedAt = item.updatedAt
     if (previous == completed) return
+    val shownAt = displayedItems(list).indexOfFirst { it.id == item.id }
     setSaving(true)
     item.isCompleted = completed
     item.updatedAt = System.currentTimeMillis()
-    adapter.submitList(list.items.toList())
+    val markedAt = item.updatedAt
+    submitKeepingScroll(list)
     updateSummary()
     val snapshot = list.snapshot()
 
@@ -314,7 +355,7 @@ class ListDetailActivity : AppCompatActivity() {
       if (!saved) {
         item.isCompleted = previous
         item.updatedAt = previousUpdatedAt
-        adapter.submitList(list.items.toList())
+        submitKeepingScroll(list)
         updateSummary()
         binding.rootDetail.showSnackbar(
           message = getString(R.string.item_toggle_error),
@@ -322,6 +363,22 @@ class ListDetailActivity : AppCompatActivity() {
         )
       }
       setSaving(false)
+      if (saved) {
+        keepKeyboardPlace(shownAt, item.id)
+        learnRoute(item.name, completed, markedAt)
+      }
+    }
+  }
+
+  /** A keyboard user stays at the same row when the product they marked moves down the list. */
+  private fun keepKeyboardPlace(position: Int, movedId: Long) {
+    if (binding.root.isInTouchMode || position < 0) return
+    val shown = displayedItems(currentList ?: return)
+    if (shown.getOrNull(position)?.id == movedId) return
+    // Rows are enabled again on the next layout; only then can they take focus.
+    binding.recyclerViewItems.doOnNextLayout {
+      binding.recyclerViewItems.findViewHolderForAdapterPosition(position.coerceAtMost(shown.lastIndex))
+        ?.itemView?.findViewById<View>(R.id.cbItemCompleted)?.requestFocus()
     }
   }
 
@@ -343,7 +400,7 @@ class ListDetailActivity : AppCompatActivity() {
     if (index < 0) return
     setSaving(true)
     list.items.removeAt(index)
-    adapter.submitList(list.items.toList())
+    adapter.submitList(displayedItems(list))
     updateSummary()
     val snapshot = list.snapshot()
 
@@ -353,7 +410,7 @@ class ListDetailActivity : AppCompatActivity() {
       setSaving(false)
       if (!saved) {
         list.items.add(index.coerceAtMost(list.items.size), item)
-        adapter.submitList(list.items.toList())
+        adapter.submitList(displayedItems(list))
         updateSummary()
         binding.rootDetail.showSnackbar(
           message = getString(R.string.item_delete_error),
@@ -379,7 +436,7 @@ class ListDetailActivity : AppCompatActivity() {
     if (list.items.any { it.id == item.id }) return
     setSaving(true)
     list.items.add(index.coerceAtMost(list.items.size), item)
-    adapter.submitList(list.items.toList())
+    adapter.submitList(displayedItems(list))
     updateSummary()
     val snapshot = list.snapshot()
     lifecycleScope.launch {
@@ -388,7 +445,7 @@ class ListDetailActivity : AppCompatActivity() {
       setSaving(false)
       if (!saved) {
         list.items.remove(item)
-        adapter.submitList(list.items.toList())
+        adapter.submitList(displayedItems(list))
         updateSummary()
         binding.rootDetail.showSnackbar(
           message = getString(R.string.item_save_error),
@@ -413,7 +470,8 @@ class ListDetailActivity : AppCompatActivity() {
         )
       )
       appendLine()
-      list.items.forEach { item ->
+      // Whoever receives the list gets it in the order shown, route included.
+      displayedItems(list).forEach { item ->
         appendLine("${if (item.isCompleted) "[x]" else "[ ]"} ${item.name}")
       }
     }
@@ -446,6 +504,149 @@ class ListDetailActivity : AppCompatActivity() {
   }
 
   private fun UserList.snapshot(): UserList = copy(items = items.map { it.copy() }.toMutableList())
+
+  // RECORRIDO DE COMPRA
+
+  /** Items as shown: in route order when the user follows the route, otherwise as stored. */
+  private fun displayedItems(list: UserList): List<ListItem> {
+    val route = route
+    return if (route?.sortByRoute == true) list.items.inRouteOrder(route) else list.items.toList()
+  }
+
+  /**
+   * The list keeps its scroll by position: otherwise it would follow a marked product down to
+   * the bought ones and hide the next pending ones.
+   */
+  private fun submitKeepingScroll(list: UserList) {
+    val layout = binding.recyclerViewItems.layoutManager ?: return adapter.submitList(displayedItems(list))
+    val scroll = layout.onSaveInstanceState()
+    adapter.submitList(displayedItems(list))
+    layout.onRestoreInstanceState(scroll)
+  }
+
+  private fun refreshItems() {
+    val list = currentList ?: return
+    adapter.submitList(displayedItems(list))
+    updateSummary()
+  }
+
+  private fun renderRoute(list: UserList) {
+    val route = route
+    binding.tvListSubtitle.text = routeStatus(list, route)
+    binding.routeOrder.root.isVisible = route != null && list.items.isNotEmpty()
+    if (route == null) return
+    val switch = binding.routeOrder.switchRouteOrder
+    if (switch.isChecked != route.sortByRoute) {
+      isBindingRoute = true
+      switch.isChecked = route.sortByRoute
+      isBindingRoute = false
+    }
+    binding.routeOrder.btnForgetRoute.isVisible = route.hasStops
+  }
+
+  private fun routeStatus(list: UserList, route: ShoppingRoute?): String {
+    if (route == null) return getString(R.string.route_status_unavailable)
+    if (list.items.isEmpty()) return getString(R.string.detail_subtitle)
+    if (!route.sortByRoute) return getString(R.string.route_status_list_order)
+    val placement = list.items.routePlacement(route)
+    return when {
+      placement.pending == 0 -> getString(R.string.route_status_done)
+      !route.hasStops -> getString(R.string.route_status_learning)
+      placement.placed == 0 -> getString(R.string.route_status_unplaced)
+      placement.placed == placement.pending -> getString(R.string.route_status_all)
+      else -> resources.getQuantityString(
+        R.plurals.route_status_partial, placement.pending, placement.placed, placement.pending
+      )
+    }
+  }
+
+  /** Every product marked or put back teaches the route, whichever order is on screen. */
+  private fun learnRoute(name: String, completed: Boolean, at: Long) {
+    if (route == null) return
+    val key = matchKey(name)
+    writeRoute({ if (completed) it.tick(key, at) else it.untick(key, at) }) { result ->
+      val saved = result?.route ?: return@writeRoute
+      val shown = route ?: return@writeRoute
+      // The sort choice may have its own write pending; take only what this one learned.
+      route = shown.copy(stops = saved.stops, trip = saved.trip)
+      if (saved.stops != shown.stops) refreshItems()
+    }
+  }
+
+  /** Applied at once and rolled back if it cannot be saved. */
+  private fun setSortByRoute(enabled: Boolean) {
+    if (isBindingRoute) return
+    val current = route ?: return
+    if (current.sortByRoute == enabled) return
+    route = current.copy(keepListOrder = !enabled)
+    refreshItems()
+    binding.recyclerViewItems.scrollToPosition(0)
+    writeRoute({ RouteChange(it.copy(keepListOrder = !enabled)) }) { result ->
+      if (result != null) return@writeRoute
+      route = route?.copy(keepListOrder = enabled)
+      refreshItems()
+      binding.rootDetail.showSnackbar(
+        message = getString(R.string.route_save_error),
+        anchor = binding.actionBar
+      )
+    }
+  }
+
+  private fun confirmForgetRoute() {
+    ourmealDialog(destructive = true)
+      .setTitle(R.string.route_forget_title)
+      .setMessage(R.string.route_forget_message)
+      .setNegativeButton(R.string.cancel, null)
+      .setPositiveButton(R.string.route_forget) { _, _ -> forgetRoute() }
+      .show()
+  }
+
+  private fun forgetRoute() {
+    val previous = route?.stops ?: return
+    writeRoute({ RouteChange(it.forget()) }) { result ->
+      if (result == null) {
+        binding.rootDetail.showSnackbar(
+          message = getString(R.string.route_forget_error),
+          anchor = binding.actionBar
+        )
+        return@writeRoute
+      }
+      route = route?.copy(stops = emptyList(), trip = emptyList())
+      refreshItems()
+      binding.rootDetail.showSnackbar(
+        message = getString(R.string.route_forgotten),
+        actionLabel = getString(R.string.undo),
+        anchor = binding.actionBar,
+        onAction = { restoreRoute(previous) }
+      )
+    }
+  }
+
+  /** Undo brings back what was learned; products marked since then stay in the new trip. */
+  private fun restoreRoute(stops: List<RouteStop>) {
+    writeRoute({ RouteChange(it.copy(stops = stops)) }) { result ->
+      if (result == null) {
+        binding.rootDetail.showSnackbar(
+          message = getString(R.string.route_save_error),
+          anchor = binding.actionBar
+        )
+        return@writeRoute
+      }
+      route = route?.copy(stops = result.route.stops)
+      refreshItems()
+    }
+  }
+
+  /** Route writes keep their call order and finish even if the screen goes away meanwhile. */
+  private fun writeRoute(change: (ShoppingRoute) -> RouteChange, onResult: (RouteChange?) -> Unit) {
+    lifecycleScope.launch {
+      val result = withContext(NonCancellable) {
+        routeMutex.withLock { withContext(Dispatchers.IO) { routeManager.update(change) } }
+      }
+      if (isFinishing || isDestroyed) return@launch
+      onResult(result)
+    }
+  }
 
   companion object {
     const val EXTRA_LIST_ID = "LIST_ID"

@@ -94,6 +94,14 @@
           android:progressTint="@color/cream_deep" />
       </LinearLayout>
 
+      <include
+        android:id="@+id/routeOrder"
+        layout="@layout/view_route_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:visibility="gone" />
+
       </LinearLayout>
     </ScrollView>
 

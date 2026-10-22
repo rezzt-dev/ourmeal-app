@@ -29,6 +29,11 @@
 - recuerda en `dish_ingredients.json` los ingredientes escritos para cada plato y los propone la siguiente vez, sin sobrescribir nunca un fichero dañado.
 - muestra al abrir la lista cuántos productos del menú se añadieron y cuántos ya estaban.
 - añade pruebas unitarias de la agrupación de platos, la memoria de ingredientes, el borrador y la fusión de productos, y `MenuShoppingTest.kt` para el recorrido completo.
+- aprende el recorrido de compra a partir del orden en que se marcan los productos y ordena los pendientes de cada lista según él, con lo comprado al final y sin configurar pasillos ni categorías.
+- guarda el recorrido en `shopping_route.json`, descarta los viajes de menos de tres productos o dos minutos para no aprender los marcados hechos en casa y nunca sobrescribe un fichero dañado.
+- añade el interruptor `Seguir mi recorrido`, un resumen bajo el nombre de la lista con los pendientes ya ubicados y la acción `Olvidar`, con deshacer, para empezar de cero al cambiar de tienda.
+- comparte las listas en el orden en que se muestran y avisa al abrir una lista de cuántos productos aprendió del último viaje.
+- añade `ShoppingRouteTest.kt` y `ShoppingRouteOrderTest.kt` para el aprendizaje del recorrido y el orden de la lista.
 
 #### CAMBIOS
 
@@ -105,6 +110,11 @@
 - remember in `dish_ingredients.json` the ingredients written for each dish and offer them next time, never overwriting a damaged file.
 - show on opening the list how many menu products were added and how many were already there.
 - add unit tests for dish grouping, ingredient memory, the draft, and product merging, and `MenuShoppingTest.kt` for the full flow.
+- learn the shopping route from the order in which products are checked off and sort the pending products of every list by it, with bought ones at the end and no aisles or categories to set up.
+- store the route in `shopping_route.json`, discard trips with fewer than three products or shorter than two minutes so items checked off at home are not learned, and never overwrite a damaged file.
+- add the `Seguir mi recorrido` switch, a summary under the list name with the pending products already placed, and the `Olvidar` action, with undo, to start over after changing shops.
+- share lists in the order they are shown and announce on opening a list how many products the last trip taught.
+- add `ShoppingRouteTest.kt` and `ShoppingRouteOrderTest.kt` for route learning and list ordering.
 
 #### CHANGED
 

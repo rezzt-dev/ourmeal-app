@@ -56,9 +56,21 @@ dentro de una lista:
 2. mientras compras, toca un producto o su casilla para marcarlo como comprado. el progreso de la parte superior se actualiza.
 3. para quitar un producto, toca su papelera y confírmalo. justo después puedes tocar `Deshacer`.
 
+### TU RECORRIDO POR LA TIENDA
+
+ourmeal aprende en qué orden coges los productos para que la lista te acompañe por la tienda:
+
+1. compra como siempre y marca cada producto cuando lo metas en la cesta. el orden en que los marcas es tu recorrido.
+2. la próxima vez que abras una lista, cualquier lista, los productos pendientes aparecen en ese orden y lo ya comprado baja al final. un aviso te indica de cuántos productos aprendió el orden.
+3. los productos que aún no conoce van después de los ubicados, en el orden de la lista. bajo el nombre de la lista verás cuántos pendientes siguen ya tu recorrido.
+4. desactiva `Seguir mi recorrido` para ver la lista en el orden en que la escribiste. la aplicación sigue aprendiendo igualmente.
+5. si cambias de tienda, toca `Olvidar` y confírmalo para empezar de cero. justo después puedes tocar `Deshacer`.
+
+para aprender un viaje hacen falta al menos tres productos marcados a lo largo de dos minutos o más; así, marcar de golpe en casa lo que ya compraste no estropea el recorrido. un viaje se da por terminado tras 45 minutos sin marcar nada.
+
 ### COMPARTIR UNA LISTA
 
-en una lista con productos, toca el botón de compartir. la aplicación prepara un texto con el nombre de la lista, el resumen de lo comprado y cada producto marcado como `[x]` comprado o `[ ]` pendiente. elige la aplicación con la que enviarlo o guardarlo.
+en una lista con productos, toca el botón de compartir. la aplicación prepara un texto con el nombre de la lista, el resumen de lo comprado y cada producto, en el orden en que los ves, marcado como `[x]` comprado o `[ ]` pendiente. elige la aplicación con la que enviarlo o guardarlo.
 
 ## GUIA PARA DESARROLLADORES
 

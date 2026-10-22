@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:gravity="center_vertical"
+  android:orientation="horizontal">
+
+  <com.google.android.material.materialswitch.MaterialSwitch
+    android:id="@+id/switchRouteOrder"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:minHeight="48dp"
+    android:saveEnabled="false"
+    android:text="@string/route_follow"
+    android:textAppearance="@style/TextAppearance.Ourmeal.Body"
+    android:textColor="@color/option_text" />
+
+  <com.google.android.material.button.MaterialButton
+    android:id="@+id/btnForgetRoute"
+    style="@style/Widget.Ourmeal.Button.Text.Muted"
+    android:layout_width="wrap_content"
+    android:layout_height="48dp"
+    android:layout_marginStart="12dp"
+    android:contentDescription="@string/route_forget_description"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:text="@string/route_forget"
+    android:visibility="gone" />
+</LinearLayout>
