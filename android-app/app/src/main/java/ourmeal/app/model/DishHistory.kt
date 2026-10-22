@@ -146,7 +146,7 @@ fun repeatHint(
   return if (daysAgo in 1..HINT_WINDOW_DAYS) RepeatHint.Recent(daysAgo.toInt()) else null
 }
 
-private class FilledSlot(
+internal class FilledSlot(
   val dayIndex: Int,
   val day: String,
   val slot: MealSlot,
@@ -155,7 +155,7 @@ private class FilledSlot(
 )
 
 /** Non-blank slots in weekly order; days outside [WeeklyMeals.DAYS] are ignored. */
-private fun WeeklyMeals.filledSlots(): List<FilledSlot> {
+internal fun WeeklyMeals.filledSlots(): List<FilledSlot> {
   val stored: Map<String, Meal?>? = meals
   return WeeklyMeals.DAYS.flatMapIndexed { index, day ->
     val meal = stored?.get(day) ?: return@flatMapIndexed emptyList()

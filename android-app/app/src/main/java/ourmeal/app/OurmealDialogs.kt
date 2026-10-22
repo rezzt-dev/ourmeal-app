@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -41,14 +42,19 @@ internal fun AlertDialog.prepareForm(
       updateAction()
       field.error = null
     }
-    input.setOnEditorActionListener { _, action, event ->
-      val submit = action == EditorInfo.IME_ACTION_DONE ||
-        (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP)
-      if (submit && confirm.isEnabled) confirm.performClick()
-      submit
-    }
+    input.setOnSubmitListener { if (confirm.isEnabled) confirm.performClick() }
     confirm.setOnClickListener { onSubmit(confirm) }
     input.requestFocus()
+  }
+}
+
+/** Runs [submit] on the keyboard's done action or a physical Enter key. */
+internal fun TextView.setOnSubmitListener(submit: () -> Unit) {
+  setOnEditorActionListener { _, action, event ->
+    val isSubmit = action == EditorInfo.IME_ACTION_DONE ||
+      (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP)
+    if (isSubmit) submit()
+    isSubmit
   }
 }
 

@@ -214,6 +214,40 @@
     <item name="android:textColorHint">@color/muted</item>
   </style>
 
+  <style name="Widget.Ourmeal.TextInputLayout.Dropdown" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+    <item name="helperTextTextColor">@color/muted</item>
+    <item name="counterTextColor">@color/muted</item>
+    <item name="errorTextColor">@color/error</item>
+    <item name="boxBackgroundColor">@color/surface_raised</item>
+    <item name="boxStrokeColor">@color/input_stroke</item>
+    <item name="boxStrokeWidth">1dp</item>
+    <item name="boxStrokeWidthFocused">2dp</item>
+    <item name="hintTextColor">@color/input_hint</item>
+    <item name="boxCornerRadiusTopStart">8dp</item>
+    <item name="boxCornerRadiusTopEnd">8dp</item>
+    <item name="boxCornerRadiusBottomStart">8dp</item>
+    <item name="boxCornerRadiusBottomEnd">8dp</item>
+    <item name="endIconTint">@color/muted</item>
+    <item name="android:textColorHint">@color/muted</item>
+  </style>
+
+  <style name="Widget.Ourmeal.AutoCompleteTextView.Dropdown" parent="Widget.Material3.AutoCompleteTextView.OutlinedBox">
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="dropDownBackgroundTint">@color/surface_raised</item>
+    <item name="simpleItemSelectedColor">@color/hairline</item>
+  </style>
+
+  <style name="Widget.Ourmeal.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+    <item name="android:minHeight">48dp</item>
+    <item name="android:textColor">@color/option_text</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="android:paddingStart">8dp</item>
+    <item name="buttonTint">@color/checkbox_tint</item>
+  </style>
+
   <style name="Widget.Ourmeal.TextInputEditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
     <item name="android:textColor">@color/ink</item>
     <item name="android:textSize">16sp</item>
@@ -231,6 +265,25 @@
     <item name="chipStrokeColor">@color/chip_suggestion_stroke</item>
     <item name="chipStrokeWidth">1dp</item>
     <item name="chipCornerRadius">8dp</item>
+    <item name="rippleColor">@color/hairline</item>
+    <item name="ensureMinTouchTargetSize">true</item>
+  </style>
+
+  <!-- PREPARAR LA COMPRA -->
+
+  <style name="Widget.Ourmeal.Chip.Ingredient" parent="Widget.Material3.Chip.Input">
+    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Chip</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:checkable">false</item>
+    <item name="android:maxWidth">280dp</item>
+    <item name="android:ellipsize">end</item>
+    <item name="chipBackgroundColor">@color/surface_raised</item>
+    <item name="chipStrokeColor">@color/chip_suggestion_stroke</item>
+    <item name="chipStrokeWidth">1dp</item>
+    <item name="chipCornerRadius">8dp</item>
+    <item name="chipStartPadding">8dp</item>
+    <item name="closeIconTint">@color/muted</item>
+    <item name="closeIconVisible">true</item>
     <item name="rippleColor">@color/hairline</item>
     <item name="ensureMinTouchTargetSize">true</item>
   </style>

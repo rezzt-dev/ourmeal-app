@@ -25,6 +25,10 @@
 - añade pruebas unitarias del historial de platos y de los ajustes de sugerencias, y `MealSuggestionsTest.kt` para el flujo completo en el menú.
 - añade `PRODUCT.md` con el contexto de producto y de diseño, y las skills locales de `.docs/skills/` para los agentes que trabajan en la interfaz.
 - añade `.docs/guidelines/` con las reglas de markdown, de commits y de pull requests, merges y releases.
+- añade `Preparar la compra` al menú para convertir los platos de la semana en productos de una lista nueva o existente, sin duplicar los que ya estaban.
+- recuerda en `dish_ingredients.json` los ingredientes escritos para cada plato y los propone la siguiente vez, sin sobrescribir nunca un fichero dañado.
+- muestra al abrir la lista cuántos productos del menú se añadieron y cuántos ya estaban.
+- añade pruebas unitarias de la agrupación de platos, la memoria de ingredientes, el borrador y la fusión de productos, y `MenuShoppingTest.kt` para el recorrido completo.
 
 #### CAMBIOS
 
@@ -58,6 +62,8 @@
 - actualiza `claude.md` y `agents.md` para describir la aplicación android real en lugar de una página web inexistente, con `jvmTarget 17`, la estructura, los comandos de verificación y las reglas de accesibilidad de android.
 - reescribe `.docs/info-project/` según las reglas de markdown del repositorio y corrige las funciones descritas que no existen.
 - lee todas las semanas guardadas en una sola carga del menú para construir el historial de platos, sin cambiar el formato de `meal_plans.json`.
+- detecta los productos duplicados al añadirlos a mano sin distinguir mayúsculas ni acentos, igual que al añadirlos desde el menú.
+- documenta la preparación de la compra en `.docs/info-project/`, `claude.md` y `agents.md`.
 
 #### CORREGIDO
 - corrige la prueba instrumentada de contexto para comparar el `applicationId` real `app.ourmeat` y homogeneizar sus finales de línea.
@@ -95,6 +101,10 @@
 - add unit tests for the dish history and the suggestion settings, and `MealSuggestionsTest.kt` for the full menu flow.
 - add `PRODUCT.md` with product and design context, and the local skills in `.docs/skills/` for agents working on the interface.
 - add `.docs/guidelines/` with the markdown, commit, and pull request, merge, and release rules.
+- add `Preparar la compra` to the menu to turn the dishes of the week into products of a new or existing list, without duplicating the ones already there.
+- remember in `dish_ingredients.json` the ingredients written for each dish and offer them next time, never overwriting a damaged file.
+- show on opening the list how many menu products were added and how many were already there.
+- add unit tests for dish grouping, ingredient memory, the draft, and product merging, and `MenuShoppingTest.kt` for the full flow.
 
 #### CHANGED
 
@@ -128,6 +138,8 @@
 - update `claude.md` and `agents.md` to describe the real android app instead of a missing website, with `jvmTarget 17`, the structure, the verification commands, and android accessibility rules.
 - rewrite `.docs/info-project/` following the repository markdown rules and correct the described features that do not exist.
 - read every saved week in a single menu load to build the dish history, without changing the `meal_plans.json` format.
+- detect duplicate products added by hand regardless of case and accents, the same way as products added from the menu.
+- document shopping preparation in `.docs/info-project/`, `claude.md`, and `agents.md`.
 
 #### FIXED
 - fix the instrumented context test to compare the real `app.ourmeat` `applicationId` and normalize its line endings.

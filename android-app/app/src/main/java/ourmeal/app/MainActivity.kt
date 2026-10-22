@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
   private var saveRunnable: Runnable? = null
   private val saveMutex = Mutex()
   private var isChangingWeek = false
+  private var isOpeningShopping = false
   private val dateFormat =
     DateTimeFormatter.ofPattern("d 'de' MMMM", Locale.forLanguageTag("es-ES"))
   private val dayNumberFormat =
@@ -106,6 +107,7 @@ class MainActivity : AppCompatActivity() {
       startActivity(Intent(this, ListActivity::class.java))
     }
     binding.btnOpenCalendar.setOnClickListener { openWeekPicker() }
+    binding.btnPrepareShopping.setOnClickListener { openShoppingPrep() }
     setupMealFields()
     setupSuggestions()
     loadWeek()
@@ -128,6 +130,7 @@ class MainActivity : AppCompatActivity() {
     binding.menuBoard.layoutDaySelector.removeAllViews()
     dayChips.clear()
     binding.menuBoard.root.isVisible = false
+    binding.prepareShoppingPanel.isVisible = false
     binding.menuError.root.isVisible = false
     binding.menuLoading.root.isVisible = true
     binding.menuLoading.bindLoading(getString(R.string.menu_loading))
@@ -159,6 +162,7 @@ class MainActivity : AppCompatActivity() {
       if (settings == null) settings = loaded.settings
       bindWeek()
       binding.menuBoard.root.reveal()
+      binding.prepareShoppingPanel.reveal()
       setSaveStatus(SaveStatus.Idle)
     }
   }
@@ -171,6 +175,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun showMenuError() {
     binding.menuBoard.root.isVisible = false
+    binding.prepareShoppingPanel.isVisible = false
     binding.menuError.root.reveal()
     binding.menuError.bindState(
       title = getString(R.string.menu_error_title),
@@ -457,6 +462,26 @@ class MainActivity : AppCompatActivity() {
     val total = WeeklyMeals.DAYS.size * 2
     binding.tvWeekProgress.text =
       resources.getQuantityString(R.plurals.week_progress, total, filled, total)
+    // The hint explains the disabled state in words, not only by its color.
+    binding.btnPrepareShopping.isEnabled = filled > 0
+    binding.tvPrepareShoppingHint.isVisible = filled == 0
+  }
+
+  /** Writes the visible week first, so the shopping screen reads exactly what is on screen. */
+  private fun openShoppingPrep() {
+    if (isOpeningShopping || isChangingWeek) return
+    finishMealEditing()
+    cancelPendingSave()
+    isOpeningShopping = true
+    val weekId = currentWeekId
+    saveCurrentWeek { saved ->
+      isOpeningShopping = false
+      if (!saved || weekId != currentWeekId) return@saveCurrentWeek
+      startActivity(
+        Intent(this, MenuShoppingActivity::class.java)
+          .putExtra(MenuShoppingActivity.EXTRA_WEEK_ID, weekId)
+      )
+    }
   }
 
   private fun scheduleSave() {
@@ -518,7 +543,7 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun changeWeek(weekId: String, targetDayIndex: Int? = null) {
-    if (weekId == currentWeekId || isChangingWeek) return
+    if (weekId == currentWeekId || isChangingWeek || isOpeningShopping) return
     cancelPendingSave()
     // Stop editing so nothing is typed into the old week while it is being written.
     finishMealEditing()

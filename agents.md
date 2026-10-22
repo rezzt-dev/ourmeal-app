@@ -48,6 +48,7 @@ la aplicación permite, según el código actual:
 - planificar la comida y la cena de cada día de la semana, navegar entre semanas y elegir una fecha en el calendario.
 - ver el progreso de planificación de la semana y conservar automáticamente los cambios del menú.
 - sugerir platos ya planificados mientras se escribe el menú, ocultar sugerencias con deshacer y avisar, sin impedirlo, cuando un plato se repite en la semana o estuvo en el menú en los últimos 13 días.
+- preparar la compra desde el menú de la semana: agrupar los platos planificados, proponer los ingredientes que el usuario indicó antes para cada plato, revisarlos y añadirlos a una lista nueva o existente sin duplicar productos.
 - crear y eliminar listas de la compra, con deshacer.
 - añadir, marcar como comprados y eliminar productos de cada lista, con detección de duplicados y deshacer.
 - compartir una lista como texto para imprimirla, guardarla o enviarla.
@@ -68,8 +69,8 @@ datos verificados en `android-app/app/build.gradle.kts` y `android-app/gradle/li
 - sdk de compilación y objetivo: api 35, android 15.
 - objetivo jvm: java 17, `jvmTarget = "17"`.
 - interfaz: vistas xml con view binding, material components con tema `Theme.Material3.Dark.NoActionBar` y variantes en `res/layout-land/`.
-- organización: paquetes `model/` y `controller/`, junto con `MainActivity.kt`, `ListActivity.kt`, `ListDetailActivity.kt` y utilidades de interfaz compartidas en `ourmeal.app`.
-- persistencia: ficheros json en `filesDir` escritos con `AtomicFile` y `gson` (`user_lists.json`, `meal_plans.json` y `dish_suggestions.json`).
+- organización: paquetes `model/` y `controller/`, junto con `MainActivity.kt`, `MenuShoppingActivity.kt`, `ListActivity.kt`, `ListDetailActivity.kt` y utilidades de interfaz compartidas en `ourmeal.app`.
+- persistencia: ficheros json en `filesDir` escritos con `AtomicFile` y `gson` (`user_lists.json`, `meal_plans.json`, `dish_suggestions.json` y `dish_ingredients.json`).
 - pruebas: junit en `app/src/test/` y pruebas instrumentadas con androidx junit en `app/src/androidTest/`.
 
 si `.docs/info-project/informacion-tecnica.md` contradice estos datos, prevalece la configuración del proyecto.

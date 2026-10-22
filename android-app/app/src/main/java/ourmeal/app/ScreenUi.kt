@@ -10,7 +10,7 @@ internal fun ViewLoadingBinding.bindLoading(label: String) {
   tvLoadingLabel.text = label
 }
 
-/** Fills the reusable empty/error panel, hiding the action when it is not needed. */
+/** Fills the reusable empty/error panel, hiding the body and action when they are not needed. */
 internal fun ViewStatePanelBinding.bindState(
   title: String,
   body: String,
@@ -21,6 +21,7 @@ internal fun ViewStatePanelBinding.bindState(
   ivStateIcon.setImageResource(icon)
   tvStateTitle.text = title
   tvStateBody.text = body
+  tvStateBody.visibility = if (body.isEmpty()) View.GONE else View.VISIBLE
   if (actionLabel != null && onAction != null) {
     btnStateAction.text = actionLabel
     btnStateAction.setOnClickListener { onAction() }

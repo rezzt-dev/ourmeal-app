@@ -8,7 +8,7 @@ ourmeal es una aplicación android que simplifica dos tareas domésticas frecuen
 
 ## EL PROBLEMA QUE RESUELVE
 
-decidir qué comer cada día y recordar todo lo que hay que comprar suele hacerse con notas sueltas o de memoria. ourmeal reúne en el móvil el menú de la semana y las listas de la compra, guarda los cambios automáticamente y permite compartir las listas con quien vaya a comprar.
+decidir qué comer cada día y recordar todo lo que hay que comprar suele hacerse con notas sueltas o de memoria. ourmeal reúne en el móvil el menú de la semana y las listas de la compra, convierte los platos del menú en productos de una lista, guarda los cambios automáticamente y permite compartir las listas con quien vaya a comprar.
 
 ## FUNCIONES DISPONIBLES
 
@@ -18,9 +18,8 @@ decidir qué comer cada día y recordar todo lo que hay que comprar suele hacers
 - **guardado automático**: los cambios del menú se guardan solos y la pantalla indica si se están guardando, si ya se guardaron o si hubo un error, con opción de reintentar.
 - **varias listas de la compra**: por ejemplo, una `compra quincenal` y otra pequeña para una `cena con amigos`. cada lista muestra su fecha de creación, su número de productos y su progreso.
 - **productos de cada lista**: se añaden por nombre, se marcan como comprados mientras se compra y se eliminan con opción de deshacer. la aplicación avisa si un producto ya está en la lista.
+- **preparar la compra desde el menú**: con un botón bajo el menú, la aplicación reúne los platos de la semana visible y deja escribir los ingredientes de cada uno. al confirmar, los añade a una lista nueva o a una existente sin repetir los productos que ya estaban. la aplicación recuerda los ingredientes de cada plato y los propone la siguiente vez; no los deduce por su cuenta, solo propone lo que el usuario escribió antes.
 - **compartir como texto**: una lista se comparte como texto legible, con la marca de cada producto comprado o pendiente, para enviarla por mensajería o guardarla en una aplicación de notas.
-
-el menú y las listas son hoy independientes: la aplicación no crea listas a partir del menú. esa mejora está especificada en `.docs/new-features/compra-desde-el-menu.md`, pendiente de implementar.
 
 ## PARA QUIEN ES
 

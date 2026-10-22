@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.ourmeat.R
 import app.ourmeat.databinding.ActivityListDetailBinding
 import app.ourmeat.databinding.DialogAddItemBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ import ourmeal.app.controller.DataManager
 import ourmeal.app.controller.ItemAdapter
 import ourmeal.app.model.ListItem
 import ourmeal.app.model.UserList
+import ourmeal.app.model.matchKey
 import ourmeal.app.model.normalizeName
 import java.io.IOException
 
@@ -35,10 +37,13 @@ class ListDetailActivity : AppCompatActivity() {
   private lateinit var creationForm: CreationFormState
   private var isSaving = false
   private var pendingUndo: (() -> Unit)? = null
+  /** A result from the menu is announced once, not again after recreation. */
+  private var showMenuResult = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     creationForm = CreationFormState(this)
+    showMenuResult = savedInstanceState == null && intent.hasExtra(EXTRA_ADDED_COUNT)
     enableEdgeToEdge(
       statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
       navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT)
@@ -80,8 +85,34 @@ class ListDetailActivity : AppCompatActivity() {
         return@launch
       }
       bindList(list)
+      announceMenuResult()
       creationForm.restore(::showAddDialog)
     }
+  }
+
+  private fun announceMenuResult() {
+    if (!showMenuResult) return
+    showMenuResult = false
+    val added = intent.getIntExtra(EXTRA_ADDED_COUNT, 0).coerceAtLeast(0)
+    val skipped = intent.getIntExtra(EXTRA_SKIPPED_COUNT, 0).coerceAtLeast(0)
+    val memoryFailed = intent.getBooleanExtra(EXTRA_MEMORY_FAILED, false)
+    listOf(EXTRA_ADDED_COUNT, EXTRA_SKIPPED_COUNT, EXTRA_MEMORY_FAILED).forEach(intent::removeExtra)
+    val message = buildList {
+      if (added == 0) {
+        add(getString(R.string.menu_shopping_all_present))
+      } else {
+        add(resources.getQuantityString(R.plurals.menu_shopping_added, added, added))
+        if (skipped > 0) {
+          add(resources.getQuantityString(R.plurals.menu_shopping_result_skipped, skipped, skipped))
+        }
+      }
+      if (memoryFailed) add(getString(R.string.menu_shopping_memory_failed))
+    }.joinToString(" ")
+    binding.rootDetail.showSnackbar(
+      message = message,
+      anchor = binding.actionBar,
+      duration = Snackbar.LENGTH_LONG
+    )
   }
 
   private fun renderLoading() {
@@ -214,7 +245,8 @@ class ListDetailActivity : AppCompatActivity() {
       dialogBinding.itemNameField.error = getString(R.string.item_name_required)
       return
     }
-    val duplicate = list.items.indexOfFirst { it.name.equals(name, ignoreCase = true) }
+    val key = matchKey(name)
+    val duplicate = list.items.indexOfFirst { matchKey(it.name) == key }
     if (duplicate >= 0) {
       dialogBinding.itemNameField.error = getString(R.string.item_exists)
       binding.recyclerViewItems.scrollToPosition(duplicate)
@@ -417,5 +449,8 @@ class ListDetailActivity : AppCompatActivity() {
 
   companion object {
     const val EXTRA_LIST_ID = "LIST_ID"
+    const val EXTRA_ADDED_COUNT = "ADDED_COUNT"
+    const val EXTRA_SKIPPED_COUNT = "SKIPPED_COUNT"
+    const val EXTRA_MEMORY_FAILED = "MEMORY_FAILED"
   }
 }

@@ -216,6 +216,35 @@
             android:accessibilityLiveRegion="polite"
             android:text="@string/save_idle" />
         </LinearLayout>
+
+        <LinearLayout
+          android:id="@+id/prepareShoppingPanel"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="12dp"
+          android:orientation="vertical"
+          android:visibility="gone">
+
+          <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPrepareShopping"
+            style="@style/Widget.Ourmeal.Button.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:minHeight="56dp"
+            android:text="@string/prepare_shopping"
+            app:icon="@drawable/ic_basket"
+            app:iconGravity="textStart" />
+
+          <TextView
+            android:id="@+id/tvPrepareShoppingHint"
+            style="@style/TextAppearance.Ourmeal.Meta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/prepare_shopping_hint"
+            android:visibility="gone" />
+        </LinearLayout>
       </LinearLayout>
     </ScrollView>
 

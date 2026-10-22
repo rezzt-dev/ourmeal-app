@@ -40,6 +40,75 @@
     <item quantity="other">Ya estuvo en el menú hace %d días.</item>
   </plurals>
 
+  <!-- Preparar la compra -->
+  <string name="prepare_shopping">Preparar la compra</string>
+  <string name="prepare_shopping_hint">Planifica algún plato para preparar la compra.</string>
+  <string name="menu_shopping_kicker">Del menú a la compra</string>
+  <string name="menu_shopping_title">Prepara la compra</string>
+  <string name="menu_shopping_week">Semana del %1$s</string>
+  <string name="menu_shopping_loading">Reuniendo los platos de la semana…</string>
+  <string name="menu_shopping_dishes_title">Platos</string>
+  <string name="menu_shopping_occurrence">%1$s, %2$s</string>
+  <string name="menu_shopping_occurrence_more">y %1$d más</string>
+  <string name="menu_shopping_excluded">No se incluirá</string>
+  <string name="menu_shopping_remembered">Ingredientes recordados</string>
+  <string name="menu_shopping_no_ingredients">Todavía sin ingredientes.</string>
+  <string name="menu_shopping_ingredient_hint">Añadir ingrediente</string>
+  <string name="menu_shopping_ingredient_add">Añadir ingrediente a %1$s</string>
+  <string name="menu_shopping_ingredient_remove">Quitar %1$s</string>
+  <string name="menu_shopping_ingredient_required">Escribe el nombre del ingrediente</string>
+  <string name="menu_shopping_ingredient_exists">Ya está en este plato</string>
+  <string name="menu_shopping_ingredient_limit">Como máximo 30 ingredientes por plato</string>
+  <string name="menu_shopping_include">Incluir %1$s en la compra</string>
+  <string name="menu_shopping_destination_title">Añadir a</string>
+  <string name="menu_shopping_new_list">Una lista nueva</string>
+  <string name="menu_shopping_existing_list">Una de mis listas</string>
+  <string name="menu_shopping_no_lists">Aún no tienes listas.</string>
+  <string name="menu_shopping_pick_list">Elige una lista</string>
+  <string name="menu_shopping_list_option">%1$s · %2$s</string>
+  <string name="menu_shopping_default_list_name">Compra %1$s</string>
+  <string name="menu_shopping_nothing_new">No hay productos nuevos que añadir.</string>
+  <string name="menu_shopping_add_some">Añade ingredientes a algún plato para preparar la compra.</string>
+  <string name="menu_shopping_summary_pair">%1$s · %2$s</string>
+  <string name="menu_shopping_memory_unavailable">No pudimos recuperar los ingredientes recordados. Puedes escribirlos igualmente.</string>
+  <string name="menu_shopping_empty_title">Esta semana aún no tiene platos.</string>
+  <string name="menu_shopping_empty_body">Planifica alguna comida o cena y vuelve para preparar la compra.</string>
+  <string name="menu_shopping_error_title">No pudimos reunir tu compra.</string>
+  <string name="menu_shopping_error_body">Tus datos siguen guardados. Vuelve a intentarlo.</string>
+  <string name="menu_shopping_invalid_week">No pudimos abrir esa semana.</string>
+  <string name="menu_shopping_save_error">No se pudo guardar la compra. Tus cambios siguen aquí.</string>
+  <string name="menu_shopping_list_missing">Esa lista ya no existe. Elige otra o crea una nueva.</string>
+  <string name="menu_shopping_discard_title">¿Salir sin añadir?</string>
+  <string name="menu_shopping_discard_message">Los ingredientes que has escrito no se guardarán.</string>
+  <string name="menu_shopping_keep_editing">Seguir editando</string>
+  <string name="menu_shopping_discard">Salir</string>
+  <string name="menu_shopping_all_present">Todo lo del menú ya estaba en la lista.</string>
+  <string name="menu_shopping_memory_failed">No se pudieron recordar los ingredientes para la próxima vez.</string>
+  <plurals name="menu_shopping_dish_count">
+    <item quantity="one">%d plato</item>
+    <item quantity="other">%d platos</item>
+  </plurals>
+  <plurals name="menu_shopping_confirm">
+    <item quantity="one">Añadir %d producto</item>
+    <item quantity="other">Añadir %d productos</item>
+  </plurals>
+  <plurals name="menu_shopping_summary_new">
+    <item quantity="one">%d producto nuevo</item>
+    <item quantity="other">%d productos nuevos</item>
+  </plurals>
+  <plurals name="menu_shopping_summary_skipped">
+    <item quantity="one">%d ya estaba en la lista</item>
+    <item quantity="other">%d ya estaban en la lista</item>
+  </plurals>
+  <plurals name="menu_shopping_added">
+    <item quantity="one">Se añadió %d producto del menú.</item>
+    <item quantity="other">Se añadieron %d productos del menú.</item>
+  </plurals>
+  <plurals name="menu_shopping_result_skipped">
+    <item quantity="one">%d ya estaba en la lista.</item>
+    <item quantity="other">%d ya estaban en la lista.</item>
+  </plurals>
+
   <!-- Listas -->
   <string name="lists_kicker">La compra, en orden</string>
   <string name="lists_title_first">Una lista para</string>

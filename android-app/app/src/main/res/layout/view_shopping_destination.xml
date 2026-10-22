@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:visibility="gone">
+
+  <TextView
+    style="@style/TextAppearance.Ourmeal.SectionTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:accessibilityHeading="true"
+    android:text="@string/menu_shopping_destination_title" />
+
+  <RadioGroup
+    android:id="@+id/rgDestination"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+      android:id="@+id/rbNewList"
+      style="@style/Widget.Ourmeal.RadioButton"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:checked="true"
+      android:text="@string/menu_shopping_new_list" />
+
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/newListNameField"
+      style="@style/Widget.Ourmeal.TextInputLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="40dp"
+      android:hint="@string/list_name_label"
+      app:counterEnabled="true"
+      app:counterMaxLength="80"
+      app:endIconMode="clear_text"
+      app:errorEnabled="true">
+
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etNewListName"
+        style="@style/Widget.Ourmeal.TextInputEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone|flagNoExtractUi"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences"
+        android:maxLength="80"
+        android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+      android:id="@+id/rbExistingList"
+      style="@style/Widget.Ourmeal.RadioButton"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/menu_shopping_existing_list" />
+
+    <TextView
+      android:id="@+id/tvNoLists"
+      style="@style/TextAppearance.Ourmeal.Meta"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="40dp"
+      android:text="@string/menu_shopping_no_lists"
+      android:visibility="gone" />
+
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/existingListField"
+      style="@style/Widget.Ourmeal.TextInputLayout.Dropdown"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="40dp"
+      android:layout_marginTop="4dp"
+      android:hint="@string/menu_shopping_pick_list"
+      android:visibility="gone">
+
+      <com.google.android.material.textfield.MaterialAutoCompleteTextView
+        android:id="@+id/actvExistingList"
+        style="@style/Widget.Ourmeal.AutoCompleteTextView.Dropdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+  </RadioGroup>
+</LinearLayout>

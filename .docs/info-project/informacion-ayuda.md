@@ -26,6 +26,18 @@ ourmeal recuerda los platos que has planificado en otras semanas para que no ten
 
 bajo cada plato puede aparecer un aviso como `También está el lunes en la comida.` o `Ya estuvo en el menú hace 3 días.`. es solo una ayuda para variar: puedes repetir el plato si quieres.
 
+### PREPARAR LA COMPRA DESDE EL MENU
+
+cuando la semana tenga algún plato, toca `Preparar la compra` bajo el menú:
+
+1. aparecen los platos de la semana, cada uno con los días en que está. si un plato se repite, aparece una sola vez.
+2. escribe los ingredientes de cada plato en `Añadir ingrediente` y toca `+` o la tecla de confirmar. puedes seguir escribiendo el siguiente sin tocar la pantalla. para quitar uno, toca su `✕`.
+3. desmarca los platos que no quieras comprar esta vez, por ejemplo una cena fuera de casa.
+4. en `Añadir a`, elige `Una lista nueva`, con un nombre propuesto que puedes cambiar, o `Una de mis listas`.
+5. abajo verás cuántos productos se añadirán y cuántos ya estaban en la lista. toca `Añadir` para terminar: se abre la lista con los productos nuevos arriba.
+
+la aplicación recuerda los ingredientes que escribes para cada plato. la próxima vez que lo planifiques aparecerán con la etiqueta `Ingredientes recordados` y solo tendrás que revisarlos. si sales sin añadir después de escribir ingredientes, la aplicación te pide confirmación.
+
 ### TUS LISTAS DE LA COMPRA
 
 desde el menú, toca `Mis listas` para ver todas tus listas:
@@ -40,7 +52,7 @@ cada lista muestra su fecha de creación, cuántos productos tiene y cuántos es
 
 dentro de una lista:
 
-1. toca `Añadir` y escribe el producto. si ya está en la lista, la aplicación te avisa y no lo repite.
+1. toca `Añadir` y escribe el producto. si ya está en la lista, aunque lo escribas con mayúsculas o tildes distintas, la aplicación te avisa y no lo repite.
 2. mientras compras, toca un producto o su casilla para marcarlo como comprado. el progreso de la parte superior se actualiza.
 3. para quitar un producto, toca su papelera y confírmalo. justo después puedes tocar `Deshacer`.
 
