@@ -1,4 +1,4 @@
-# OURMEAL WEBPAGE — INSTRUCCIONES PARA AGENTES
+# OURMEAL APP — INSTRUCCIONES PARA AGENTES
 
 > este documento define el contexto, las reglas y el flujo de trabajo obligatorio para cualquier agente de ia que intervenga en este repositorio. su alcance comprende todo el árbol del proyecto.
 
@@ -37,53 +37,58 @@ no basta con recordar una skill de otra sesión. se debe consultar siempre la co
 | `.docs/skills/web-design-guidelines/SKILL.md` | revisión de interfaz, experiencia de usuario y accesibilidad conforme a las directrices web indicadas por la skill. |
 | `.docs/skills/writing-guidelines/SKILL.md` | revisión de documentación, tono, claridad y calidad de la escritura. |
 
+las skills de react, `shadcn/ui` y diseño web no se aplican a la interfaz android de xml. `impeccable` sí se aplica al diseño de la aplicación, adaptando sus reglas de css a los recursos de android, y `writing-guidelines` a la documentación, siempre subordinada a las reglas de markdown de este documento.
+
 ## CONTEXTO DEL PROYECTO
 
-`ourmeal-webpage` es el repositorio de la página pública de ourmeal. la página presenta y distribuye una aplicación android orientada a simplificar la planificación de comidas y la gestión de compras.
+`ourmeal-app` es el repositorio de ourmeal, una aplicación android orientada a simplificar la planificación de comidas y la gestión de compras.
 
-la aplicación móvil permite:
+la aplicación permite, según el código actual:
 
-- planificar comidas y cenas por días o semanas.
-- organizar menús para evitar repeticiones y mejorar la planificación doméstica.
-- crear, editar y conservar distintas listas de la compra.
-- gestionar los ingredientes o productos de cada lista.
-- exportar las listas como texto para imprimirlas, guardarlas o compartirlas.
-- conservar automáticamente la información registrada.
+- planificar la comida y la cena de cada día de la semana, navegar entre semanas y elegir una fecha en el calendario.
+- ver el progreso de planificación de la semana y conservar automáticamente los cambios del menú.
+- sugerir platos ya planificados mientras se escribe el menú, ocultar sugerencias con deshacer y avisar, sin impedirlo, cuando un plato se repite en la semana o estuvo en el menú en los últimos 13 días.
+- crear y eliminar listas de la compra, con deshacer.
+- añadir, marcar como comprados y eliminar productos de cada lista, con detección de duplicados y deshacer.
+- compartir una lista como texto para imprimirla, guardarla o enviarla.
+
+las funcionalidades propuestas y todavía no implementadas se especifican en `.docs/new-features/`. no se deben presentar como existentes hasta que estén implementadas y verificadas.
 
 el público principal incluye familias, parejas, personas que organizan su dieta y cualquier usuario que quiera sustituir las listas en papel por un flujo más ordenado.
 
-## CONTEXTO TECNICO DE LA APLICACION MOVIL
+## CONTEXTO TECNICO
 
-la información técnica disponible en `.docs/info-project/` corresponde a la aplicación android que la web presenta, no necesariamente a la implementación de este repositorio web.
+datos verificados en `android-app/app/build.gradle.kts` y `android-app/gradle/libs.versions.toml`:
 
-- lenguaje: kotlin.
+- lenguaje: kotlin `1.9.0`, con corrutinas para la lectura y escritura en segundo plano.
 - plataforma: android nativo.
-- construcción: gradle con kotlin dsl y ficheros `.gradle.kts`.
-- identificador histórico documentado: `app.ourmeat`.
-- sdk mínimo documentado: api 34, android 14.
-- sdk de compilación y objetivo documentado: api 35, android 15.
-- objetivo jvm documentado: java 8, `jvmTarget 1.8`.
-- interfaz: vistas xml tradicionales, view binding, material 3 y constraint layout.
-- organización documentada: paquetes `model/` y `controller/`, junto con `MainActivity.kt`, `ListActivity.kt` y `ListDetailActivity.kt`.
-- persistencia documentada: serialización con gson.
-- pruebas documentadas: junit, androidx junit y espresso.
+- construcción: gradle `8.7` con kotlin dsl, agp `8.6.0` y catálogo de versiones en `gradle/libs.versions.toml`.
+- `namespace` y `applicationId`: `app.ourmeat`. el código kotlin vive en el paquete `ourmeal.app`.
+- sdk mínimo: api 34, android 14.
+- sdk de compilación y objetivo: api 35, android 15.
+- objetivo jvm: java 17, `jvmTarget = "17"`.
+- interfaz: vistas xml con view binding, material components con tema `Theme.Material3.Dark.NoActionBar` y variantes en `res/layout-land/`.
+- organización: paquetes `model/` y `controller/`, junto con `MainActivity.kt`, `ListActivity.kt`, `ListDetailActivity.kt` y utilidades de interfaz compartidas en `ourmeal.app`.
+- persistencia: ficheros json en `filesDir` escritos con `AtomicFile` y `gson` (`user_lists.json`, `meal_plans.json` y `dish_suggestions.json`).
+- pruebas: junit en `app/src/test/` y pruebas instrumentadas con androidx junit en `app/src/androidTest/`.
 
-estos datos se deben verificar en el repositorio de la aplicación antes de presentarlos como especificaciones actuales. no se debe asumir que la web usa kotlin, gradle o la arquitectura android.
+si `.docs/info-project/informacion-tecnica.md` contradice estos datos, prevalece la configuración del proyecto.
 
 ## ESTADO Y ESTRUCTURA DEL REPOSITORIO
 
 | ruta | finalidad |
 |---|---|
-| `web/` | ubicación reservada para la implementación activa de la nueva página web. |
+| `android-app/` | proyecto gradle de la aplicación android; el módulo es `android-app/app/`. |
 | `.docs/info-project/` | contexto funcional, técnico y de ayuda de ourmeal. |
+| `.docs/new-features/` | especificaciones de funcionalidades propuestas, pendientes de implementar. |
 | `.docs/guidelines/` | documentos de origen para las convenciones editoriales y de git consolidadas aquí. |
 | `.docs/skills/` | skills locales obligatorias para los agentes. |
-| `.docs/old-project/` | página estática anterior, recursos gráficos y apk histórico conservados como referencia. |
+| `PRODUCT.md` | contexto de producto y principios de diseño usados por `impeccable`. |
+| `changelog.md` | registro bilingüe de cambios. |
 | `readme.md` | presentación pública y guía básica del repositorio. |
 | `license.md` | licencia no comercial aplicable al proyecto. |
-| `security.md` | política para comunicar vulnerabilidades. |
 
-la implementación anterior utiliza html, css y javascript sin proceso de build y se conserva dentro de `.docs/old-project/`. se debe tratar como referencia histórica: no editarla ni presentarla como la implementación activa salvo petición expresa. el directorio `web/` no permite deducir todavía un framework; antes de añadir uno, se debe seguir la petición del usuario y comprobar los archivos existentes.
+la página web temporal (`project-web/`) se retiró del repositorio, como recoge `changelog.md`. no se debe reintroducir ninguna implementación web salvo petición expresa.
 
 ## PRINCIPIOS DE DESARROLLO
 
@@ -101,13 +106,13 @@ la implementación anterior utiliza html, css y javascript sin proceso de build 
 
 para cualquier trabajo visual se deben cargar primero las skills aplicables de `.docs/skills/` y seguir sus comprobaciones obligatorias.
 
-- diseñar desde el contexto de ourmeal y evitar interfaces genéricas o ajenas a la marca.
-- usar html semántico, una jerarquía correcta de encabezados y controles nativos siempre que sea posible.
-- garantizar navegación completa por teclado, foco visible, etiquetas accesibles y textos alternativos útiles.
-- cumplir como mínimo wcag 2.2 nivel aa, incluido un contraste de `4.5:1` para texto normal y `3:1` para texto grande.
-- admitir zoom, reflow y tamaños de pantalla móviles sin pérdida de información ni desbordamientos horizontales.
-- respetar `prefers-reduced-motion` y no depender de la animación para comunicar estado.
-- evitar saltos de diseño, recursos innecesariamente pesados y javascript que bloquee la carga inicial.
+- diseñar desde el contexto de ourmeal y su sistema visual existente (`res/values/colors.xml`, `res/values/themes.xml`) y evitar interfaces genéricas o ajenas a la marca.
+- usar controles nativos de android y material, encabezados de pantalla con `android:accessibilityHeading` y textos en `res/values/strings.xml`.
+- garantizar navegación completa con talkback y teclado físico, foco visible, `contentDescription` útiles e iconos decorativos ocultos a la accesibilidad.
+- cumplir como mínimo wcag 2.2 nivel aa, incluido un contraste de `4.5:1` para texto normal y `3:1` para texto grande y contornos de componentes.
+- mantener objetivos táctiles de al menos `48dp` y admitir tamaños de fuente ampliados, orientación horizontal y pantallas estrechas sin pérdida de información.
+- respetar la configuración de animaciones del sistema (`ValueAnimator.areAnimatorsEnabled()`, como en `UiMotion.kt`) y no depender de la animación para comunicar estado.
+- leer y escribir datos fuera del hilo principal y evitar saltos de diseño y recursos innecesariamente pesados.
 - comprobar estados de carga, vacío, error, interacción y contenido largo cuando sean aplicables.
 - no afirmar que una acción descarga, guarda, sincroniza o envía información si el comportamiento no está implementado y verificado.
 
@@ -115,14 +120,14 @@ para cualquier trabajo visual se deben cargar primero las skills aplicables de `
 
 antes de dar una tarea por terminada:
 
-1. ejecutar las comprobaciones disponibles del proyecto, como formato, lint, tipos, pruebas y build.
+1. ejecutar desde `android-app/` las comprobaciones disponibles: `./gradlew testDebugUnitTest`, `./gradlew lintDebug` y `./gradlew assembleDebug`, y `./gradlew connectedDebugAndroidTest` cuando haya un emulador o dispositivo conectado.
 2. probar el flujo afectado y los estados relevantes en lugar de limitarse a comprobar que compila.
-3. revisar la interfaz en tamaños móvil y escritorio cuando haya cambios visuales.
-4. comprobar accesibilidad básica con teclado, foco, nombres accesibles y contraste.
+3. revisar la interfaz en vertical y en horizontal, con tamaño de fuente ampliado, cuando haya cambios visuales.
+4. comprobar accesibilidad básica con talkback, teclado físico, foco, nombres accesibles y contraste.
 5. revisar `git diff --check` y el diff final para detectar espacios, archivos accidentales o cambios fuera de alcance.
 6. indicar con claridad qué se validó y qué no pudo validarse.
 
-si el repositorio aún no dispone de herramientas de validación, no se deben inventar comandos. se realiza la comprobación manual apropiada y se deja constancia de la limitación.
+las pruebas instrumentadas que lean o escriban datos de la aplicación deben usar la regla `AppDataSandbox` de `app/src/androidTest/`, que aparta los ficheros del dispositivo y los restaura al terminar.
 
 ## REGLAS PARA MARKDOWN
 
@@ -150,7 +155,7 @@ el formato no altera bloques de código, código en línea, comandos, rutas, url
 ```md
 ## ARQUITECTURA Y DISEÑO
 
-el módulo `web/` contiene la implementación activa de la página.
+el módulo `android-app/` contiene la aplicación android.
 ```
 
 ## REGLAS PARA COMMITS
@@ -221,18 +226,20 @@ la descripción de github se publica únicamente en inglés y reutiliza de forma
 ## SEGURIDAD, PRIVACIDAD Y LICENCIA
 
 - no incluir secretos, credenciales, tokens, claves, información personal ni datos reales de usuarios.
-- validar y reducir cualquier entrada externa; evitar html sin sanear, urls inseguras y dependencias innecesarias.
+- validar y normalizar cualquier entrada del usuario; evitar html sin sanear, urls inseguras, permisos y dependencias innecesarias.
 - no registrar datos sensibles ni incorporar telemetría sin consentimiento y documentación.
-- comunicar vulnerabilidades siguiendo `security.md`, sin abrir incidencias públicas con detalles explotables.
+- comunicar vulnerabilidades en privado al autor del repositorio, sin abrir incidencias públicas con detalles explotables. el repositorio todavía no incluye `security.md`.
 - todo el repositorio está sujeto a `license.md`. el uso comercial requiere autorización previa y escrita del autor.
-- el apk de `.docs/old-project/assets/files/` es un artefacto histórico. no regenerarlo, firmarlo, sustituirlo ni presentarlo como una compilación nueva sin instrucciones expresas y verificación de procedencia.
+- no generar, firmar ni publicar apk de versión sin instrucciones expresas y verificación de procedencia.
 
 ## FUENTES DE CONTEXTO
 
 cuando una tarea necesite más detalle, consultar:
 
 - `.docs/info-project/informacion-general.md` para propósito, público y funciones.
-- `.docs/info-project/informacion-tecnica.md` para el contexto histórico de la aplicación android.
+- `.docs/info-project/informacion-tecnica.md` para la configuración técnica de la aplicación android.
+- `.docs/new-features/` para las funcionalidades propuestas.
+- `PRODUCT.md` para el contexto de producto y diseño.
 - `.docs/info-project/informacion-ayuda.md` para los recorridos de usuario y la incorporación de desarrolladores.
 - `.docs/guidelines/markdown-guidelines.md` para el origen de las reglas editoriales.
 - `.docs/guidelines/commit-guidelines.md` para el origen del formato de commits.

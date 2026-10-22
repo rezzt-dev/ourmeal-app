@@ -19,17 +19,11 @@ object WeekUtils {
   fun getPreviousWeek(weekId: String): String = idFor(startOfWeek(weekId).minusWeeks(1))
   fun getNextWeek(weekId: String): String = idFor(startOfWeek(weekId).plusWeeks(1))
 
-  fun startOfWeek(weekId: String): LocalDate {
-    val match = idPattern.matchEntire(weekId)
-      ?: return LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-    return try {
-      LocalDate.of(match.groupValues[1].toInt(), 1, 4)
-        .with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, match.groupValues[2].toLong())
-        .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-    } catch (_: Exception) {
-      LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-    }
-  }
+  /** True for ids such as "2026-W43" that name a real ISO week. */
+  fun isValidWeekId(weekId: String): Boolean = mondayOf(weekId) != null
+
+  fun startOfWeek(weekId: String): LocalDate =
+    mondayOf(weekId) ?: LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
 
   fun getWeekDisplay(weekId: String): String {
     val start = startOfWeek(weekId)
@@ -40,6 +34,17 @@ object WeekUtils {
     } else {
       "${start.format(format)} ${start.year} – ${end.format(format)} ${end.year}"
     }
+  }
+
+  private fun mondayOf(weekId: String): LocalDate? {
+    val match = idPattern.matchEntire(weekId) ?: return null
+    val reference = LocalDate.of(match.groupValues[1].toInt(), 1, 4)
+    val week = match.groupValues[2].toLong()
+    // with() would silently roll a missing week 53 over into the next year.
+    if (!IsoFields.WEEK_OF_WEEK_BASED_YEAR.rangeRefinedBy(reference).isValidValue(week)) return null
+    return reference
+      .with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, week)
+      .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
   }
 
   private fun idFor(date: LocalDate): String =

@@ -1,56 +1,93 @@
-#  ANDROID PROJECTS  |  OURMEAL
-> pagina con informacion de ayuda tanto para los usuarios como para el desarrollador, informacion mas pensada en saber como funciona la aplicacion o aspectos superficiales de la aplicacion.
----
-##   OURMEAL  |  INFORMACION DE AYUDA
-<div align="justify">
-Bienvenido al centro oficial de recursos y solución de dudas sobre el proyecto de software <b>OurMeal</b>. Hemos redactado y dividido estos manuales extensos e interactivos en dos bloques, proporcionando claridad independiente tanto para el usuario ordinario sin habilidades técnicas como para el contribuidor ágil
-</div>
----
-##   OURMEAL  |  GUIA MANUAL PARA USUARIOS (COMO USAR LA APLICACION)
-<div align="justify">
-Has instalado <i>OurMeal</i> en tu móvil con éxito, ¿y ahora qué? Esta guía pasito a pasito te explica el ciclo central de la app.
-</div>
-###    **GUIA MANUAL  |  CONOCE LA PANTALLA PRINCIPAL**
-<div align="justify">
-En cuanto lanzas la app por primera vez, serás recibido por el módulo planificador. Su misión en la vista es sencilla: dejarte anotar y planificar tus dietas. Desde los desayunos rápidos hasta esa cena especial que harás el fin de semana. No necesitas entrar en hiper-detalles sobre qué tipo de marca comprar ni qué cantidades, sólo especifica el nombre genérico y fundamental de tus recetas.
-</div>
-###    **GUIA MANUAL  |  VISITA LA CENTRAL DE TUS LISTAS**
-<div align="justify">
-Navegando hasta la vista del inventario de listas, la aplicación hace magia transparente por detrás procesando todos los menús de tu paso anterior y mostrándolos en formato de <i>registros en listas</i>. Aquí puedes tener la lista de la compra de la semana unificada, y si tocas sobre cualquiera de ellas, se desplegará.
-</div>
-###    **GUIA MANUAL  |  GESTIONA TUS INGREDIENTES CLAVE**
-<div align="justify">
-Al hacer 'tap' (toque) en una lista, saltarás al escrupuloso _Detalle de la lista_. Este es el inventario bruto puro de elementos de tu supermercado organizados individualmente para cumplir con la planificación. Comprueba cuántas cosas tienes ya en la nevera de tu cocina, revisa cantidades y pon en orden tus prioridades.
-</div>
-###    **GUIA MANUAL  |  FUNCION DE EXPORTAR**
-<div align="justify">
-Con todo a punto y ordenado, podrás usar el botón de exportación. Este botón copia y manda lo registrado de forma transparente como fragmentos de texto fáciles de leer que podrás imprimir, remitir por sistemas de mensajería SMS/WhatsApp con tu pareja o familiares, haciéndolo ideal para la comunicación sin malentendidos en las idas al súper local.
-</div>
----
-##   OURMEAL  |  GUIA ONBOARDING (ORIENTADA A SOPORTE A DESARROLLADORES)
-<div align="justify">
-Si eres parte de la comunidad de apoyo de desarrollo, un miembro reciente del equipo o quieres mandar un aporte independiente desde un perfil de GitHub, asegúrate de seguir los estándares del proyecto de esta manera:
-</div>
-###    **GUIA ONBOARDING  |  ELEMENTOS REQUERIDOS EN TU ORDENADOR**
-  - Es imperativo que tengas tu **Git** enlazado terminal y con el path operativo.
-  - Un IDE completo de JetBrains. La opción lógica es disponer de la iteración más reciente de tu **Android Studio** (versiones como _Iguana_, _Jellyfish_, o _Koala_).
-  - Entrar en la suite del `SDK Manager` en las propiedades del entorno Studio y confirmar que dispones instaladas plataformas tanto del `API Level 34` (Android 14) como preferiblemente del `API Level 35`.
-###    **GUIA ONBOARDING  |  CONFIGURAR Y DESCARGAR EL ENTORNO INCIAL LOCALMENTE**
-  1. Corre este comando en los entornos del terminal de comandos para volcar la copia completa sobre tu explorador de archivos:
+# OURMEAL | INFORMACION DE AYUDA
+
+> ayuda para usar ourmeal y para empezar a desarrollar en el proyecto. la primera parte está pensada para quien usa la aplicación; la segunda, para quien quiere contribuir al código.
+
+## GUIA PARA USUARIOS
+
+### EL MENU DE LA SEMANA
+
+al abrir la aplicación aparece el menú de la semana actual, con el día de hoy seleccionado:
+
+1. elige un día en la tira de fechas. el día de hoy aparece resaltado.
+2. toca `Añadir comida` o `Añadir cena` y escribe el plato. basta con un nombre reconocible, como `lentejas` o `tortilla`.
+3. los cambios se guardan solos. bajo el menú verás `Guardando cambios…` y después `Cambios guardados.`.
+4. usa las flechas para cambiar de semana, `Elegir fecha` para saltar a cualquier día del calendario y `Volver a hoy` para regresar a la semana actual.
+
+el recuadro de la semana indica cuántas de las 14 comidas y cenas están planificadas.
+
+### SUGERENCIAS Y PLATOS REPETIDOS
+
+ourmeal recuerda los platos que has planificado en otras semanas para que no tengas que escribirlos de nuevo:
+
+1. al tocar un campo vacío, bajo él aparecen tus platos habituales que aún no están en la semana. desliza la fila para ver más.
+2. al escribir, la fila muestra los platos que coinciden, aunque los escribieras con mayúsculas o tildes distintas.
+3. toca un plato para rellenar el campo. se guarda como cualquier otro cambio.
+4. si un plato no debería sugerirse, por ejemplo uno mal escrito, mantenlo pulsado. justo después puedes tocar `Deshacer`. si vuelves a escribirlo tú, se sugerirá de nuevo.
+
+bajo cada plato puede aparecer un aviso como `También está el lunes en la comida.` o `Ya estuvo en el menú hace 3 días.`. es solo una ayuda para variar: puedes repetir el plato si quieres.
+
+### TUS LISTAS DE LA COMPRA
+
+desde el menú, toca `Mis listas` para ver todas tus listas:
+
+1. toca `Nueva lista` y ponle un nombre fácil de reconocer, como `compra de la semana`.
+2. toca una lista para abrirla.
+3. para eliminar una lista, toca su icono de papelera y confírmalo. justo después puedes tocar `Deshacer`.
+
+cada lista muestra su fecha de creación, cuántos productos tiene y cuántos están comprados.
+
+### LOS PRODUCTOS DE UNA LISTA
+
+dentro de una lista:
+
+1. toca `Añadir` y escribe el producto. si ya está en la lista, la aplicación te avisa y no lo repite.
+2. mientras compras, toca un producto o su casilla para marcarlo como comprado. el progreso de la parte superior se actualiza.
+3. para quitar un producto, toca su papelera y confírmalo. justo después puedes tocar `Deshacer`.
+
+### COMPARTIR UNA LISTA
+
+en una lista con productos, toca el botón de compartir. la aplicación prepara un texto con el nombre de la lista, el resumen de lo comprado y cada producto marcado como `[x]` comprado o `[ ]` pendiente. elige la aplicación con la que enviarlo o guardarlo.
+
+## GUIA PARA DESARROLLADORES
+
+### REQUISITOS
+
+- git instalado y disponible en el terminal.
+- android studio reciente, con el sdk de android 15 (api 35) instalado. el proyecto compila con `compileSdk 35`.
+- un emulador o un teléfono con android 14 (api 34) o superior, porque el proyecto usa `minSdk 34`.
+- jdk 17, que android studio incluye por defecto. el proyecto compila con `jvmTarget = "17"`.
+
+### PREPARAR EL ENTORNO
+
+1. clona el repositorio:
+
 ```bash
 git clone https://github.com/rezzt-dev/ourmeal-app.git
 ```
-  1. Pon en arranque tu interfaz de lado cliente de **Android Studio** y dentro de tu portal inicial elige expresamente `File -> Open` y localiza meticulosamente la raíz del proyecto recién copiado de nombre exacto `ourmeal-app`.
-  2. Inmediatamente el robot daemon Gradle detectará todos los esquemas `.kts` (Kotlin Scripts). Durante este intervalo (y sobre todo en tu primera pasada) no alteres nada ni detengas al asistente para no romper el _Gradle Build Sync_ mientras descarga todas sus utilidades (tales como _ViewBinding, Material Core, Appcompat, JUnit y los plugins Android KTX_).
-###    **GUIA ONBOARDING  |  SIMULAR E INTERVENIR PRUEBAS EFECTIVAS SOBRE EMULADOR**
-<div align="justify">
-Al ser un proyecto moderno cerrado bajo un <b>minSdk 34</b> debes evitar intentar correrlo en tus teléfonos antiguos del día a día, ya que dará Error inmediato de incompatibilidad (Minimum SDK Required).
-</div>
-  1. Accede al gestor virtualizado en la barra de tareas superior abriendo el gestor interno de dispositivos `Device Manager`.
-  2. Otorga una orden de crear nueva interfaz (Device Setup) y modela uno a semejanza de un dispositivo oficial reciente (como pueden ser un Pixel 8). Al escoger el mapa de imagen escoge descargar siempre el **API 34 + SysImage**, si es necesario, de las opciones x86 para agilidades de CPU.
-  3. Arrácalo con un Play, deja que encienda la terminal simulada y después oprime repetidamente `Run` (o Mayús-F10). Podrás ver la compilación en los terminales `Build Output`, culminando de integrarse el fichero APK en el teléfono emulado.
-###    **GUIA ONBOARDING  |  CONTRIBUCION Y CARGAS SEGURAS HACIA EL CODIGO MATRIZ**
-<div align="justify">
-La contribución respeta flujos de trabajo profesionales genéricos de Git y Github (GitHub Flow): Realiza siempre bifurcaciones completas del código principal hacia tu cuenta (<i>Fork</i>). Altere el comportamiento respetando los apartados limpios <b>model/</b> (elementos crudos), y operando las nuevas funcionalidades o cambios de UI desde clases inmersas en el envolvente <b>controller/</b> sin mezclar la vista estática por encima de esta y finalmente abra <i>_Pull Request</i> limpios explicando su aportación frente al repositorio matriz de <i>rezzt-dev/ourmeal-app</i>
-</div>
----
+
+2. en android studio, usa `File -> Open` y abre la carpeta `ourmeal-app/android-app`, que contiene el proyecto gradle.
+3. espera a que termine la sincronización de gradle antes de compilar.
+
+### EJECUTAR Y COMPROBAR
+
+1. crea un dispositivo virtual en `Device Manager` con una imagen de api 34 o superior.
+2. ejecuta la configuración `app` con `Run`.
+3. desde `android-app/`, las comprobaciones disponibles son:
+
+```bash
+./gradlew testDebugUnitTest
+./gradlew lintDebug
+./gradlew assembleDebug
+./gradlew connectedDebugAndroidTest
+```
+
+`connectedDebugAndroidTest` necesita un emulador o un dispositivo conectado. las pruebas instrumentadas que abren pantallas con datos usan la regla `AppDataSandbox`, que aparta los datos de la aplicación del dispositivo durante cada prueba y los restaura al terminar.
+
+### CONTRIBUIR
+
+el proyecto sigue el flujo de github: haz un fork, crea una rama para tu cambio y abre una pull request contra `rezzt-dev/ourmeal-app`.
+
+- coloca las entidades y la lógica pura en `model/`, con pruebas unitarias en `app/src/test/`.
+- coloca la persistencia y los adaptadores en `controller/`.
+- mantén las pantallas (`MainActivity`, `ListActivity` y `ListDetailActivity`) centradas en la interfaz y su estado.
+- sigue las reglas de commits, markdown y changelog de `claude.md`.

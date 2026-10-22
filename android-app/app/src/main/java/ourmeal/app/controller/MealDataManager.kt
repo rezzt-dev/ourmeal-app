@@ -26,10 +26,6 @@ class MealDataManager(context: Context) {
     }
   }
 
-  fun getWeeklyMeals(weekId: String): WeeklyMeals = synchronized(FILE_LOCK) {
-    loadWeeklyMeals().find { it.weekId == weekId } ?: WeeklyMeals(weekId)
-  }
-
   fun saveWeeklyMeal(weeklyMeals: WeeklyMeals): Boolean = synchronized(FILE_LOCK) {
     val allWeeks = try { loadWeeklyMeals() } catch (_: IOException) { return false }
     val index = allWeeks.indexOfFirst { it.weekId == weeklyMeals.weekId }

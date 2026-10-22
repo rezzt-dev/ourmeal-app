@@ -4,7 +4,346 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17f14941-ae40-4419-95b1-b42d1224699e" name="Changes" comment="" />
+    <list default="true" id="17f14941-ae40-4419-95b1-b42d1224699e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.docs/guidelines/commit-guidelines.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/guidelines/commit-guidelines.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/guidelines/markdown-guidelines.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/guidelines/markdown-guidelines.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/guidelines/pr-merge-release-guidelines.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/guidelines/pr-merge-release-guidelines.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/info-project/informacion-ayuda.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/info-project/informacion-ayuda.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/info-project/informacion-general.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/info-project/informacion-general.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/info-project/informacion-tecnica.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/info-project/informacion-tecnica.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/frontend-design/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/frontend-design/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/agents/impeccable_asset_producer.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/agents/impeccable_asset_producer.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/agents/impeccable_manual_edit_applier.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/agents/impeccable_manual_edit_applier.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/agents/openai.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/agents/openai.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/adapt.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/adapt.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/animate.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/animate.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/audit.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/audit.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/bolder.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/bolder.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/brand.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/brand.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/clarify.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/clarify.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/codex.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/codex.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/colorize.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/colorize.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/craft.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/craft.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/critique.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/critique.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/delight.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/delight.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/distill.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/distill.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/document.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/document.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/extract.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/extract.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/harden.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/harden.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/hooks.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/hooks.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/init.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/init.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/interaction-design.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/interaction-design.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/layout.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/layout.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/live.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/live.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/onboard.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/onboard.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/optimize.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/optimize.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/overdrive.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/overdrive.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/polish.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/polish.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/product.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/product.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/quieter.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/quieter.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/shape.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/shape.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/typeset.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/reference/typeset.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/command-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/command-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/context-signals.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/context-signals.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/context.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/context.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/critique-storage.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/critique-storage.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detect-csp.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detect-csp.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detect.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detect.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/browser/injected/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/browser/injected/index.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/cli/main.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/cli/main.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/design-system.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/design-system.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/detect-antipatterns-browser.js" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/detect-antipatterns-browser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/detect-antipatterns.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/detect-antipatterns.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/browser/detect-url.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/browser/detect-url.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/regex/detect-text.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/regex/detect-text.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/static-html/css-cascade.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/static-html/css-cascade.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/static-html/detect-html.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/static-html/detect-html.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/findings.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/findings.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/node/file-system.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/node/file-system.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/profile/profiler.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/profile/profiler.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/registry/antipatterns.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/registry/antipatterns.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/rules/checks.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/rules/checks.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/shared/color.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/shared/color.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/shared/constants.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/shared/constants.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/shared/inline-ignores.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/shared/inline-ignores.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/shared/page.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/detector/shared/page.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/hook-admin.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/hook-admin.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/hook-before-edit.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/hook-before-edit.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/hook-lib.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/hook-lib.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/hook.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/hook.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/design-parser.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/design-parser.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/impeccable-config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/impeccable-config.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/impeccable-paths.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/impeccable-paths.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/is-generated.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/is-generated.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/target-args.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/lib/target-args.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-accept.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-accept.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-browser-dom.js" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-browser-dom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-browser-session.js" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-browser-session.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-browser.js" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-browser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-commit-manual-edits.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-commit-manual-edits.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-complete.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-complete.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-copy-edit-agent.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-copy-edit-agent.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-discard-manual-edits.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-discard-manual-edits.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-inject.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-inject.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-insert.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-insert.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-manual-edit-evidence.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-manual-edit-evidence.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-poll.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-poll.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-resume.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-resume.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-server.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-server.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-status.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-status.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-target.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-target.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-wrap.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live-wrap.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/browser-script-parts.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/browser-script-parts.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/completion.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/completion.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/event-validation.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/event-validation.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/insert-ui.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/insert-ui.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/manual-apply.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/manual-apply.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/manual-edit-routes.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/manual-edit-routes.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/manual-edits-buffer.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/manual-edits-buffer.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/session-store.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/session-store.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/svelte-component.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/svelte-component.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/sveltekit-adapter.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/sveltekit-adapter.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/ui-core.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/ui-core.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/vocabulary.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/live/vocabulary.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/modern-screenshot.umd.js" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/modern-screenshot.umd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/palette.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/palette.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/pin.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/impeccable/scripts/pin.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/agents/openai.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/agents/openai.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/assets/shadcn-small.png" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/assets/shadcn-small.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/assets/shadcn.png" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/assets/shadcn.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/cli.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/cli.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/customization.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/customization.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/evals/evals.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/evals/evals.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/mcp.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/mcp.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/registry.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/registry.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/base-vs-radix.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/base-vs-radix.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/composition.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/composition.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/forms.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/forms.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/icons.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/icons.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/styling.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/shadcn/rules/styling.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/AGENTS.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/AGENTS.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/_sections.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/_sections.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/_template.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/_template.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/architecture-avoid-boolean-props.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/architecture-avoid-boolean-props.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/architecture-compound-components.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/architecture-compound-components.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/patterns-children-over-render-props.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/patterns-children-over-render-props.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/patterns-explicit-variants.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/patterns-explicit-variants.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/react19-no-forwardref.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/react19-no-forwardref.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/state-context-interface.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/state-context-interface.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/state-decouple-implementation.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/state-decouple-implementation.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/state-lift-state.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-composition-patterns/rules/state-lift-state.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/AGENTS.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/AGENTS.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/_sections.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/_sections.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/_template.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/_template.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/advanced-init-once.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/advanced-init-once.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/advanced-use-latest.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/advanced-use-latest.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-api-routes.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-api-routes.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-defer-await.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-defer-await.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-dependencies.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-dependencies.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-parallel.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-parallel.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-conditional.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-conditional.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-preload.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/bundle-preload.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/client-event-listeners.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/client-event-listeners.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/client-localstorage-schema.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/client-localstorage-schema.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/client-swr-dedup.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/client-swr-dedup.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-batch-dom-css.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-batch-dom-css.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-cache-function-results.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-cache-function-results.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-cache-property-access.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-cache-property-access.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-cache-storage.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-cache-storage.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-combine-iterations.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-combine-iterations.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-early-exit.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-early-exit.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-flatmap-filter.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-flatmap-filter.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-hoist-regexp.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-hoist-regexp.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-index-maps.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-index-maps.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-length-check-first.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-length-check-first.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-min-max-loop.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-min-max-loop.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-request-idle-callback.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-request-idle-callback.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-set-map-lookups.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-set-map-lookups.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-activity.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-activity.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-conditional-render.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-conditional-render.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-content-visibility.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-content-visibility.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-resource-hints.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-resource-hints.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-svg-precision.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-svg-precision.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-defer-reads.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-defer-reads.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-dependencies.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-dependencies.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-derived-state.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-derived-state.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-memo.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-memo.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-transitions.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-transitions.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-after-nonblocking.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-after-nonblocking.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-auth-actions.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-auth-actions.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-cache-lru.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-cache-lru.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-cache-react.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-cache-react.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-dedup-props.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-dedup-props.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-hoist-static-io.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-hoist-static-io.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-parallel-fetching.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-parallel-fetching.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-serialization.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-best-practices/rules/server-serialization.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/AGENTS.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/AGENTS.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/references/css-recipes.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/references/css-recipes.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/references/implementation.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/references/implementation.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/references/nextjs.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/references/nextjs.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/references/patterns.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/vercel-react-view-transitions/references/patterns.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/web-design-guidelines/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/web-design-guidelines/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.docs/skills/writing-guidelines/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.docs/skills/writing-guidelines/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.freebuff/project-id" beforeDir="false" afterPath="$PROJECT_DIR$/../.freebuff/project-id" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PRODUCT.md" beforeDir="false" afterPath="$PROJECT_DIR$/../PRODUCT.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../agents.md" beforeDir="false" afterPath="$PROJECT_DIR$/../agents.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AndroidProjectSystem.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AndroidProjectSystem.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deviceManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deviceManager.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/migrations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/migrations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/app/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/ourmeal/app/CreationFormTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/ourmeal/app/CreationFormTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/ourmeal/app/ExampleInstrumentedTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/ourmeal/app/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/licenses/BricolageGrotesque-OFL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/licenses/BricolageGrotesque-OFL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/licenses/SourceSans3-OFL.md" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/licenses/SourceSans3-OFL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/ListActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/ListActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/ListDetailActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/ListDetailActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/OurmealApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/OurmealApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/OurmealDialogs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/OurmealDialogs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/ScreenInsets.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/ScreenInsets.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/ScreenUi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/ScreenUi.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/UiFeedback.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/UiFeedback.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/UiMotion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/UiMotion.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/controller/DataManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/controller/DataManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/controller/ItemAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/controller/ItemAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/controller/ListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/controller/ListAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/controller/MealDataManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/controller/MealDataManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/AppData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/AppData.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/ListItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/ListItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/Meal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/Meal.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/TextNormalizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/TextNormalizer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/UserList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/UserList.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/WeekUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/WeekUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/WeeklyMeals.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ourmeal/app/model/WeeklyMeals.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/button_dialog_text.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/color/button_dialog_text.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/button_outline_stroke.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/color/button_outline_stroke.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/button_primary_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/color/button_primary_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/button_primary_text.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/color/button_primary_text.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/button_secondary_text.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/color/button_secondary_text.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/checkbox_tint.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/color/checkbox_tint.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/input_hint.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/color/input_hint.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/input_stroke.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/color/input_stroke.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/ripple_dark.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/color/ripple_dark.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_cream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_cream.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_day_chip_normal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_day_chip_normal.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_day_chip_selected.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_day_chip_selected.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_day_chip_today.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_day_chip_today.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_dot.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_dot.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_icon_tile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_icon_tile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_menu_editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_menu_editor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_menu_field.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_menu_field.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_sage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_sage.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_alert.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_alert.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_back.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_back.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_forward.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_forward.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_basket.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_basket.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_calendar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_calendar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_chevron_left.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_chevron_left.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_chevron_right.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_chevron_right.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_delete.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_delete.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_edit_meal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_edit_meal.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_foreground.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_foreground.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_plus.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_plus.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_refresh.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_refresh.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_share.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_share.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ripple_day_chip.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ripple_day_chip.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/font/bricolage_grotesque.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/font/bricolage_grotesque.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/font/source_sans_3.otf" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/font/source_sans_3.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/font/source_sans_3_semibold.otf" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/font/source_sans_3_semibold.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/activity_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-land/activity_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/activity_list_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-land/activity_list_detail.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout-land/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_list_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_list_detail.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/day_selector_chip.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/day_selector_chip.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_add_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_add_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_create_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_create_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_list_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_list_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/view_loading.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/view_loading.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/view_state_panel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/view_state_panel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/view_week_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/view_week_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi/ic_launcher.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi/ic_launcher.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi/ic_launcher_round.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi/ic_launcher_round.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/backup_rules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/xml/backup_rules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/data_extraction_rules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/ourmeal/app/ModelTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/ourmeal/app/ModelTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/ourmeal/app/WeekUtilsTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/ourmeal/app/WeekUtilsTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../changelog.md" beforeDir="false" afterPath="$PROJECT_DIR$/../changelog.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/../claude.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../license.md" beforeDir="false" afterPath="$PROJECT_DIR$/../license.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../readme.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,30 +372,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;ApkExportedModule&quot;: &quot;ourmeal.app&quot;,
-    &quot;CidrDebugProfileConversion&quot;: &quot;true&quot;,
-    &quot;ExportApk.ApkPathForourmeal.app&quot;: &quot;/home/rezzt/downloads&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/rezzt/downloads&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.app.executor": "Run",
+    "ApkExportedModule": "ourmeal.app",
+    "CidrDebugProfileConversion": "true",
+    "ExportApk.ApkPathForourmeal.app": "/home/rezzt/downloads",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/mnt/datos/repositorios/android-projects/ourmeal-app/android-app",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ExportApk.BuildVariants&quot;: [
-      &quot;release&quot;
+  "keyToStringList": {
+    "ExportApk.BuildVariants": [
+      "release"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="ourmeal.app" />

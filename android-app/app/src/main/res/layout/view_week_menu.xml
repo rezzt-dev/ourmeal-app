@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/menuBoard"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
@@ -105,6 +106,30 @@
       android:paddingHorizontal="12dp"
       android:paddingVertical="12dp"
       android:textSize="18sp" />
+    <!-- Chips keep a 48dp touch target, so their own inset gives the 8dp gap below the field. -->
+    <HorizontalScrollView
+      android:id="@+id/comidaSuggestionsScroll"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:importantForAccessibility="no"
+      android:scrollbars="none"
+      android:visibility="gone">
+      <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsComidaSuggestions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:chipSpacingHorizontal="8dp"
+        app:singleLine="true" />
+    </HorizontalScrollView>
+    <TextView
+      android:id="@+id/tvComidaRepeat"
+      style="@style/TextAppearance.Ourmeal.Meta"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="6dp"
+      android:accessibilityLiveRegion="polite"
+      android:textColor="@color/sage"
+      android:visibility="gone" />
 
     <View
       android:layout_width="match_parent"
@@ -149,5 +174,29 @@
       android:paddingHorizontal="12dp"
       android:paddingVertical="12dp"
       android:textSize="18sp" />
+    <!-- Chips keep a 48dp touch target, so their own inset gives the 8dp gap below the field. -->
+    <HorizontalScrollView
+      android:id="@+id/cenaSuggestionsScroll"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:importantForAccessibility="no"
+      android:scrollbars="none"
+      android:visibility="gone">
+      <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsCenaSuggestions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:chipSpacingHorizontal="8dp"
+        app:singleLine="true" />
+    </HorizontalScrollView>
+    <TextView
+      android:id="@+id/tvCenaRepeat"
+      style="@style/TextAppearance.Ourmeal.Meta"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="6dp"
+      android:accessibilityLiveRegion="polite"
+      android:textColor="@color/sage"
+      android:visibility="gone" />
   </LinearLayout>
 </LinearLayout>

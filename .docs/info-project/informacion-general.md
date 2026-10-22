@@ -1,24 +1,29 @@
-#  ANDROID PROJECTS  |  OURMEAL
-> pagina de informacion general sobre el proyecto de OurMeal, contiene informacion y datos generales tanto de la aplicacion, desarrollo del proyecto, etc.
----
-##   OURMEAL  |  INFORMACION GENEAL
-<div align="justify">
-<b>OurMeal</b> es tu asistente personal de bolsillo diseñado para simplificar dos de las tareas domésticas más comunes e importantes del día a día: <b>la planificación de tus comidas</b> y <b>la gestión de tus compras en el supermercado</b>
-</div>
----
-##   OURMEAL  |  EL PROBLEMA QUE RESUELVE
-<div align="justify">
-A menudo, decidir qué comer cada día de la semana y acordarte de todos los ingredientes necesarios en el supermercado puede resultar caótico e incluso estresante. OurMeal elimina este problema proporcionando un espacio móvil centralizado donde puedes volcar tus ideas de menús (semanales o diarios). Como resultado directo y automático, obtienes una lista de la compra organizada, limpia y lista para usar.
-</div>
----
-##   OURMEAL  |  CARACTERISTICAS DETALLADAS Y BENEFICIOS
-- **Organizador Visivo de Menús:** Un módulo pensado para registrar de forma intuitiva tus almuerzos y cenas, ayudándote a mantener una dieta estructurada y a no repetir los mismos platos por accidente.
-- **Generador Inteligente de Listas:** Al tener claro qué platos vas a preparar, la aplicación deduce y desglosa qué elementos exactos necesitas comprar. Evitando así que compres productos repetidos o que te olvides de ese ingrediente crítico para la receta.
-- **Portal de Listas Guardadas:** Podrás mantener un registro de múltiples listas de la compra. Por ejemplo, puedes tener una aislada llamada _compra quincenal_, y otra distinta y pequeña para los preparativos de una _cena con amigos_.
-- **Sistema de Exportación:** La funcionalidad estrella para entornos familiares. Te permite compartir o exportar el texto final de tu lista, pudiendo enviarla a otra persona a través de WhatsApp o guardarla en tu bloc de notas favorito del móvil justo antes de ir a recorrer los pasillos de tu supermercado local.
----
-##   OURMEAL  |  ¿PARA QUIEN ES ESTA APP?
-- **Familias y Parejas** que quieren optimizar su presupuesto en alimentación, dividiendo de manera más limpia las responsabilidades de la comida.
-- Personas que buscan **estructurar y controlar su dieta**, garantizando que lo compran en la tienda se alinea estrictamente con los menús que planearon.
-- Cualquier usuario estándar que esté cansado del desorden que provocan los clásicos apuntes de listas de la compra en trozos de papel.
----
+# OURMEAL | INFORMACION GENERAL
+
+> información general sobre ourmeal: qué es la aplicación, qué problema resuelve, qué hace hoy y para quién está pensada.
+
+## QUE ES OURMEAL
+
+ourmeal es una aplicación android que simplifica dos tareas domésticas frecuentes: **planificar las comidas de la semana** y **organizar la lista de la compra**.
+
+## EL PROBLEMA QUE RESUELVE
+
+decidir qué comer cada día y recordar todo lo que hay que comprar suele hacerse con notas sueltas o de memoria. ourmeal reúne en el móvil el menú de la semana y las listas de la compra, guarda los cambios automáticamente y permite compartir las listas con quien vaya a comprar.
+
+## FUNCIONES DISPONIBLES
+
+- **menú semanal**: un tablero con la comida y la cena de cada día. se elige el día en una tira de fechas, se escribe directamente en cada franja y se ve cuántas comidas de la semana están planificadas. se puede ir a la semana anterior o siguiente, elegir una fecha en el calendario y volver a hoy.
+- **sugerencias de platos**: al escribir en una franja del menú aparecen, bajo el campo, los platos que ya has planificado otras semanas. con el campo vacío se proponen los habituales que aún no están en la semana; al escribir, los que coinciden, sin distinguir mayúsculas ni acentos. un toque rellena el campo y una pulsación larga deja de sugerir un plato, con opción de deshacer.
+- **aviso de repeticiones**: bajo cada plato, una línea discreta indica si ya está en otro hueco de la semana o si estuvo en el menú en los últimos 13 días. es solo informativo: repetir un plato sigue siendo posible.
+- **guardado automático**: los cambios del menú se guardan solos y la pantalla indica si se están guardando, si ya se guardaron o si hubo un error, con opción de reintentar.
+- **varias listas de la compra**: por ejemplo, una `compra quincenal` y otra pequeña para una `cena con amigos`. cada lista muestra su fecha de creación, su número de productos y su progreso.
+- **productos de cada lista**: se añaden por nombre, se marcan como comprados mientras se compra y se eliminan con opción de deshacer. la aplicación avisa si un producto ya está en la lista.
+- **compartir como texto**: una lista se comparte como texto legible, con la marca de cada producto comprado o pendiente, para enviarla por mensajería o guardarla en una aplicación de notas.
+
+el menú y las listas son hoy independientes: la aplicación no crea listas a partir del menú. esa mejora está especificada en `.docs/new-features/compra-desde-el-menu.md`, pendiente de implementar.
+
+## PARA QUIEN ES
+
+- **familias y parejas** que quieren repartir y ordenar la planificación de las comidas y de la compra.
+- **personas que organizan su dieta** y quieren ver de un vistazo qué van a comer cada día de la semana.
+- **cualquier persona** cansada de las listas de la compra en trozos de papel.

@@ -29,6 +29,17 @@
   <string name="week_next">Semana siguiente</string>
   <string name="open_calendar">Elegir semana en el calendario</string>
 
+  <!-- Historial de platos -->
+  <string name="history_use_suggestion">Usar %1$s</string>
+  <string name="history_hide_action">Dejar de sugerir</string>
+  <string name="history_hidden">Ya no se sugerirá «%1$s».</string>
+  <string name="history_hide_error">No se pudo guardar el cambio</string>
+  <string name="history_repeat_same_week">También está el %1$s en la %2$s.</string>
+  <plurals name="history_repeat_recent">
+    <item quantity="one">Ya estuvo en el menú hace %d día.</item>
+    <item quantity="other">Ya estuvo en el menú hace %d días.</item>
+  </plurals>
+
   <!-- Listas -->
   <string name="lists_kicker">La compra, en orden</string>
   <string name="lists_title_first">Una lista para</string>

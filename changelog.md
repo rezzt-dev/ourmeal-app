@@ -16,6 +16,15 @@
 - mejora la accesibilidad con encabezados de pantalla, descripciones de acciones y estados anunciados por lectores de pantalla.
 - añade pruebas unitarias para semanas ISO, progreso de listas, días semanales y normalización de nombres.
 - añade `CreationFormTest.kt` para comprobar que los nombres vacíos no se envían, que el borrador del formulario sobrevive a la recreación de la pantalla y que la aplicación mantiene el tema oscuro con independencia del teléfono.
+- añade en `.docs/new-features/` las especificaciones de dos funcionalidades pendientes: preparar la compra desde el menú y el historial de platos con sugerencias y aviso de repeticiones.
+- añade `WeekUtils.isValidWeekId()` para distinguir los ids de semana iso reales.
+- añade la regla `AppDataSandbox` para que las pruebas instrumentadas trabajen sin datos y restauren los ficheros reales del dispositivo al terminar.
+- sugiere en el menú semanal los platos ya planificados en otras semanas, con habituales al enfocar un campo vacío y coincidencias sin mayúsculas ni acentos al escribir.
+- permite dejar de sugerir un plato con una pulsación larga o la acción de accesibilidad `Dejar de sugerir`, con deshacer, y lo vuelve a sugerir cuando el usuario lo escribe de nuevo.
+- avisa bajo cada plato si se repite en la semana o estuvo en el menú en los últimos 13 días, sin impedir repetirlo.
+- añade pruebas unitarias del historial de platos y de los ajustes de sugerencias, y `MealSuggestionsTest.kt` para el flujo completo en el menú.
+- añade `PRODUCT.md` con el contexto de producto y de diseño, y las skills locales de `.docs/skills/` para los agentes que trabajan en la interfaz.
+- añade `.docs/guidelines/` con las reglas de markdown, de commits y de pull requests, merges y releases.
 
 #### CAMBIOS
 
@@ -44,12 +53,18 @@
 - mejora la demo web con transiciones breves, progreso visible de la compra y una composición móvil más equilibrada.
 - refina las tarjetas de listas y productos con estados visibles, controles táctiles accesibles, progreso animado y acciones deshabilitadas durante el guardado.
 - adapta el selector semanal y la demo web a contenidos largos y tamaños de texto ampliados, manteniendo el desplazamiento y las áreas táctiles utilizables.
+- guarda el menú semanal en segundo plano, en orden de llamada y sin perder el último guardado al salir de la pantalla, en lugar de escribir en el hilo principal.
+- aplica `AppDataSandbox` a `CreationFormTest` para no leer ni sobrescribir los datos reales del dispositivo de pruebas.
+- actualiza `claude.md` y `agents.md` para describir la aplicación android real en lugar de una página web inexistente, con `jvmTarget 17`, la estructura, los comandos de verificación y las reglas de accesibilidad de android.
+- reescribe `.docs/info-project/` según las reglas de markdown del repositorio y corrige las funciones descritas que no existen.
+- lee todas las semanas guardadas en una sola carga del menú para construir el historial de platos, sin cambiar el formato de `meal_plans.json`.
 
 #### CORREGIDO
 - corrige la prueba instrumentada de contexto para comparar el `applicationId` real `app.ourmeat` y homogeneizar sus finales de línea.
 - corrige la actualización concurrente de listas y productos al añadir, marcar, eliminar o restaurar elementos mediante snapshots de persistencia y bloqueo temporal de interacciones.
 - corrige el contraste de los checkboxes, el desbordamiento de resúmenes y el recorte de acciones en pantallas estrechas o con fuentes ampliadas.
 - corrige el color del texto de los snackbars, que se veía oscuro sobre fondo oscuro, y ajusta su forma y tipografía al resto de la interfaz.
+- corrige `WeekUtils.startOfWeek()`, que convertía en silencio una semana 53 inexistente, como `2021-W53`, en la primera semana del año siguiente.
 
 #### ELIMINADO
 - retira la estructura Android anterior ubicada directamente en la raiz del repositorio para sustituirla por la nueva organizacion en `android-app/`.
@@ -71,6 +86,15 @@
 - improve accessibility with screen headings, action descriptions, and states announced by screen readers.
 - add unit tests for ISO weeks, list progress, week days, and name normalization.
 - add `CreationFormTest.kt` to check that blank names cannot be submitted, that the creation draft survives screen recreation, and that the app keeps its dark theme regardless of the phone setting.
+- add specifications for two pending features in `.docs/new-features/`: preparing the shopping list from the menu, and a dish history with suggestions and repeat hints.
+- add `WeekUtils.isValidWeekId()` to tell real iso week ids apart.
+- add the `AppDataSandbox` rule so instrumented tests run without data and restore the device's real files when they finish.
+- suggest dishes already planned in other weeks in the weekly menu, with usual dishes when an empty field gets focus and accent- and case-insensitive matches while typing.
+- let users stop suggesting a dish with a long press or the `Dejar de sugerir` accessibility action, with undo, and suggest it again when the user writes it once more.
+- show a hint under each dish when it repeats in the week or was on the menu in the last 13 days, without preventing the repeat.
+- add unit tests for the dish history and the suggestion settings, and `MealSuggestionsTest.kt` for the full menu flow.
+- add `PRODUCT.md` with product and design context, and the local skills in `.docs/skills/` for agents working on the interface.
+- add `.docs/guidelines/` with the markdown, commit, and pull request, merge, and release rules.
 
 #### CHANGED
 
@@ -99,12 +123,18 @@
 - improve the web demo with brief transitions, visible shopping progress, and a more balanced mobile composition.
 - refine list and product cards with visible states, accessible touch controls, animated progress, and disabled actions while saving.
 - adapt the weekly selector and web demo to long content and larger text sizes while keeping scrolling and touch targets usable.
+- save the weekly menu in the background, in call order and without losing the last save when leaving the screen, instead of writing on the main thread.
+- apply `AppDataSandbox` to `CreationFormTest` so it never reads or overwrites the real data on the test device.
+- update `claude.md` and `agents.md` to describe the real android app instead of a missing website, with `jvmTarget 17`, the structure, the verification commands, and android accessibility rules.
+- rewrite `.docs/info-project/` following the repository markdown rules and correct the described features that do not exist.
+- read every saved week in a single menu load to build the dish history, without changing the `meal_plans.json` format.
 
 #### FIXED
 - fix the instrumented context test to compare the real `app.ourmeat` `applicationId` and normalize its line endings.
 - fix concurrent list and product updates when adding, checking, deleting, or restoring items by using persistence snapshots and temporarily locking interactions.
 - fix checkbox contrast, summary overflow, and clipped actions on narrow screens or with larger font sizes.
 - fix snackbar text, which rendered dark on a dark background, and align the snackbar shape and typography with the rest of the interface.
+- fix `WeekUtils.startOfWeek()`, which silently turned a missing week 53, such as `2021-W53`, into the first week of the next year.
 
 #### REMOVED
 - remove the previous Android structure located directly in the repository root and replace it with the new `android-app/` organization.

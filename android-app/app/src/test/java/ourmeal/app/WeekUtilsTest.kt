@@ -1,11 +1,14 @@
 package ourmeal.app
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import ourmeal.app.model.WeekUtils
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.temporal.TemporalAdjusters
 import java.util.Date
 
 class WeekUtilsTest {
@@ -31,5 +34,22 @@ class WeekUtilsTest {
   @Test
   fun invalidWeekIdFallsBackToCurrentMonday() {
     assertEquals(DayOfWeek.MONDAY, WeekUtils.startOfWeek("not-a-week").dayOfWeek)
+  }
+
+  @Test
+  fun validatesRealIsoWeeks() {
+    assertTrue(WeekUtils.isValidWeekId("2026-W43"))
+    assertTrue(WeekUtils.isValidWeekId("2020-W53"))
+    assertFalse(WeekUtils.isValidWeekId("2021-W53"))
+    assertFalse(WeekUtils.isValidWeekId("2026-W00"))
+    assertFalse(WeekUtils.isValidWeekId("2026-W54"))
+    assertFalse(WeekUtils.isValidWeekId("semana"))
+    assertFalse(WeekUtils.isValidWeekId(""))
+  }
+
+  @Test
+  fun missingWeek53DoesNotRollIntoNextYear() {
+    val currentMonday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+    assertEquals(currentMonday, WeekUtils.startOfWeek("2021-W53"))
   }
 }

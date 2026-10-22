@@ -220,6 +220,29 @@
     <item name="android:fontFamily">@font/source_sans_3</item>
   </style>
 
+  <!-- SUGERENCIAS -->
+
+  <style name="Widget.Ourmeal.Chip.Suggestion" parent="Widget.Material3.Chip.Suggestion">
+    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Chip</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:maxWidth">240dp</item>
+    <item name="android:ellipsize">end</item>
+    <item name="chipBackgroundColor">@color/surface_raised</item>
+    <item name="chipStrokeColor">@color/chip_suggestion_stroke</item>
+    <item name="chipStrokeWidth">1dp</item>
+    <item name="chipCornerRadius">8dp</item>
+    <item name="rippleColor">@color/hairline</item>
+    <item name="ensureMinTouchTargetSize">true</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Chip" parent="TextAppearance.Material3.LabelLarge">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:letterSpacing">0</item>
+  </style>
+
   <!-- DIALOGOS Y SNACKBAR -->
 
   <style name="ThemeOverlay.Ourmeal.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">

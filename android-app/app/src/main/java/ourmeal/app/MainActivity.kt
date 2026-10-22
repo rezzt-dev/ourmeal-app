@@ -30,11 +30,21 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import ourmeal.app.controller.DishSuggestionManager
 import ourmeal.app.controller.MealDataManager
+import ourmeal.app.model.DishHistory
+import ourmeal.app.model.DishSuggestion
+import ourmeal.app.model.MealSlot
+import ourmeal.app.model.SuggestionSettings
 import ourmeal.app.model.WeekUtils
 import ourmeal.app.model.WeeklyMeals
+import ourmeal.app.model.keysWrittenSince
+import ourmeal.app.model.toDishRecords
 import java.io.IOException
 import java.time.Instant
 import java.time.LocalDate
@@ -47,14 +57,25 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
   private lateinit var dataManager: MealDataManager
+  private lateinit var suggestionManager: DishSuggestionManager
+  private lateinit var lunchSuggestions: MealSuggestions
+  private lateinit var dinnerSuggestions: MealSuggestions
   private var currentWeekId = ""
   private var currentWeeklyMeals: WeeklyMeals? = null
+  /** Last copy of the visible week known to be on disk, to tell which dishes were just written. */
+  private var savedWeeklyMeals: WeeklyMeals? = null
+  private var history: DishHistory? = null
+  /** Null while the settings file cannot be read; hiding suggestions is then unavailable. */
+  private var settings: SuggestionSettings? = null
+  private val settingsMutex = Mutex()
   private var selectedDayIndex = 0
   private val dayChips = mutableListOf<DayChip>()
   private var loadJob: Job? = null
   private var isBindingMeals = false
   private val saveHandler = Handler(Looper.getMainLooper())
   private var saveRunnable: Runnable? = null
+  private val saveMutex = Mutex()
+  private var isChangingWeek = false
   private val dateFormat =
     DateTimeFormatter.ofPattern("d 'de' MMMM", Locale.forLanguageTag("es-ES"))
   private val dayNumberFormat =
@@ -70,6 +91,7 @@ class MainActivity : AppCompatActivity() {
     setContentView(binding.root)
     binding.root.applyScreenInsets()
     dataManager = MealDataManager(this)
+    suggestionManager = DishSuggestionManager(this)
     currentWeekId = savedInstanceState?.getString(STATE_WEEK_ID) ?: WeekUtils.getCurrentWeekId()
     val fallbackDay = defaultSelectedDayIndex()
     selectedDayIndex = savedInstanceState
@@ -85,6 +107,7 @@ class MainActivity : AppCompatActivity() {
     }
     binding.btnOpenCalendar.setOnClickListener { openWeekPicker() }
     setupMealFields()
+    setupSuggestions()
     loadWeek()
   }
 
@@ -98,6 +121,8 @@ class MainActivity : AppCompatActivity() {
     val weekId = currentWeekId
     loadJob?.cancel()
     currentWeeklyMeals = null
+    savedWeeklyMeals = null
+    history = null
     binding.tvWeekTitle.text = WeekUtils.getWeekDisplay(weekId)
     binding.btnToday.isVisible = weekId != WeekUtils.getCurrentWeekId()
     binding.menuBoard.layoutDaySelector.removeAllViews()
@@ -107,23 +132,41 @@ class MainActivity : AppCompatActivity() {
     binding.menuLoading.root.isVisible = true
     binding.menuLoading.bindLoading(getString(R.string.menu_loading))
 
+    val knownSettings = settings
     loadJob = lifecycleScope.launch {
-      val plan = try {
-        withContext(Dispatchers.IO) { dataManager.getWeeklyMeals(weekId) }
+      val loaded = try {
+        withContext(Dispatchers.IO) {
+          val weeks = dataManager.loadWeeklyMeals()
+          LoadedWeek(
+            plan = weeks.find { it.weekId == weekId } ?: WeeklyMeals(weekId),
+            history = DishHistory(weeks.toDishRecords(excludeWeekId = weekId)),
+            // Settings stay in memory once read, so a hide still being written is never lost.
+            settings = knownSettings ?: loadSuggestionSettings()
+          )
+        }
       } catch (_: IOException) {
         null
       }
       if (weekId != currentWeekId) return@launch
       binding.menuLoading.root.isVisible = false
-      if (plan == null) {
+      if (loaded == null) {
         showMenuError()
         return@launch
       }
-      currentWeeklyMeals = plan
+      currentWeeklyMeals = loaded.plan
+      savedWeeklyMeals = loaded.plan.snapshot()
+      history = loaded.history
+      if (settings == null) settings = loaded.settings
       bindWeek()
       binding.menuBoard.root.reveal()
       setSaveStatus(SaveStatus.Idle)
     }
+  }
+
+  private fun loadSuggestionSettings(): SuggestionSettings? = try {
+    suggestionManager.load()
+  } catch (_: IOException) {
+    null
   }
 
   private fun showMenuError() {
@@ -194,6 +237,8 @@ class MainActivity : AppCompatActivity() {
     binding.menuBoard.etComida.setSelection(binding.menuBoard.etComida.text?.length ?: 0)
     binding.menuBoard.etCena.setSelection(binding.menuBoard.etCena.text?.length ?: 0)
     isBindingMeals = false
+    renderSuggestions(lunchSuggestions, showStrip = false)
+    renderSuggestions(dinnerSuggestions, showStrip = false)
   }
 
   private fun updateChipStates() {
@@ -234,8 +279,8 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun setupMealFields() {
-    watchMeal(binding.menuBoard.etComida, isLunch = true)
-    watchMeal(binding.menuBoard.etCena, isLunch = false)
+    watchMeal(binding.menuBoard.etComida, MealSlot.COMIDA)
+    watchMeal(binding.menuBoard.etCena, MealSlot.CENA)
     binding.menuBoard.etComida.setOnEditorActionListener { _, action, _ ->
       if (action == EditorInfo.IME_ACTION_NEXT) {
         binding.menuBoard.etCena.requestFocus()
@@ -256,9 +301,119 @@ class MainActivity : AppCompatActivity() {
     WindowCompat.getInsetsController(window, binding.root).hide(WindowInsetsCompat.Type.ime())
   }
 
-  private fun watchMeal(input: AppCompatEditText, isLunch: Boolean) {
+  private fun setupSuggestions() {
+    val board = binding.menuBoard
+    lunchSuggestions = MealSuggestions(
+      slot = MealSlot.COMIDA,
+      input = board.etComida,
+      strip = board.comidaSuggestionsScroll,
+      chips = board.chipsComidaSuggestions,
+      hint = board.tvComidaRepeat,
+      onPick = { fillMeal(board.etComida, it) },
+      onHide = { setSuggestionHidden(it, hidden = true) }
+    )
+    dinnerSuggestions = MealSuggestions(
+      slot = MealSlot.CENA,
+      input = board.etCena,
+      strip = board.cenaSuggestionsScroll,
+      chips = board.chipsCenaSuggestions,
+      hint = board.tvCenaRepeat,
+      onPick = { fillMeal(board.etCena, it) },
+      onHide = { setSuggestionHidden(it, hidden = true) }
+    )
+  }
+
+  private fun suggestionsFor(slot: MealSlot): MealSuggestions = when (slot) {
+    MealSlot.COMIDA -> lunchSuggestions
+    MealSlot.CENA -> dinnerSuggestions
+  }
+
+  private fun renderSuggestions(target: MealSuggestions, showStrip: Boolean) {
+    val plan = currentWeeklyMeals ?: return
+    val history = history ?: return
+    val day = WeeklyMeals.DAYS.getOrNull(selectedDayIndex) ?: return
+    val date = dayChips.getOrNull(selectedDayIndex)?.date ?: return
+    target.render(
+      SuggestionState(
+        history = history,
+        week = plan,
+        day = day,
+        slotDate = date,
+        hiddenKeys = settings?.hiddenKeys.orEmpty(),
+        canHide = settings != null,
+        showStrip = showStrip
+      )
+    )
+  }
+
+  /** Repaints both meals of the day; only a focused field shows its strip. */
+  private fun refreshSuggestions() {
+    renderSuggestions(lunchSuggestions, showStrip = true)
+    renderSuggestions(dinnerSuggestions, showStrip = true)
+  }
+
+  /** The text watcher then saves the dish like any other edit. */
+  private fun fillMeal(input: AppCompatEditText, suggestion: DishSuggestion) {
+    input.setText(suggestion.name)
+    input.setSelection(input.length())
+  }
+
+  /**
+   * Updates the hidden dishes in memory at once and then on disk, in call order. A failed write
+   * is rolled back so the strip never claims a choice that was not saved.
+   */
+  private fun setSuggestionHidden(suggestion: DishSuggestion, hidden: Boolean) {
+    val current = settings ?: return
+    fun SuggestionSettings.withHidden(isHidden: Boolean) =
+      if (isHidden) hide(suggestion.key) else unhide(setOf(suggestion.key))
+    settings = current.withHidden(hidden)
+    refreshSuggestions()
+    lifecycleScope.launch {
+      val saved = withContext(NonCancellable) {
+        settingsMutex.withLock {
+          withContext(Dispatchers.IO) { suggestionManager.update { it.withHidden(hidden) } }
+        }
+      }
+      if (!saved) {
+        settings = settings?.withHidden(!hidden)
+        refreshSuggestions()
+        binding.root.showSnackbar(getString(R.string.history_hide_error))
+      } else if (hidden) {
+        binding.root.showSnackbar(
+          message = getString(R.string.history_hidden, suggestion.name),
+          actionLabel = getString(R.string.undo),
+          onAction = { setSuggestionHidden(suggestion, hidden = false) }
+        )
+      }
+    }
+  }
+
+  /** A hidden dish that the user writes again and saves goes back to the suggestions. */
+  private fun unhideWrittenDishes(written: Set<String>) {
+    val keys = written.intersect(settings?.hiddenKeys ?: return)
+    if (keys.isEmpty()) return
+    lifecycleScope.launch {
+      val saved = withContext(NonCancellable) {
+        settingsMutex.withLock {
+          withContext(Dispatchers.IO) { suggestionManager.update { it.unhide(keys) } }
+        }
+      }
+      // On failure the dishes stay hidden in memory too, so the next save tries again.
+      if (saved) {
+        settings = settings?.unhide(keys)
+        refreshSuggestions()
+      }
+    }
+  }
+
+  private fun watchMeal(input: AppCompatEditText, slot: MealSlot) {
     input.setOnFocusChangeListener { view, hasFocus ->
-      if (hasFocus) scrollFieldIntoView(view)
+      if (hasFocus) {
+        scrollFieldIntoView(view)
+        renderSuggestions(suggestionsFor(slot), showStrip = true)
+      } else {
+        suggestionsFor(slot).onFocusLeft()
+      }
     }
     input.addTextChangedListener(object : TextWatcher {
       override fun beforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -268,10 +423,16 @@ class MainActivity : AppCompatActivity() {
         val plan = currentWeeklyMeals ?: return
         val day = WeeklyMeals.DAYS.getOrNull(selectedDayIndex) ?: return
         val meal = plan.getMealForDay(day)
-        if (isLunch) meal.comida = text?.toString().orEmpty() else meal.cena = text?.toString().orEmpty()
+        val value = text?.toString().orEmpty()
+        when (slot) {
+          MealSlot.COMIDA -> meal.comida = value
+          MealSlot.CENA -> meal.cena = value
+        }
         plan.setMealForDay(day, meal)
         updateWeekProgress()
         scheduleSave()
+        // Both hints may change: the other meal of the day can repeat this one.
+        refreshSuggestions()
       }
     })
   }
@@ -301,7 +462,10 @@ class MainActivity : AppCompatActivity() {
   private fun scheduleSave() {
     setSaveStatus(SaveStatus.Saving)
     cancelPendingSave()
-    saveRunnable = Runnable { saveCurrentWeek() }.also { saveHandler.postDelayed(it, SAVE_DELAY_MS) }
+    saveRunnable = Runnable {
+      saveRunnable = null
+      saveCurrentWeek()
+    }.also { saveHandler.postDelayed(it, SAVE_DELAY_MS) }
   }
 
   private fun cancelPendingSave() {
@@ -309,21 +473,43 @@ class MainActivity : AppCompatActivity() {
     saveRunnable = null
   }
 
-  private fun saveCurrentWeek(): Boolean {
-    val plan = currentWeeklyMeals ?: return true
-    val saved = dataManager.saveWeeklyMeal(plan)
-    if (saved) {
-      setSaveStatus(SaveStatus.Saved)
-    } else {
-      setSaveStatus(SaveStatus.Error)
-      binding.root.showSnackbar(
-        message = getString(R.string.save_error),
-        actionLabel = getString(R.string.retry),
-        onAction = { saveCurrentWeek() }
-      )
+  /**
+   * Writes a copy of the visible week off the main thread. Writes keep their call order and
+   * finish even if the screen is destroyed meanwhile; [onResult] only runs while it is alive.
+   */
+  private fun saveCurrentWeek(onResult: ((Boolean) -> Unit)? = null) {
+    val snapshot = currentWeeklyMeals?.snapshot()
+    if (snapshot == null) {
+      onResult?.invoke(true)
+      return
     }
-    return saved
+    lifecycleScope.launch {
+      val saved = withContext(NonCancellable) {
+        saveMutex.withLock {
+          withContext(Dispatchers.IO) { dataManager.saveWeeklyMeal(snapshot) }
+        }
+      }
+      if (saved) {
+        // A newer edit may already be waiting; keep showing "saving" until that one is written.
+        if (saveRunnable == null && snapshot.weekId == currentWeekId) setSaveStatus(SaveStatus.Saved)
+        if (snapshot.weekId == savedWeeklyMeals?.weekId) {
+          unhideWrittenDishes(snapshot.keysWrittenSince(savedWeeklyMeals))
+          savedWeeklyMeals = snapshot
+        }
+      } else {
+        setSaveStatus(SaveStatus.Error)
+        binding.root.showSnackbar(
+          message = getString(R.string.save_error),
+          actionLabel = getString(R.string.retry),
+          onAction = { saveCurrentWeek() }
+        )
+      }
+      onResult?.invoke(saved)
+    }
   }
+
+  private fun WeeklyMeals.snapshot(): WeeklyMeals =
+    copy(meals = meals.mapValues { it.value.copy() }.toMutableMap())
 
   private fun setSaveStatus(status: SaveStatus) {
     binding.tvSaveStatus.setText(status.label)
@@ -331,15 +517,20 @@ class MainActivity : AppCompatActivity() {
       ColorStateList.valueOf(ContextCompat.getColor(this, status.dotColor))
   }
 
-  private fun changeWeek(weekId: String, targetDayIndex: Int? = null): Boolean {
-    if (weekId == currentWeekId) return true
+  private fun changeWeek(weekId: String, targetDayIndex: Int? = null) {
+    if (weekId == currentWeekId || isChangingWeek) return
     cancelPendingSave()
-    if (!saveCurrentWeek()) return false
-    currentWeekId = weekId
-    targetDayIndex?.let { selectedDayIndex = it }
-    binding.mainScroll.smoothScrollTo(0, 0)
-    loadWeek()
-    return true
+    // Stop editing so nothing is typed into the old week while it is being written.
+    finishMealEditing()
+    isChangingWeek = true
+    saveCurrentWeek { saved ->
+      isChangingWeek = false
+      if (!saved) return@saveCurrentWeek
+      currentWeekId = weekId
+      targetDayIndex?.let { selectedDayIndex = it }
+      binding.mainScroll.smoothScrollTo(0, 0)
+      loadWeek()
+    }
   }
 
   private fun openWeekPicker() {
@@ -403,6 +594,12 @@ class MainActivity : AppCompatActivity() {
     cancelPendingSave()
     super.onDestroy()
   }
+
+  private class LoadedWeek(
+    val plan: WeeklyMeals,
+    val history: DishHistory,
+    val settings: SuggestionSettings?
+  )
 
   private data class DayChip(
     val binding: DaySelectorChipBinding,

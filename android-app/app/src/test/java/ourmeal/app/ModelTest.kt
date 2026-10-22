@@ -6,6 +6,7 @@ import org.junit.Test
 import ourmeal.app.model.ListItem
 import ourmeal.app.model.UserList
 import ourmeal.app.model.WeeklyMeals
+import ourmeal.app.model.matchKey
 import ourmeal.app.model.normalizeName
 
 class UserListTest {
@@ -78,5 +79,14 @@ class TextNormalizerTest {
   @Test
   fun keepsSingleWords() {
     assertEquals("Tomates", normalizeName("Tomates"))
+  }
+
+  @Test
+  fun matchKeyIgnoresCaseAccentsAndSpacingButKeepsEnye() {
+    assertEquals("albondigas en salsa", matchKey("  Albóndigas  en salsa "))
+    assertEquals("piña", matchKey("PIÑA"))
+    assertEquals("creme", matchKey("Crème"))
+    assertEquals("pinguino", matchKey("Pingüino"))
+    assertEquals("", matchKey(""))
   }
 }
