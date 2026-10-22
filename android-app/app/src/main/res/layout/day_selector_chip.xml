@@ -17,20 +17,18 @@
 
   <TextView
     android:id="@+id/tvChipDay"
+    style="@style/TextAppearance.Ourmeal.Caption"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:fontFamily="@font/source_sans_3_semibold"
     android:importantForAccessibility="no"
-    android:textColor="@color/ink"
-    android:textSize="12sp" />
+    android:textColor="@color/ink" />
 
   <TextView
     android:id="@+id/tvChipDate"
+    style="@style/TextAppearance.Ourmeal.Stat"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="2dp"
-    android:fontFamily="@font/source_sans_3_semibold"
     android:importantForAccessibility="no"
-    android:textColor="@color/muted"
-    android:textSize="19sp" />
+    android:textColor="@color/muted" />
 </LinearLayout>

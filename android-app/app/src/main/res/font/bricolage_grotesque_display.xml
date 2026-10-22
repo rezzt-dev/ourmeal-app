@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- display: bricolage grotesque con tamaño óptico alto para titulares grandes, sin llegar al extremo para que las letras no se toquen. -->
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+  <font
+    android:font="@font/bricolage_grotesque_variable"
+    android:fontStyle="normal"
+    android:fontWeight="700"
+    android:fontVariationSettings="'opsz' 64, 'wdth' 100, 'wght' 700" />
+  <font
+    android:font="@font/bricolage_grotesque_variable"
+    android:fontStyle="normal"
+    android:fontWeight="800"
+    android:fontVariationSettings="'opsz' 64, 'wdth' 100, 'wght' 780" />
+</font-family>

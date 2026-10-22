@@ -38,20 +38,18 @@
 
       <TextView
         android:id="@+id/tvItemName"
+        style="@style/TextAppearance.Ourmeal.Body.Strong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/source_sans_3_semibold"
-        android:textColor="@color/ink"
-        android:textSize="16sp" />
+        android:textColor="@color/ink" />
 
       <TextView
         android:id="@+id/tvItemStatus"
+        style="@style/TextAppearance.Ourmeal.Meta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:fontFamily="@font/source_sans_3"
-        android:textColor="@color/muted"
-        android:textSize="14sp" />
+        android:textColor="@color/muted" />
     </LinearLayout>
 
     <ImageButton

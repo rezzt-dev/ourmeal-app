@@ -20,6 +20,21 @@
     <item name="android:colorBackground">@color/canvas</item>
     <item name="android:windowBackground">@color/canvas</item>
     <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="textAppearanceDisplayLarge">@style/TextAppearance.Ourmeal.M3.DisplayLarge</item>
+    <item name="textAppearanceDisplayMedium">@style/TextAppearance.Ourmeal.M3.DisplayMedium</item>
+    <item name="textAppearanceDisplaySmall">@style/TextAppearance.Ourmeal.M3.DisplaySmall</item>
+    <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Ourmeal.M3.HeadlineLarge</item>
+    <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Ourmeal.M3.HeadlineMedium</item>
+    <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Ourmeal.M3.HeadlineSmall</item>
+    <item name="textAppearanceTitleLarge">@style/TextAppearance.Ourmeal.M3.TitleLarge</item>
+    <item name="textAppearanceTitleMedium">@style/TextAppearance.Ourmeal.M3.TitleMedium</item>
+    <item name="textAppearanceTitleSmall">@style/TextAppearance.Ourmeal.M3.TitleSmall</item>
+    <item name="textAppearanceBodyLarge">@style/TextAppearance.Ourmeal.M3.BodyLarge</item>
+    <item name="textAppearanceBodyMedium">@style/TextAppearance.Ourmeal.M3.BodyMedium</item>
+    <item name="textAppearanceBodySmall">@style/TextAppearance.Ourmeal.M3.BodySmall</item>
+    <item name="textAppearanceLabelLarge">@style/TextAppearance.Ourmeal.M3.LabelLarge</item>
+    <item name="textAppearanceLabelMedium">@style/TextAppearance.Ourmeal.M3.LabelMedium</item>
+    <item name="textAppearanceLabelSmall">@style/TextAppearance.Ourmeal.M3.LabelSmall</item>
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:navigationBarColor">@android:color/transparent</item>
     <item name="android:windowLightStatusBar">false</item>
@@ -42,66 +57,213 @@
   <!-- TIPOGRAFIA -->
 
   <style name="TextAppearance.Ourmeal.Display" parent="TextAppearance.Material3.DisplaySmall">
-    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:fontFamily">@font/bricolage_grotesque_display</item>
+    <item name="fontFamily">@font/bricolage_grotesque_display</item>
+    <item name="android:textFontWeight">800</item>
     <item name="android:textColor">@color/ink</item>
-    <item name="android:textSize">38sp</item>
-    <item name="android:textStyle">bold</item>
-    <item name="android:letterSpacing">-0.02</item>
-    <item name="android:lineSpacingMultiplier">0.94</item>
+    <item name="android:textSize">@dimen/type_display</item>
+    <item name="android:letterSpacing">-0.005</item>
+    <item name="android:lineSpacingMultiplier">0.96</item>
   </style>
 
   <style name="TextAppearance.Ourmeal.Display.Accent" parent="TextAppearance.Ourmeal.Display">
     <item name="android:textColor">@color/brand</item>
   </style>
 
+  <style name="TextAppearance.Ourmeal.Headline" parent="TextAppearance.Ourmeal.Display">
+    <item name="android:textSize">@dimen/type_headline</item>
+    <item name="android:letterSpacing">-0.01</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Headline.Accent" parent="TextAppearance.Ourmeal.Headline">
+    <item name="android:textColor">@color/brand</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Wordmark" parent="TextAppearance.Material3.TitleMedium">
+    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textFontWeight">800</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:textSize">@dimen/type_body_large</item>
+    <item name="android:letterSpacing">0</item>
+  </style>
+
   <style name="TextAppearance.Ourmeal.SectionTitle" parent="TextAppearance.Material3.TitleLarge">
     <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textFontWeight">700</item>
     <item name="android:textColor">@color/ink</item>
-    <item name="android:textSize">23sp</item>
-    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">@dimen/type_title</item>
     <item name="android:letterSpacing">-0.01</item>
   </style>
 
   <style name="TextAppearance.Ourmeal.CardTitle" parent="TextAppearance.Ourmeal.SectionTitle">
     <item name="android:textColor">@color/dark_ink</item>
-    <item name="android:textSize">20sp</item>
+    <item name="android:textSize">@dimen/type_title_small</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Stat" parent="TextAppearance.Ourmeal.SectionTitle">
+    <item name="android:textSize">@dimen/type_title_small</item>
+    <item name="android:letterSpacing">0</item>
+    <item name="android:fontFeatureSettings">"tnum"</item>
   </style>
 
   <style name="TextAppearance.Ourmeal.Body" parent="TextAppearance.Material3.BodyLarge">
     <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">400</item>
     <item name="android:textColor">@color/ink</item>
-    <item name="android:textSize">16sp</item>
+    <item name="android:textSize">@dimen/type_body</item>
+    <item name="android:letterSpacing">0.005</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Body.Strong" parent="TextAppearance.Ourmeal.Body">
+    <item name="android:textFontWeight">600</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.BodyLarge" parent="TextAppearance.Ourmeal.Body">
+    <item name="android:textSize">@dimen/type_body_large</item>
   </style>
 
   <style name="TextAppearance.Ourmeal.Muted" parent="TextAppearance.Ourmeal.Body">
     <item name="android:textColor">@color/muted</item>
-    <item name="android:textSize">15sp</item>
-    <item name="android:lineSpacingExtra">3dp</item>
+    <item name="android:lineSpacingExtra">4dp</item>
   </style>
 
   <style name="TextAppearance.Ourmeal.Label" parent="TextAppearance.Material3.LabelLarge">
-    <item name="android:fontFamily">@font/source_sans_3_semibold</item>
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
     <item name="android:textColor">@color/brand</item>
-    <item name="android:textSize">14sp</item>
-    <item name="android:letterSpacing">0</item>
+    <item name="android:textSize">@dimen/type_meta</item>
+    <item name="android:letterSpacing">0.01</item>
   </style>
 
   <style name="TextAppearance.Ourmeal.Meta" parent="TextAppearance.Ourmeal.Body">
     <item name="android:textColor">@color/muted</item>
-    <item name="android:textSize">14sp</item>
+    <item name="android:textSize">@dimen/type_meta</item>
+    <item name="android:lineSpacingExtra">2dp</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Meta.Strong" parent="TextAppearance.Ourmeal.Meta">
+    <item name="android:textFontWeight">600</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Caption" parent="TextAppearance.Material3.LabelMedium">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
+    <item name="android:textColor">@color/muted</item>
+    <item name="android:textSize">@dimen/type_caption</item>
+    <item name="android:letterSpacing">0.02</item>
   </style>
 
   <style name="TextAppearance.Ourmeal.Button" parent="TextAppearance.Material3.LabelLarge">
-    <item name="android:fontFamily">@font/source_sans_3_semibold</item>
-    <item name="android:textSize">16sp</item>
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
+    <item name="android:textSize">@dimen/type_body</item>
     <item name="android:textColor">@color/ink</item>
-    <item name="android:letterSpacing">0</item>
+    <item name="android:letterSpacing">0.005</item>
     <item name="android:textAllCaps">false</item>
+  </style>
+
+  <!-- TIPOGRAFIA DE LOS COMPONENTES MATERIAL -->
+
+  <style name="TextAppearance.Ourmeal.M3.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+    <item name="android:fontFamily">@font/bricolage_grotesque_display</item>
+    <item name="fontFamily">@font/bricolage_grotesque_display</item>
+    <item name="android:textFontWeight">700</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+    <item name="android:fontFamily">@font/bricolage_grotesque_display</item>
+    <item name="fontFamily">@font/bricolage_grotesque_display</item>
+    <item name="android:textFontWeight">700</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+    <item name="android:fontFamily">@font/bricolage_grotesque_display</item>
+    <item name="fontFamily">@font/bricolage_grotesque_display</item>
+    <item name="android:textFontWeight">700</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textFontWeight">700</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textFontWeight">700</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textFontWeight">700</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textFontWeight">700</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">400</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">400</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.BodySmall" parent="TextAppearance.Material3.BodySmall">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">400</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.M3.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
   </style>
 
   <!-- BOTONES -->
 
   <style name="Widget.Ourmeal.Button" parent="Widget.Material3.Button">
+    <item name="android:textFontWeight">600</item>
     <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
     <item name="android:minHeight">56dp</item>
     <item name="android:insetTop">0dp</item>
@@ -125,6 +287,7 @@
   </style>
 
   <style name="Widget.Ourmeal.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+    <item name="android:textFontWeight">600</item>
     <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
     <item name="android:minHeight">48dp</item>
     <item name="android:insetTop">0dp</item>
@@ -142,6 +305,7 @@
   </style>
 
   <style name="Widget.Ourmeal.Button.Text" parent="Widget.Material3.Button.TextButton">
+    <item name="android:textFontWeight">600</item>
     <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Label</item>
     <item name="android:minHeight">48dp</item>
     <item name="android:minWidth">0dp</item>
@@ -170,6 +334,7 @@
   </style>
 
   <style name="Widget.Ourmeal.Button.Cream" parent="Widget.Material3.Button">
+    <item name="android:textFontWeight">600</item>
     <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
     <item name="android:minHeight">48dp</item>
     <item name="android:insetTop">0dp</item>
@@ -233,7 +398,7 @@
 
   <style name="Widget.Ourmeal.AutoCompleteTextView.Dropdown" parent="Widget.Material3.AutoCompleteTextView.OutlinedBox">
     <item name="android:textColor">@color/ink</item>
-    <item name="android:textSize">16sp</item>
+    <item name="android:textSize">@dimen/type_body</item>
     <item name="android:fontFamily">@font/source_sans_3</item>
     <item name="dropDownBackgroundTint">@color/surface_raised</item>
     <item name="simpleItemSelectedColor">@color/hairline</item>
@@ -242,7 +407,7 @@
   <style name="Widget.Ourmeal.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
     <item name="android:minHeight">48dp</item>
     <item name="android:textColor">@color/option_text</item>
-    <item name="android:textSize">16sp</item>
+    <item name="android:textSize">@dimen/type_body</item>
     <item name="android:fontFamily">@font/source_sans_3</item>
     <item name="android:paddingStart">8dp</item>
     <item name="buttonTint">@color/checkbox_tint</item>
@@ -250,7 +415,7 @@
 
   <style name="Widget.Ourmeal.TextInputEditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
     <item name="android:textColor">@color/ink</item>
-    <item name="android:textSize">16sp</item>
+    <item name="android:textSize">@dimen/type_body</item>
     <item name="android:fontFamily">@font/source_sans_3</item>
   </style>
 
@@ -292,7 +457,7 @@
     <item name="android:fontFamily">@font/source_sans_3</item>
     <item name="fontFamily">@font/source_sans_3</item>
     <item name="android:textColor">@color/ink</item>
-    <item name="android:textSize">16sp</item>
+    <item name="android:textSize">@dimen/type_body</item>
     <item name="android:letterSpacing">0</item>
   </style>
 
@@ -312,8 +477,9 @@
 
   <style name="TextAppearance.Ourmeal.DialogTitle" parent="MaterialAlertDialog.Material3.Title.Text">
     <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textFontWeight">700</item>
     <item name="android:textSize">22sp</item>
-    <item name="android:textStyle">bold</item>
     <item name="android:textColor">@color/ink</item>
     <item name="android:letterSpacing">-0.01</item>
   </style>
@@ -324,10 +490,11 @@
   </style>
 
   <style name="Widget.Ourmeal.Button.Dialog" parent="Widget.Material3.Button.TextButton.Dialog">
+    <item name="android:textFontWeight">600</item>
     <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
     <item name="android:minHeight">48dp</item>
     <item name="cornerRadius">8dp</item>
-    <item name="android:textSize">16sp</item>
+    <item name="android:textSize">@dimen/type_body</item>
     <item name="android:textColor">@color/button_dialog_text</item>
     <item name="android:textAllCaps">false</item>
     <item name="android:letterSpacing">0</item>
@@ -349,7 +516,7 @@
 
   <style name="Widget.Ourmeal.Snackbar.Text" parent="Widget.Material3.Snackbar.TextView">
     <item name="android:textColor">@color/ink</item>
-    <item name="android:textSize">15sp</item>
+    <item name="android:textSize">@dimen/type_body</item>
     <item name="android:fontFamily">@font/source_sans_3</item>
     <item name="android:maxLines">3</item>
   </style>
@@ -359,9 +526,10 @@
   </style>
 
   <style name="Widget.Ourmeal.Snackbar.Button" parent="Widget.Material3.Button.TextButton.Snackbar">
+    <item name="android:textFontWeight">600</item>
     <item name="android:textColor">@color/button_dialog_text</item>
     <item name="android:textAllCaps">false</item>
-    <item name="android:fontFamily">@font/source_sans_3_semibold</item>
+    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Button</item>
   </style>
 
   <style name="Widget.Ourmeal.Button.Dialog.Primary" parent="Widget.Ourmeal.Button.Dialog">

@@ -44,8 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:accessibilityHeading="true"
-        android:accessibilityLiveRegion="polite"
-        android:textSize="23sp" />
+        android:accessibilityLiveRegion="polite" />
       <TextView
         android:id="@+id/tvSelectedTodayBadge"
         style="@style/TextAppearance.Ourmeal.Label"
@@ -76,11 +75,10 @@
       android:gravity="center_vertical"
       android:orientation="horizontal">
       <TextView
-        style="@style/TextAppearance.Ourmeal.Meta"
+        style="@style/TextAppearance.Ourmeal.Meta.Strong"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:fontFamily="@font/source_sans_3_semibold"
         android:labelFor="@id/etComida"
         android:text="@string/day_lunch" />
     </LinearLayout>
@@ -105,7 +103,7 @@
       android:minHeight="48dp"
       android:paddingHorizontal="12dp"
       android:paddingVertical="12dp"
-      android:textSize="18sp" />
+      android:textSize="@dimen/type_body_large" />
     <!-- Chips keep a 48dp touch target, so their own inset gives the 8dp gap below the field. -->
     <HorizontalScrollView
       android:id="@+id/comidaSuggestionsScroll"
@@ -144,11 +142,10 @@
       android:gravity="center_vertical"
       android:orientation="horizontal">
       <TextView
-        style="@style/TextAppearance.Ourmeal.Meta"
+        style="@style/TextAppearance.Ourmeal.Meta.Strong"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:fontFamily="@font/source_sans_3_semibold"
         android:labelFor="@id/etCena"
         android:text="@string/day_dinner" />
     </LinearLayout>
@@ -173,7 +170,7 @@
       android:minHeight="48dp"
       android:paddingHorizontal="12dp"
       android:paddingVertical="12dp"
-      android:textSize="18sp" />
+      android:textSize="@dimen/type_body_large" />
     <!-- Chips keep a 48dp touch target, so their own inset gives the 8dp gap below the field. -->
     <HorizontalScrollView
       android:id="@+id/cenaSuggestionsScroll"

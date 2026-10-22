@@ -46,20 +46,18 @@
         android:text="@string/lists_kicker" />
 
       <TextView
-        style="@style/TextAppearance.Ourmeal.Display"
+        style="@style/TextAppearance.Ourmeal.Headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:text="@string/lists_title_first"
-        android:accessibilityHeading="true"
-        android:textSize="28sp" />
+        android:accessibilityHeading="true" />
 
       <TextView
-        style="@style/TextAppearance.Ourmeal.Display.Accent"
+        style="@style/TextAppearance.Ourmeal.Headline.Accent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/lists_title_second"
-        android:textSize="28sp" />
+        android:text="@string/lists_title_second" />
 
       <TextView
         style="@style/TextAppearance.Ourmeal.Muted"

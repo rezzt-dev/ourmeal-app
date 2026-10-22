@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- texto general: source sans 3 variable. el regular sube a 420 para compensar el texto claro sobre fondo oscuro. -->
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+  <font
+    android:font="@font/source_sans_3_variable"
+    android:fontStyle="normal"
+    android:fontWeight="400"
+    android:fontVariationSettings="'wght' 420" />
+  <font
+    android:font="@font/source_sans_3_variable"
+    android:fontStyle="normal"
+    android:fontWeight="500"
+    android:fontVariationSettings="'wght' 520" />
+  <font
+    android:font="@font/source_sans_3_variable"
+    android:fontStyle="normal"
+    android:fontWeight="600"
+    android:fontVariationSettings="'wght' 620" />
+  <font
+    android:font="@font/source_sans_3_variable"
+    android:fontStyle="normal"
+    android:fontWeight="700"
+    android:fontVariationSettings="'wght' 700" />
+</font-family>

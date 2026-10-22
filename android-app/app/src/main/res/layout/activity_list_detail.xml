@@ -34,13 +34,12 @@
     <TextView
       android:id="@+id/tvListTitle"
       android:accessibilityHeading="true"
-      style="@style/TextAppearance.Ourmeal.Display"
+      style="@style/TextAppearance.Ourmeal.Headline"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="4dp"
       android:ellipsize="end"
-      android:maxLines="3"
-      android:textSize="33sp" />
+      android:maxLines="3" />
 
     <TextView
       android:id="@+id/tvListSubtitle"
@@ -61,13 +60,10 @@
 
       <TextView
         android:id="@+id/tvProgress"
+        style="@style/TextAppearance.Ourmeal.Stat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/bricolage_grotesque"
-        android:letterSpacing="-0.01"
-        android:textColor="@color/dark_ink"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textColor="@color/dark_ink" />
 
       <ProgressBar
         android:id="@+id/progressCompletion"

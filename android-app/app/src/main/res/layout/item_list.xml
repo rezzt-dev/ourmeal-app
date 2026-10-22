@@ -48,12 +48,11 @@
 
     <TextView
       android:id="@+id/tvCreatedDate"
+      style="@style/TextAppearance.Ourmeal.Meta"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="2dp"
-      android:fontFamily="@font/source_sans_3"
-      android:textColor="@color/cream_muted"
-      android:textSize="14sp" />
+      android:textColor="@color/cream_muted" />
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -63,20 +62,18 @@
 
       <TextView
         android:id="@+id/tvItemCount"
+        style="@style/TextAppearance.Ourmeal.Body.Strong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/source_sans_3_semibold"
-        android:textColor="@color/cream_deep"
-        android:textSize="15sp" />
+        android:textColor="@color/cream_deep" />
 
       <TextView
         android:id="@+id/tvProgress"
+        style="@style/TextAppearance.Ourmeal.Meta.Strong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:fontFamily="@font/source_sans_3_semibold"
-        android:textColor="@color/cream_deep"
-        android:textSize="14sp" />
+        android:textColor="@color/cream_deep" />
     </LinearLayout>
 
     <ProgressBar
@@ -90,15 +87,14 @@
       android:progressTint="@color/cream_deep" />
 
     <TextView
+      style="@style/TextAppearance.Ourmeal.Meta.Strong"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="10dp"
       app:drawableEndCompat="@drawable/ic_arrow_forward"
       android:drawablePadding="6dp"
       app:drawableTint="@color/cream_deep"
-      android:fontFamily="@font/source_sans_3_semibold"
       android:text="@string/list_open"
-      android:textColor="@color/cream_deep"
-      android:textSize="14sp" />
+      android:textColor="@color/cream_deep" />
   </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

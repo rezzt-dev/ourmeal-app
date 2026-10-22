@@ -57,7 +57,7 @@ el código de `app/src/main/java/ourmeal/app/` sigue una separación sencilla de
 - view binding en todas las pantallas, sin `findViewById()` salvo en los `ViewHolder` de los adaptadores.
 - tema único oscuro (`Theme.Ourmeal`, basado en `Theme.Material3.Dark.NoActionBar`), forzado en `OurmealApplication` con independencia del tema del teléfono.
 - colores en `res/values/colors.xml`, estilos en `res/values/themes.xml` y textos, plurales y descripciones accesibles en `res/values/strings.xml`.
-- tipografías `bricolage_grotesque` para títulos y `source_sans_3` para la interfaz, en `res/font/`.
+- tipografías variables en `res/font/`: `bricolage_grotesque_display` para titulares, `bricolage_grotesque` para títulos y `source_sans_3` para la interfaz. cada familia xml fija los ejes de peso y tamaño óptico de su fichero `*_variable.ttf`, y los tamaños de la escala viven en `res/values/dimens.xml`, con variantes en `res/values-land/`.
 - variantes horizontales de todas las pantallas en `res/layout-land/`.
 
 ## PERSISTENCIA

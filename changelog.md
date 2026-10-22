@@ -69,6 +69,7 @@
 - lee todas las semanas guardadas en una sola carga del menú para construir el historial de platos, sin cambiar el formato de `meal_plans.json`.
 - detecta los productos duplicados al añadirlos a mano sin distinguir mayúsculas ni acentos, igual que al añadirlos desde el menú.
 - documenta la preparación de la compra en `.docs/info-project/`, `claude.md` y `agents.md`.
+- usa las versiones variables de Bricolage Grotesque y Source Sans 3 con una escala tipográfica semántica en `res/values/dimens.xml`, pesos reales por estilo, tamaño óptico ajustado a títulos y titulares y cifras tabulares en fechas y progresos.
 
 #### CORREGIDO
 - corrige la prueba instrumentada de contexto para comparar el `applicationId` real `app.ourmeat` y homogeneizar sus finales de línea.
@@ -76,6 +77,7 @@
 - corrige el contraste de los checkboxes, el desbordamiento de resúmenes y el recorte de acciones en pantallas estrechas o con fuentes ampliadas.
 - corrige el color del texto de los snackbars, que se veía oscuro sobre fondo oscuro, y ajusta su forma y tipografía al resto de la interfaz.
 - corrige `WeekUtils.startOfWeek()`, que convertía en silencio una semana 53 inexistente, como `2021-W53`, en la primera semana del año siguiente.
+- corrige los estilos de texto y los componentes material, que se mostraban en roboto porque el atributo `fontFamily` heredado de material 3 prevalecía sobre las fuentes de la marca.
 
 #### ELIMINADO
 - retira la estructura Android anterior ubicada directamente en la raiz del repositorio para sustituirla por la nueva organizacion en `android-app/`.
@@ -150,6 +152,7 @@
 - read every saved week in a single menu load to build the dish history, without changing the `meal_plans.json` format.
 - detect duplicate products added by hand regardless of case and accents, the same way as products added from the menu.
 - document shopping preparation in `.docs/info-project/`, `claude.md`, and `agents.md`.
+- use the variable versions of Bricolage Grotesque and Source Sans 3 with a semantic type scale in `res/values/dimens.xml`, real weights per style, optical size tuned for titles and headlines, and tabular figures in dates and progress.
 
 #### FIXED
 - fix the instrumented context test to compare the real `app.ourmeat` `applicationId` and normalize its line endings.
@@ -157,6 +160,7 @@
 - fix checkbox contrast, summary overflow, and clipped actions on narrow screens or with larger font sizes.
 - fix snackbar text, which rendered dark on a dark background, and align the snackbar shape and typography with the rest of the interface.
 - fix `WeekUtils.startOfWeek()`, which silently turned a missing week 53, such as `2021-W53`, into the first week of the next year.
+- fix text styles and Material components rendering in Roboto because the `fontFamily` attribute inherited from Material 3 took precedence over the brand fonts.
 
 #### REMOVED
 - remove the previous Android structure located directly in the repository root and replace it with the new `android-app/` organization.

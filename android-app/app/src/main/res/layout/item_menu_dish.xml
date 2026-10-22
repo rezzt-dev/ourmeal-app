@@ -47,11 +47,10 @@
 
         <TextView
           android:id="@+id/tvDishName"
+          style="@style/TextAppearance.Ourmeal.Body.Strong"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:fontFamily="@font/source_sans_3_semibold"
-          android:textColor="@color/ink"
-          android:textSize="16sp" />
+          android:textColor="@color/ink" />
 
         <TextView
           android:id="@+id/tvDishOccurrences"

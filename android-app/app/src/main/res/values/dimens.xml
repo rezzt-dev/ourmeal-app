@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- ESCALA TIPOGRAFICA -->
+
+  <dimen name="type_display">38sp</dimen>
+  <dimen name="type_headline">32sp</dimen>
+  <dimen name="type_title">24sp</dimen>
+  <dimen name="type_title_small">20sp</dimen>
+  <dimen name="type_body_large">18sp</dimen>
+  <dimen name="type_body">16sp</dimen>
+  <dimen name="type_meta">14sp</dimen>
+  <dimen name="type_caption">13sp</dimen>
+
+</resources>
