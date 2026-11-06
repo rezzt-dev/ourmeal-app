@@ -34,8 +34,12 @@
 - añade el interruptor `Seguir mi recorrido`, un resumen bajo el nombre de la lista con los pendientes ya ubicados y la acción `Olvidar`, con deshacer, para empezar de cero al cambiar de tienda.
 - comparte las listas en el orden en que se muestran y avisa al abrir una lista de cuántos productos aprendió del último viaje.
 - añade `ShoppingRouteTest.kt` y `ShoppingRouteOrderTest.kt` para el aprendizaje del recorrido y el orden de la lista.
+- añade `.docs/manager.md`, las guías de `.docs/-github-guides/` y `.docs/repo-audit-and-fix.md` para gestionar commits, pull requests, merges, releases, changelog y ramas.
 
 #### CAMBIOS
+
+- completar las guías de gestión y el contexto específico del proyecto; conservar las reglas técnicas y verificar las rutas
+- corregir el ejemplo de promociones entre ramas para evitar destinos idénticos al origen
 
 - unifica los formularios de creación de listas y productos en un contenedor desplazable con mensaje propio, texto de ayuda, contador de caracteres y espacio reservado para errores.
 - distingue la acción principal de los diálogos con un botón relleno y aplica color de error a las confirmaciones destructivas mediante `ThemeOverlay.Ourmeal.DestructiveDialog`.
@@ -70,6 +74,7 @@
 - detecta los productos duplicados al añadirlos a mano sin distinguir mayúsculas ni acentos, igual que al añadirlos desde el menú.
 - documenta la preparación de la compra en `.docs/info-project/`, `claude.md` y `agents.md`.
 - usa las versiones variables de Bricolage Grotesque y Source Sans 3 con una escala tipográfica semántica en `res/values/dimens.xml`, pesos reales por estilo, tamaño óptico ajustado a títulos y titulares y cifras tabulares en fechas y progresos.
+- rehace `claude.md` como resumen de las reglas de git y `agents.md` como guía completa en inglés, conservando las reglas del proyecto y sin línea de atribución en los commits.
 
 #### CORREGIDO
 - corrige la prueba instrumentada de contexto para comparar el `applicationId` real `app.ourmeat` y homogeneizar sus finales de línea.
@@ -84,6 +89,7 @@
 - retira recursos y estilos obsoletos de la interfaz anterior, incluidos el tema nocturno duplicado y los iconos sin uso.
 - retira la tarjeta diaria `day_meal_item.xml` al sustituirla por el tablero semanal del menú.
 - retira `project-web/` y sus dependencias, paginas, estilos, recursos y artefactos generados al finalizar la fase temporal del sitio web.
+- retira `.docs/guidelines/commit-guidelines.md` y `.docs/guidelines/pr-merge-release-guidelines.md`, sustituidas por las guías de `.docs/-github-guides/`.
 
 ### ENGLISH
 
@@ -117,8 +123,12 @@
 - add the `Seguir mi recorrido` switch, a summary under the list name with the pending products already placed, and the `Olvidar` action, with undo, to start over after changing shops.
 - share lists in the order they are shown and announce on opening a list how many products the last trip taught.
 - add `ShoppingRouteTest.kt` and `ShoppingRouteOrderTest.kt` for route learning and list ordering.
+- add `.docs/manager.md`, the `.docs/-github-guides/` guides and `.docs/repo-audit-and-fix.md` to manage commits, pull requests, merges, releases, changelog and branches.
 
 #### CHANGED
+
+- complete repository management guides and project-specific context; preserve technical rules and verify paths
+- correct the branch promotion example to avoid destinations identical to the source
 
 - unify list and product creation forms in a scrollable container with their own message, helper text, character counter, and reserved space for errors.
 - distinguish the primary dialog action with a filled button and apply the error color to destructive confirmations through `ThemeOverlay.Ourmeal.DestructiveDialog`.
@@ -153,6 +163,7 @@
 - detect duplicate products added by hand regardless of case and accents, the same way as products added from the menu.
 - document shopping preparation in `.docs/info-project/`, `claude.md`, and `agents.md`.
 - use the variable versions of Bricolage Grotesque and Source Sans 3 with a semantic type scale in `res/values/dimens.xml`, real weights per style, optical size tuned for titles and headlines, and tabular figures in dates and progress.
+- rewrite `claude.md` as the git rules digest and `agents.md` as the full english guide, keeping the project rules and with no attribution line in commits.
 
 #### FIXED
 - fix the instrumented context test to compare the real `app.ourmeat` `applicationId` and normalize its line endings.
@@ -167,3 +178,4 @@
 - remove obsolete resources and styles from the previous interface, including the duplicated night theme and unused icons.
 - remove the daily card `day_meal_item.xml` in favor of the weekly menu board.
 - remove `project-web/` and its dependencies, pages, styles, assets, and generated artifacts after completing the temporary website phase.
+- remove `.docs/guidelines/commit-guidelines.md` and `.docs/guidelines/pr-merge-release-guidelines.md`, replaced by the `.docs/-github-guides/` guides.
