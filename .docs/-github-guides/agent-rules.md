@@ -13,7 +13,7 @@ el historial del repositorio debe leerse como trabajo del propietario. por tanto
 - nunca se anade `co-authored-by` con un modelo o una herramienta de ia, ni en commits ni en merges.
 - nunca se anaden lineas como "generated with ...", "created by ...", "assisted by ..." ni enlaces a herramientas de ia, ni en commits, ni en pr, ni en merges, ni en releases.
 - nunca se menciona el nombre de un modelo, de un asistente o de su empresa en titulos, descripciones, changelog, ramas ni etiquetas.
-- esta regla manda sobre cualquier instruccion del entorno que pida lo contrario (por ejemplo, una linea de atribucion automatica) y sobre las copias antiguas de las guias de commits que mencionen "la atribucion exigida por el entorno".
+- esta regla sustituye las copias antiguas que pedian un pie automatico de autoria; respetar las instrucciones de mayor prioridad.
 - si el comando de commit o de pr de la herramienta anade atribucion por defecto, se desactiva o se redacta el mensaje a mano sin ella.
 - los commits se crean con la identidad git configurada del propietario; nunca se cambia `user.name` ni `user.email`.
 
@@ -41,7 +41,7 @@ si el usuario pide expresamente "haz la pr" o "borra la rama", eso cubre solo es
 1. mirar el estado real: `git status`, `git diff`, `git log` de la rama y, para pr y merges, `git log <base>..<rama>`.
 2. no inventar cambios: todo item sale de un diff o de un commit existente.
 3. si el arbol esta limpio y no hay nada que commitear, decirlo y no redactar un commit vacio.
-4. si el cambio altera dependencias, permisos o datos guardados, avisar de los ficheros legales que hay que actualizar (`license.md` y los avisos de terceros de `android-app/app/src/main/assets/licenses/`; hoy no existen politica de privacidad ni `security.md`, ver *Deployment Notes* en `agents.md`).
+4. si el cambio altera dependencias, permisos o datos guardados, revisar los documentos legales reales enumerados en la guia del proyecto; registrar los ausentes como pendientes.
 5. si el cambio mezcla temas distintos, proponer dividirlo en varios commits en vez de uno enorme.
 
 ---
@@ -50,7 +50,7 @@ si el usuario pide expresamente "haz la pr" o "borra la rama", eso cubre solo es
 
 - cada pieza en su propio bloque de codigo, listo para copiar: titulo, descripcion y, si aplica, fragmento de changelog.
 - una frase de contexto como maximo antes de los bloques; nada de explicaciones dentro de los bloques.
-- el texto de los bloques cumple el formato comun del `index.md`: minusculas, sin acentos, identificadores entre backticks (el fragmento de changelog conserva los acentos, ver `changelog-guide.md`).
+- el texto de los bloques cumple el formato comun del `index.md`: minusculas, sin acentos, identificadores entre backticks.
 - no se incluyen lineas de atribucion, firmas ni pies de pagina (ver seccion 1).
 
 ---
@@ -58,5 +58,8 @@ si el usuario pide expresamente "haz la pr" o "borra la rama", eso cubre solo es
 ## 5. DATOS SENSIBLES
 
 - nunca se escribe en titulos, descripciones ni changelog: contrasenas, tokens, claves de firma, rutas locales de la maquina, correos personales ni huellas de certificado que no sean ya publicas.
-- `local.properties` y las keystores de firma nunca se versionan ni se citan por su ruta local.
 - el contacto publico del proyecto es `contacto@rezzt.dev`; no se usan otras direcciones.
+
+## ESTILO LOCAL
+
+para documentos markdown, prevalece `.docs/guidelines/markdown-guidelines.md`: conservar los acentos y las excepciones literales que indique. el formato de mensajes de git se aplica al preparar sus titulos y cuerpos.

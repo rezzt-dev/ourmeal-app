@@ -1,72 +1,38 @@
 # GUIA DE RAMAS
 
-> ramas del repositorio, flujo de versiones y que rama es la base de cada pull
-> request. sirve para decidir el destino de una pr sin tener que preguntarlo.
+## 1. RAMAS VERIFICADAS
 
----
+ramas remotas consultadas el 2026-11-06: `main`.
 
-## 1. RAMAS PERMANENTES
-
-| rama | funcion |
-|---|---|
-| `main` | unica rama permanente y rama por defecto en github; recibe todas las ramas de trabajo y de ella salen los tags `v<x.y.z>` |
-
-a fecha `2026-11-06` el remoto solo tiene `main`, el historial es lineal (ningun commit de merge) y no hay tags: hasta ahora todo se ha commiteado directamente en `main`. a partir de esta guia, el trabajo entra por pr.
-
----
+la rama por defecto de github es `main`. el trabajo actual de documentacion parte de `main`; no se cambia la rama por defecto ni se fusionan lineas de version por copiar este modelo.
 
 ## 2. RAMAS DE TRABAJO
 
-nombre en minusculas, con barra y guiones:
+| prefijo | uso | destino |
+| --- | --- | --- |
+| `feature/` | funcionalidad nueva | rama de desarrollo acordada |
+| `fix/` | correcciones | rama que contiene el fallo |
+| `changes/` | documentacion, estructura y tooling | `main` para esta tarea |
+| `hotfix/` | urgencia sobre una version publicada | rama del codigo publicado verificada |
 
-| prefijo | uso | ejemplo |
-|---|---|---|
-| `feature/` | funcionalidad nueva | `feature/dish-history` |
-| `fix/` | correccion de error | `fix/snackbar-dark-text` |
-| `changes/` | estructura, tooling, documentacion | `changes/repo-management-guides` |
-| `hotfix/` | urgencia sobre una version publicada | `hotfix/crash-on-damaged-file` |
+una rama por tema. este trabajo usa `changes/repo-management-complete`. comprobar siempre `git log <base>..<rama>` y `git diff <base>...<rama>` antes de abrir la pr.
 
-- se crean siempre desde `main` actualizada.
-- una rama, un tema; si el tema crece, se divide.
-- una rama de trabajo se borra (local y remota) en cuanto su pr esta fusionada.
-- el cierre de una version usa una rama `changes/version-<x.y.z>` con el commit `changelog` y, si hace falta, el commit `changes` que sube `versionName` y `versionCode`.
+## 3. FLUJO Y VERSIONES
 
----
+`changes/repo-management-complete` → `main` mediante pull request. usar merge commit si se solicita fusionar. una pr de documentacion no cierra una version ni publica artefactos.
 
-## 3. FLUJO DE UNA VERSION
+para otras versiones, verificar el historial y las ramas vigentes antes de decidir la base. no crear ramas de alfa, beta o release inexistentes. no copiar un modelo de promociones de otro proyecto.
 
-```
-feature/* , fix/* , changes/* , hotfix/*   →   main   →   tag v<x.y.z> + release
-```
+## 4. VERIFICACION
 
-| paso | origen | destino | tipo de pr | titulo |
-|---|---|---|---|---|
-| 1 | `feature/*`, `fix/*`, `changes/*`, `hotfix/*` | `main` | trabajo normal | `<prefijo> \| <resumen>` |
-| 2 | `changes/version-<x.y.z>` | `main` | version | `release version <x.y.z> - <resumen>` |
-| 3 | `main` | — | release de github | `v<x.y.z> — <resumen en ingles>` |
+workflows versionados: no tracked github actions workflows. comprobar los checks reales de la pr; la ausencia de ci no equivale a una ejecucion correcta. para documentacion, revisar enlaces y `git diff --check`; para codigo, seguir los comandos de la guia del proyecto.
 
-- todos los pasos se fusionan con "create a merge commit".
-- antes de abrir una pr se comprueba que el destino no tiene commits que la rama no tenga: `git log <origen>..main`. si los tiene, se actualiza la rama primero.
-
----
-
-## 4. CI
-
-- no hay ci: el repositorio no tiene `.github/workflows/`.
-- hasta que exista, antes de fusionar se ejecutan a mano, desde `android-app/`, `./gradlew testDebugUnitTest lintDebug assembleDebug` (y `connectedDebugAndroidTest` si hay dispositivo).
-- cuando exista ci, no se fusiona una pr con la ci en rojo.
-
----
+antes de publicar, comprobar que el destino no introduce cambios incompatibles. actualizar la rama mediante un merge autorizado cuando haga falta; no reescribir commits publicados.
 
 ## 5. LIMPIEZA
 
-tras fusionar una pr de trabajo:
+conservar las ramas permanentes. borrar una rama de trabajo solo tras confirmar su merge y cuando se haya solicitado su eliminacion. no cambiar la copia de trabajo del propietario para limpiar un worktree auxiliar.
 
-```
-git checkout main
-git pull --ff-only
-git branch -d <rama>
-git push origin --delete <rama>
-```
+## ESTILO LOCAL
 
-`main` nunca se borra.
+para documentos markdown, prevalece `.docs/guidelines/markdown-guidelines.md`: conservar los acentos y las excepciones literales que indique. el formato de mensajes de git se aplica al preparar sus titulos y cuerpos.

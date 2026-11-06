@@ -40,4 +40,7 @@
 - nombres de ficheros, rutas, comandos e identificadores van siempre entre backticks.
 - las fechas usan el formato `aaaa-mm-dd`.
 - el resultado se entrega siempre en bloques de codigo separados: uno por cada pieza (titulo, descripcion, fragmento de changelog), nunca juntos.
-- excepcion de este repositorio: el contenido de `changelog.md` conserva los acentos, como exige `.docs/guidelines/markdown-guidelines.md` y como ya esta escrito (ver `changelog-guide.md`, seccion 3).
+
+## ESTILO LOCAL
+
+para documentos markdown, prevalece `.docs/guidelines/markdown-guidelines.md`: conservar los acentos y las excepciones literales que indique. el formato de mensajes de git se aplica al preparar sus titulos y cuerpos.

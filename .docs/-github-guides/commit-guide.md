@@ -32,10 +32,10 @@ si un commit mezcla un fix y una mejora, se divide en dos. si no es posible, gan
 ### ejemplos
 
 ```
-update | preparar la compra desde el menu con memoria de ingredientes por plato
-fix | corregir el color del texto de los snackbars en el tema oscuro
-hotfix | evitar el cierre al abrir una lista con el fichero danado
-changes | retirar el sitio web temporal y sus artefactos
+update | completar la documentacion del proyecto
+fix | corregir una referencia rota en la documentacion
+hotfix | corregir un fallo critico de la version publicada
+changes | reorganizar la documentacion del proyecto
 changelog | cerrar la seccion de la version 1.4.0
 ```
 
@@ -52,10 +52,9 @@ changelog | cerrar la seccion de la version 1.4.0
 
 ejemplo:
 
-```
-- anadir `ShoppingRoute`, el modelo puro que aprende el recorrido de compra, con pruebas unitarias
-- guardar el recorrido en `shopping_route.json` con `ShoppingRouteManager` sin sobrescribir un fichero danado
-- ordenar los pendientes de `ListDetailActivity` segun el recorrido, con el interruptor para volver al orden de la lista
+```text
+- adaptar las guias de gestion a las rutas y ramas del proyecto
+- conservar las convenciones tecnicas y retirar instrucciones duplicadas
 ```
 
 ---
@@ -87,7 +86,7 @@ git add <ficheros>
 git commit -m "<titulo>" -m "<descripcion>"
 ```
 
-se anaden los ficheros por nombre, nunca `git add -A` a ciegas; se comprueba antes con `git status` que no entran ficheros ignorados, `local.properties`, keystores, apk ni artefactos de compilacion de `android-app/`.
+se anaden los ficheros por nombre, nunca `git add -A` a ciegas; se comprueba antes con `git status` que no entran ficheros ignorados, claves ni artefactos de compilacion.
 
 ---
 
@@ -98,3 +97,7 @@ se anaden los ficheros por nombre, nunca `git add -A` a ciegas; se comprueba ant
 - [ ] cada item ocupa una sola linea y empieza por `-`.
 - [ ] el changelog esta actualizado en los dos idiomas.
 - [ ] no hay atribucion de ia ni `co-authored-by`.
+
+## ESTILO LOCAL
+
+para documentos markdown, prevalece `.docs/guidelines/markdown-guidelines.md`: conservar los acentos y las excepciones literales que indique. el formato de mensajes de git se aplica al preparar sus titulos y cuerpos.

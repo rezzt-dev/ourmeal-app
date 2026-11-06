@@ -38,6 +38,8 @@
 
 #### CAMBIOS
 
+- completar las guías de gestión y el contexto específico del proyecto; conservar las reglas técnicas y verificar las rutas
+
 - unifica los formularios de creación de listas y productos en un contenedor desplazable con mensaje propio, texto de ayuda, contador de caracteres y espacio reservado para errores.
 - distingue la acción principal de los diálogos con un botón relleno y aplica color de error a las confirmaciones destructivas mediante `ThemeOverlay.Ourmeal.DestructiveDialog`.
 - aplica `ThemeOverlay.Ourmeal.Calendar` al selector de fecha con las etiquetas `Elegir fecha` y `Cancelar`, y cierra la edición del menú antes de abrirlo.
@@ -123,6 +125,8 @@
 - add `.docs/manager.md`, the `.docs/-github-guides/` guides and `.docs/repo-audit-and-fix.md` to manage commits, pull requests, merges, releases, changelog and branches.
 
 #### CHANGED
+
+- complete repository management guides and project-specific context; preserve technical rules and verify paths
 
 - unify list and product creation forms in a scrollable container with their own message, helper text, character counter, and reserved space for errors.
 - distinguish the primary dialog action with a filled button and apply the error color to destructive confirmations through `ThemeOverlay.Ourmeal.DestructiveDialog`.
