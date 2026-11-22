@@ -9,6 +9,7 @@ ourmeal is an application developed in kotlin to facilitate the tracking and pla
 - detailed tracking of meals and dinners.
 - creation and management of shopping lists.
 - exporting lists for printing or mobile use.
+- optional price comparison: the cheapest supermarket in your city for each product, per kilo, litre or unit (requires a running [price service](backend/readme.md) with operational sources).
 - intuitive and easy-to-use interface.
 
 ## TECHNOLOGIES

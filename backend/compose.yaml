@@ -1,0 +1,19 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: ourmeal_prices
+      POSTGRES_USER: ourmeal_prices
+      POSTGRES_PASSWORD: ${OURMEAL_DB_PASSWORD:?define OURMEAL_DB_PASSWORD outside the repository}
+    ports:
+      - "127.0.0.1:${OURMEAL_DB_PORT:-5433}:5432"
+    volumes:
+      - ourmeal_prices:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ourmeal_prices -d ourmeal_prices"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  ourmeal_prices:

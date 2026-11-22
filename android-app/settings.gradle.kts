@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "ourmeal"
 include(":app")
- 
+include(":price-reader")
+project(":price-reader").projectDir = file("../price-reader")
+include(":shared", ":backend")
+project(":shared").projectDir = file("../shared")
+project(":backend").projectDir = file("../backend")

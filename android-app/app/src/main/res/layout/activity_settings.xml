@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/rootSettings"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <ScrollView
+    android:id="@+id/settingsScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:paddingStart="@dimen/settings_gutter"
+      android:paddingEnd="@dimen/settings_gutter"
+      android:paddingTop="8dp"
+      android:paddingBottom="32dp">
+
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBack"
+        style="@style/Widget.Ourmeal.Button.Text.Muted"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:contentDescription="@string/back"
+        android:text="@string/back"
+        app:icon="@drawable/ic_arrow_back"
+        app:iconTint="@color/muted" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:accessibilityHeading="true"
+        android:text="@string/settings_title" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Muted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/settings_intro" />
+
+      <!-- COMPARADOR DE PRECIOS -->
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.SectionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:accessibilityHeading="true"
+        android:text="@string/prices_section_title" />
+
+      <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/switchPrices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:enabled="false"
+        android:minHeight="48dp"
+        android:saveEnabled="false"
+        android:text="@string/prices_switch"
+        android:textAppearance="@style/TextAppearance.Ourmeal.Body.Strong"
+        android:textColor="@color/option_text" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Muted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/prices_switch_body" />
+
+      <TextView
+        android:id="@+id/tvPricesStatus"
+        style="@style/TextAppearance.Ourmeal.Meta.Strong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:accessibilityLiveRegion="polite"
+        android:textColor="@color/error"
+        android:visibility="gone" />
+
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRetrySettings"
+        style="@style/Widget.Ourmeal.Button.Secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/retry"
+        android:visibility="gone" />
+
+      <LinearLayout
+        android:id="@+id/pricesConfig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+          style="@style/TextAppearance.Ourmeal.Subsection"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="28dp"
+          android:accessibilityHeading="true"
+          android:text="@string/prices_city_title" />
+
+        <TextView
+          android:id="@+id/tvCity"
+          style="@style/TextAppearance.Ourmeal.BodyLarge"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="6dp"
+          android:accessibilityLiveRegion="polite" />
+
+        <TextView
+          android:id="@+id/tvCityStatus"
+          style="@style/TextAppearance.Ourmeal.Meta"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="4dp"
+          android:accessibilityLiveRegion="polite"
+          android:visibility="gone" />
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="12dp"
+          android:baselineAligned="false"
+          android:orientation="horizontal">
+
+          <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLocate"
+            style="@style/Widget.Ourmeal.Button.Secondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/prices_locate"
+            app:icon="@drawable/ic_location" />
+
+          <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSearchCity"
+            style="@style/Widget.Ourmeal.Button.Secondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/prices_search_city"
+            app:icon="@drawable/ic_search" />
+        </LinearLayout>
+
+        <TextView
+          style="@style/TextAppearance.Ourmeal.Subsection"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="28dp"
+          android:accessibilityHeading="true"
+          android:text="@string/prices_chains_title" />
+
+        <TextView
+          style="@style/TextAppearance.Ourmeal.Meta"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="4dp"
+          android:text="@string/prices_chains_body" />
+
+        <LinearLayout
+          android:id="@+id/chainsLoading"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="12dp"
+          android:gravity="center_vertical"
+          android:minHeight="48dp"
+          android:orientation="horizontal"
+          android:visibility="gone">
+
+          <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:importantForAccessibility="no"
+            app:indicatorColor="@color/brand"
+            app:indicatorSize="20dp"
+            app:trackColor="@color/surface_raised"
+            app:trackThickness="2dp" />
+
+          <TextView
+            android:id="@+id/tvChainsLoading"
+            style="@style/TextAppearance.Ourmeal.Meta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:accessibilityLiveRegion="polite" />
+        </LinearLayout>
+
+        <TextView
+          android:id="@+id/tvChainsStatus"
+          style="@style/TextAppearance.Ourmeal.Meta.Strong"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="12dp"
+          android:accessibilityLiveRegion="polite"
+          android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnRetryChains"
+          style="@style/Widget.Ourmeal.Button.Secondary"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="@string/retry"
+          android:visibility="gone" />
+
+        <LinearLayout
+          android:id="@+id/chainsContainer"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:orientation="vertical" />
+
+        <TextView
+          android:id="@+id/tvAttribution"
+          style="@style/TextAppearance.Ourmeal.Caption"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:visibility="gone" />
+      </LinearLayout>
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Subsection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:accessibilityHeading="true"
+        android:text="@string/prices_privacy_title" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Muted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/prices_privacy_body" />
+    </LinearLayout>
+  </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

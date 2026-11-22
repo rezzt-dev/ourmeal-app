@@ -106,6 +106,9 @@ class MainActivity : AppCompatActivity() {
     binding.btnOpenLists.setOnClickListener {
       startActivity(Intent(this, ListActivity::class.java))
     }
+    binding.btnSettings.setOnClickListener {
+      startActivity(Intent(this, SettingsActivity::class.java))
+    }
     binding.btnOpenCalendar.setOnClickListener { openWeekPicker() }
     binding.btnPrepareShopping.setOnClickListener { openShoppingPrep() }
     setupMealFields()

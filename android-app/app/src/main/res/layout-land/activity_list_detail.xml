@@ -28,15 +28,38 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-      <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnBack"
-        style="@style/Widget.Ourmeal.Button.Text.Muted"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:contentDescription="@string/back"
-        android:text="@string/back_to_lists"
-        app:icon="@drawable/ic_arrow_back"
-        app:iconTint="@color/muted" />
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnBack"
+          style="@style/Widget.Ourmeal.Button.Text.Muted"
+          android:layout_width="wrap_content"
+          android:layout_height="48dp"
+          android:contentDescription="@string/back"
+          android:text="@string/back_to_lists"
+          app:icon="@drawable/ic_arrow_back"
+          app:iconTint="@color/muted" />
+
+        <Space
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:layout_weight="1" />
+
+        <ImageButton
+          android:id="@+id/btnSettings"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          android:layout_marginEnd="-12dp"
+          android:background="?attr/selectableItemBackgroundBorderless"
+          android:contentDescription="@string/settings_open"
+          android:padding="12dp"
+          android:src="@drawable/ic_settings"
+          app:tint="@color/muted" />
+      </LinearLayout>
 
       <TextView
         style="@style/TextAppearance.Ourmeal.Label"
@@ -96,6 +119,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:visibility="gone" />
+
+      <include
+        android:id="@+id/priceNotice"
+        layout="@layout/view_price_notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:visibility="gone" />
 
       </LinearLayout>

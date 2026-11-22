@@ -2,6 +2,10 @@
 
 native android meal planner and shopping-list application. this guide covers the repository; nested agent instructions apply within their own folders.
 
+## LOCATION-BASED PRICE READER
+
+`price-reader/` is the kotlin jvm ingestion reader, registered as `:price-reader` in `android-app/settings.gradle.kts`. it discovers supermarket chains from the selected city's osm boundary and reads structured prices using a real browser with separate city, chain and domain profiles. read `price-reader/readme.md` before changing it. from `android-app/`, run `./gradlew :price-reader:test :price-reader:browserTest`; install its browser with `./gradlew :price-reader:installBrowser` first. use temporary profiles for tests. `:shared` contains the price models and text rules; `:backend` provides the ktor api, persistent postgresql catalogue, matching and background ingestion. read `backend/readme.md` for setup and end-to-end tests. run `./gradlew :shared:test :backend:integrationTest` as well. a configured price service and operational sources are required; do not claim universal supermarket coverage or a public deployment. keep browser profiles and cookies outside git and public artifacts.
+
 ## PROJECT OVERVIEW
 
 | property | verified value |
@@ -65,7 +69,7 @@ the following project-specific context is retained from the previous guide. path
 
 ## OURMEAL — AGENT GUIDE
 
-> **ourmeal** is a native android app to plan lunch and dinner for every day of the week and to manage shopping lists: it suggests dishes already planned, warns about repeats, turns the week's menu into shopping-list products with a per-dish ingredient memory, and learns the order in which you walk through the shop. everything is stored locally on the device; the app declares no permissions.
+> **ourmeal** is a native android app to plan lunch and dinner for every day of the week and to manage shopping lists: it suggests dishes already planned, warns about repeats, turns the week's menu into shopping-list products with a per-dish ingredient memory, and learns the order in which you walk through the shop. lists, menus and learned data stay on the device. an optional price comparison, off by default, shows under each pending product the supermarket of the user's city that is cheapest per kilo, litre or unit; it sends only the city name and the pending product names to a price service and may ask for approximate location.
 >
 > **git workflow (commits, prs, merges, releases):** when asked for a commit, pr, merge or release title/description, read `.docs/manager.md` and the guides in `.docs/-github-guides/` (versioned, source of truth) and follow the last section of this file ("commit, pr, merge & release guidelines"). never add ai attribution of any kind.
 >
@@ -125,7 +129,7 @@ the react, `shadcn/ui` and web-design skills do not apply to the xml android int
 | **agp / gradle** | `8.6.0` / `8.7` (wrapper) |
 | **ui language** | spanish only (`res/values/strings.xml`, no other locales) |
 
-single-module android project (`:app`, root project name `ourmeal`) inside `android-app/`. the web distributes betas named `ourmeal-beta-1.1.apk` to `ourmeal-beta-1.3.apk` (repo `ourmeal-webpage`), but all three report `versionName 1.0` / `versionCode 1`; there are no git tags or github releases yet.
+gradle project (root name `ourmeal`) inside `android-app/`, with the android module `:app` and the sibling jvm modules `:shared`, `:price-reader` and `:backend`. the web distributes betas named `ourmeal-beta-1.1.apk` to `ourmeal-beta-1.3.apk` (repo `ourmeal-webpage`), but all three report `versionName 1.0` / `versionCode 1`; there are no git tags or github releases yet.
 
 what the app does, according to the current code:
 
@@ -137,6 +141,7 @@ what the app does, according to the current code:
 - add, check and delete products in each list, with duplicate detection (ignoring case and accents) and undo.
 - learn the shopping route from the order in which products are checked and sort pending items by it, with a switch back to list order and an option to forget what was learned, with undo.
 - share a list as text, in the order shown, to print, save or send it.
+- compare prices (optional, switched on in `Ajustes`): pick the city by approximate location or by name, choose the supermarkets, and see under each pending product where it is cheapest per kilo, litre or unit, with every chain's price, date and origin on tap. it needs the configured price service in `backend/` and operational sources; setup is documented in `backend/readme.md`.
 
 proposed features not implemented yet are specified in `.docs/new-features/`; never present them as existing until they are implemented and verified. main audience: families, couples, people organizing their diet and anyone replacing paper lists with a tidier flow.
 
@@ -146,12 +151,13 @@ proposed features not implemented yet are specified in `.docs/new-features/`; ne
 
 ### CORE
 - **kotlin** with coroutines through `lifecycleScope` (`androidx.lifecycle:lifecycle-runtime-ktx`) for background reads and writes.
+- **retrofit 2.11 + okhttp 4.12** (gson converter) for the optional price service; the kotlin 2 majors (retrofit 3, okhttp 5) are not compatible with kotlin `1.9.0`.
 - **androidx**: core ktx, appcompat (forced dark mode), activity (`enableEdgeToEdge`).
 - **material components** (`com.google.android.material:material` 1.12.0): buttons, cards, fields, dialogs, snackbars, `MaterialDatePicker`.
 - **xml views with view binding**; no jetpack compose.
 
 ### DATA & STORAGE
-- **json files in `filesDir`**, written with `AtomicFile` and **gson 2.10.1**: `user_lists.json`, `meal_plans.json`, `dish_suggestions.json`, `dish_ingredients.json` and `shopping_route.json`.
+- **json files in `filesDir`**, written with `AtomicFile` and **gson 2.10.1**: `user_lists.json`, `meal_plans.json`, `dish_suggestions.json`, `dish_ingredients.json`, `shopping_route.json`, and for the price comparison `price_settings.json`, `product_aliases.json` and `price_cache.json` (a disposable cache, the only file rebuilt when damaged).
 - persistence operations are serialized with a process-wide shared lock so read-modify-write stays atomic across activities.
 - a damaged file is never overwritten: managers report a read failure and the screen keeps working without writing.
 
@@ -178,7 +184,7 @@ ourmeal-app/
 │       ├── proguard-rules.pro       # default; minify is off
 │       └── src/
 │           ├── main/
-│           │   ├── AndroidManifest.xml   # 4 activities, no permissions, allowBackup=true
+│           │   ├── AndroidManifest.xml   # 5 activities, INTERNET + ACCESS_COARSE_LOCATION (price comparison), allowBackup=true
 │           │   ├── assets/licenses/      # OFL texts of bricolage grotesque and source sans 3
 │           │   ├── java/ourmeal/app/
 │           │   │   ├── OurmealApplication.kt   # forces MODE_NIGHT_YES: one palette on every device
@@ -187,6 +193,9 @@ ourmeal-app/
 │           │   │   ├── MenuShoppingActivity.kt # turns a week's dishes into list products
 │           │   │   ├── ListActivity.kt         # shopping lists
 │           │   │   ├── ListDetailActivity.kt   # products of a list, sorted by the learned route
+│           │   │   ├── SettingsActivity.kt     # settings: price comparison, city and supermarkets
+│           │   │   ├── ListPrices.kt           # price line of each pending product: resolve, cache, compare
+│           │   │   ├── PriceText.kt, PriceDialogs.kt, CitySearch.kt, PriceFeature.kt  # price comparison ui
 │           │   │   ├── OurmealDialogs.kt       # creation forms: keyboard, validation, single submit
 │           │   │   ├── ScreenUi.kt             # loading, empty and error panels
 │           │   │   ├── UiFeedback.kt           # themed snackbars
@@ -198,18 +207,23 @@ ourmeal-app/
 │           │   │   │   ├── DishSuggestionManager.kt # dish_suggestions.json (hidden dishes)
 │           │   │   │   ├── DishMemoryManager.kt     # dish_ingredients.json
 │           │   │   │   ├── ShoppingRouteManager.kt  # shopping_route.json
+│           │   │   │   ├── JsonFileStore.kt, PriceStores.kt  # price_settings / product_aliases / price_cache.json
+│           │   │   │   ├── PriceService.kt          # retrofit client of the price service
+│           │   │   │   ├── CityLocator.kt           # approximate position -> city name, never stored or sent
 │           │   │   │   ├── ListAdapter.kt / ItemAdapter.kt  # DiffUtil, stable ids
 │           │   │   └── model/                  # pure kotlin, no android dependencies
 │           │   │       ├── UserList.kt, ListItem.kt, AppData.kt     # lists
 │           │   │       ├── WeeklyMeals.kt, Meal.kt, MealSlot.kt     # menu (COMIDA | CENA)
 │           │   │       ├── WeekUtils.kt                             # iso weeks, isValidWeekId()
-│           │   │       ├── TextNormalizer.kt                        # normalizeName(), matchKey()
 │           │   │       ├── DishHistory.kt, SuggestionSettings.kt    # suggestions and repeat warning
 │           │   │       ├── MenuDish.kt, DishMemory.kt, ShoppingDraft.kt, ShoppingMerge.kt  # shopping from the menu
 │           │   │       └── ShoppingRoute.kt                         # learned shopping route
 │           │   └── res/        # color, drawable, font (variable ttf), layout + layout-land, values + values-land, xml
 │           ├── test/java/ourmeal/app/         # junit 4 unit tests of the models
 │           └── androidTest/java/ourmeal/app/  # instrumented tests + AppDataSandbox rule
+├── shared/                          # price models and normalization; same Kotlin packages
+├── price-reader/                    # browser ingestion and city discovery
+├── backend/                         # ktor API, PostgreSQL catalogue and ingestion queue
 ├── .docs/
 │   ├── manager.md                   # entry point for git / github requests
 │   ├── repo-audit-and-fix.md        # one-pass audit work file
@@ -331,8 +345,8 @@ el módulo `android-app/` contiene la aplicación android.
 | instrumented | `android-app/app/src/androidTest/java/ourmeal/app/` | `AndroidJUnitRunner` | androidx junit 1.2.1, espresso 3.6.1 |
 
 ### COVERAGE
-- **unit:** `DishHistoryTest` (dish records, habitual suggestions), `DishMemoryTest`, `MenuDishTest`, `ModelTest` (`UserList`, `WeeklyMeals`), `ShoppingDraftTest`, `ShoppingMergeTest`, `ShoppingRouteTest`, `SuggestionSettingsTest`, `WeekUtilsTest`.
-- **instrumented:** `CreationFormTest` (empty names not submitted, draft survives recreation, dark theme forced), `MealSuggestionsTest`, `MenuShoppingTest`, `ShoppingRouteOrderTest`, `ExampleInstrumentedTest` (real `applicationId` `app.ourmeat`).
+- **unit:** `DishHistoryTest` (dish records, habitual suggestions), `DishMemoryTest`, `MenuDishTest`, `ModelTest` (`UserList`, `WeeklyMeals`), `ShoppingDraftTest`, `ShoppingMergeTest`, `ShoppingRouteTest`, `SuggestionSettingsTest`, `WeekUtilsTest`, `PriceComparisonTest` (unit price, cheapest per kilo, stale prices), `PriceModelsTest` (formats, response validation, settings, aliases, cache), `PriceServiceTest` (http client against `MockWebServer`).
+- **instrumented:** `CreationFormTest` (empty names not submitted, draft survives recreation, dark theme forced), `MealSuggestionsTest`, `MenuShoppingTest`, `ShoppingRouteOrderTest`, `PriceComparisonListTest` (price line from saved aliases and prices, no network), `ExampleInstrumentedTest` (real `applicationId` `app.ourmeat`).
 - instrumented tests that read or write app data must use the `AppDataSandbox` rule, which moves the device's files aside and restores them at the end.
 - the instrumented tests avoid espresso input injection, which is incompatible with api 37; real touch, keyboard and scrolling are covered by manual emulator checks.
 
@@ -368,12 +382,15 @@ each feature owns one json file in `filesDir`, written atomically with `AtomicFi
 ### 6. SUGGESTIONS NEVER BLOCK
 repeat warnings (same week or last 13 days) are hints under each dish; the user can always repeat a dish. hidden dishes come back when the user types them again.
 
+### 7. PRICES ARE COMPARED PER UNIT, NEVER PER PACK
+the price comparison is off by default. the app recomputes €/kg, €/L or €/ud from the pack price and size, never compares kilos with litres, prefers prices under seven days old and shows every price with its date and origin. a doubtful product is asked once and remembered; "not found" beats a doubtful match. the app never talks to supermarket websites, only to the price service set by `BuildConfig.PRICE_API_URL` (https only in release builds). the contract it consumes is in `.docs/info-project/informacion-tecnica.md`.
+
 ---
 
 ## SECURITY CONSIDERATIONS
 
 ### PERMISSIONS
-the manifest declares **no permissions** (no `INTERNET`): nothing leaves the device and there is no telemetry or account.
+the manifest declares `INTERNET` and `ACCESS_COARSE_LOCATION`, both for the optional price comparison only. while it is off nothing leaves the device. when on, the price service receives the city name, the pending product names, the user's product choices and a random installation key (`X-Api-Key`); location is asked on demand after a rationale, turned into a city name on the device and never stored or sent. there is no telemetry or account. `TODO(owner)`: a privacy policy and the play data safety form must describe this before publishing a build with a price service.
 
 ### BACKUP POLICY
 `android:allowBackup="true"` with the template `backup_rules.xml` and `data_extraction_rules.xml`: the json files are included in android backups and device transfer. any change here affects privacy and must be documented (`TODO(owner)`: there is no privacy policy yet).

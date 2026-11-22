@@ -55,6 +55,18 @@
             app:icon="@drawable/ic_arrow_forward"
             app:iconGravity="textEnd"
             app:iconSize="16dp" />
+
+          <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="-12dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/settings_open"
+            android:padding="12dp"
+            android:src="@drawable/ic_settings"
+            app:tint="@color/muted" />
         </LinearLayout>
 
         <TextView

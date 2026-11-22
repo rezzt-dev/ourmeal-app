@@ -68,6 +68,18 @@ ourmeal aprende en qué orden coges los productos para que la lista te acompañe
 
 para aprender un viaje hacen falta al menos tres productos marcados a lo largo de dos minutos o más; así, marcar de golpe en casa lo que ya compraste no estropea el recorrido. un viaje se da por terminado tras 45 minutos sin marcar nada.
 
+### DONDE ES MAS BARATO CADA PRODUCTO
+
+ourmeal puede decirte, bajo cada producto pendiente, en qué supermercado de tu ciudad sale más barato. compara por kilo, litro o unidad, nunca por envase.
+
+1. abre `Ajustes` con el icono de engranaje del menú o de una lista y activa `Ver dónde es más barato cada producto`.
+2. toca `Usar mi ubicación` para detectar tu ciudad o `Buscar ciudad` para escribirla. la ubicación aproximada solo se usa en el teléfono para saber el nombre de la ciudad: no se guarda ni se envía.
+3. marca los supermercados en los que compras. solo se compara entre ellos.
+4. en tus listas, bajo cada producto pendiente, verás por ejemplo `Más barato en Cadena B · 1,79 €/kg`. toca la línea para ver todos los precios, su fecha y su origen.
+5. si un nombre puede ser varios productos, la línea pide `Elige qué producto es para comparar`. la elección se recuerda. si no quieres comparar un producto, elige `Ninguno`, y en el detalle de cualquier producto puedes `Cambiar producto`.
+
+sin conexión, la lista muestra los últimos precios guardados, y los productos nuevos se comparan al volver la red. los precios se actualizan cada seis horas. para dejar de comparar, desactiva el interruptor: la lista vuelve a ser como antes.
+
 ### COMPARTIR UNA LISTA
 
 en una lista con productos, toca el botón de compartir. la aplicación prepara un texto con el nombre de la lista, el resumen de lo comprado y cada producto, en el orden en que los ves, marcado como `[x]` comprado o `[ ]` pendiente. elige la aplicación con la que enviarlo o guardarlo.
@@ -105,6 +117,8 @@ git clone https://github.com/rezzt-dev/ourmeal-app.git
 ./gradlew connectedDebugAndroidTest
 ```
 
+la versión de depuración busca el servicio de precios en `http://10.0.2.2:8080/`, la máquina de desarrollo vista desde el emulador. para otra dirección, añade `price.api.url=https://…` a `android-app/local.properties`, que no se versiona, o pasa `-PpriceApiUrl=https://…` a gradle. la versión de publicación solo acepta `https` y, sin dirección, deja el comparador no disponible.
+
 `connectedDebugAndroidTest` necesita un emulador o un dispositivo conectado. las pruebas instrumentadas que abren pantallas con datos usan la regla `AppDataSandbox`, que aparta los datos de la aplicación del dispositivo durante cada prueba y los restaura al terminar.
 
 ### CONTRIBUIR
@@ -115,3 +129,5 @@ el proyecto sigue el flujo de github: haz un fork, crea una rama para tu cambio 
 - coloca la persistencia y los adaptadores en `controller/`.
 - mantén las pantallas (`MainActivity`, `ListActivity` y `ListDetailActivity`) centradas en la interfaz y su estado.
 - sigue las reglas de commits, markdown y changelog de `claude.md`.
+
+para ejecutar el servicio local del comparador y sus pruebas de integración, sigue la [guía del backend](../../backend/readme.md). el catálogo de pruebas es ficticio y no se incluye en la distribución. configurar la dirección del servicio no proporciona por sí solo precios: sus fuentes también deben estar preparadas.

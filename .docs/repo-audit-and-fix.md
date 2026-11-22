@@ -72,6 +72,8 @@ revisar descripcion, homepage, topics, seguridad y proteccion de ramas. proponer
 
 ## 3. DECISIONES QUE REQUIEREN CONTEXTO DEL PROPIETARIO
 
+seguimiento del lector `price-reader/`: revisar condiciones y cobertura de cada fuente antes de ponerla en servicio; completar politica de privacidad e inventario de licencias de terceros. los perfiles del navegador contienen cookies y almacenamiento de la web en el equipo de ingesta, separados del telefono. mantenerlos fuera de git y artefactos publicos. el modulo incluye los avisos de playwright; `license.md` conserva sus condiciones y no hay un servicio desplegado.
+
 | decision | tratamiento |
 | --- | --- |
 | alcance funcional que no se deduce del codigo | `TODO(owner)` con la evidencia que falta |

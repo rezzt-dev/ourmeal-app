@@ -10,6 +10,10 @@ preserve local user data, shopping order and ingredient memory; verify applicati
 
 for documentation changes, validate paths and `git diff --check`. for application changes, run the relevant checks in `agents.md`. preserve pre-existing user changes and keep this entry point consistent with the comprehensive guide.
 
+## LOCATION-BASED PRICE READER
+
+`price-reader/` is the kotlin jvm ingestion reader, registered as `:price-reader` in `android-app/settings.gradle.kts`. it discovers supermarket chains from the selected city's osm boundary and reads structured prices using a real browser with separate city, chain and domain profiles. read `price-reader/readme.md` before changing it. from `android-app/`, run `./gradlew :price-reader:test :price-reader:browserTest`; install its browser with `./gradlew :price-reader:installBrowser` first. use temporary profiles for tests. `:shared` contains the price models and text rules; `:backend` provides the ktor api, persistent postgresql catalogue, matching and background ingestion. read `backend/readme.md` for setup and end-to-end tests. run `./gradlew :shared:test :backend:integrationTest` as well. a configured price service and operational sources are required; do not claim universal supermarket coverage or a public deployment. keep browser profiles and cookies outside git and public artifacts.
+
 ## COMMIT, PR, MERGE & RELEASE GUIDELINES
 
 read `.docs/manager.md` first, then the selected guide in `.docs/-github-guides/`. these files are versioned; this digest also works without opening them.

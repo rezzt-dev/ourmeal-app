@@ -12,4 +12,8 @@
   <dimen name="type_meta">14sp</dimen>
   <dimen name="type_caption">13sp</dimen>
 
+  <!-- AJUSTES: COLUMNA DE LECTURA -->
+
+  <dimen name="settings_gutter">24dp</dimen>
+
 </resources>
