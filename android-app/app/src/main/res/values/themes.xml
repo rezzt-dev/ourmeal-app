@@ -359,28 +359,6 @@
     <item name="iconTint">@color/cream_deep</item>
   </style>
 
-  <!-- COMPARADOR DE PRECIOS -->
-
-  <style name="TextAppearance.Ourmeal.Subsection" parent="TextAppearance.Ourmeal.SectionTitle">
-    <item name="android:textSize">@dimen/type_title_small</item>
-  </style>
-
-  <!-- The price line under a product: reads as meta text, behaves as a full-size button. -->
-  <style name="Widget.Ourmeal.Button.Price" parent="Widget.Ourmeal.Button.Text">
-    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Meta.Strong</item>
-    <item name="android:textColor">@color/sage</item>
-    <item name="android:gravity">start|center_vertical</item>
-    <item name="android:textAlignment">viewStart</item>
-    <item name="android:maxLines">3</item>
-    <item name="android:ellipsize">end</item>
-    <item name="android:paddingStart">0dp</item>
-    <item name="android:paddingEnd">0dp</item>
-    <item name="android:paddingTop">2dp</item>
-    <item name="android:paddingBottom">2dp</item>
-    <item name="android:minHeight">48dp</item>
-    <item name="rippleColor">@color/hairline</item>
-  </style>
-
 
   <!-- CAMPOS DE TEXTO -->
 

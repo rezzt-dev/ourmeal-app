@@ -5,9 +5,6 @@ import org.junit.rules.ExternalResource
 import ourmeal.app.controller.DataManager
 import ourmeal.app.controller.DishSuggestionManager
 import ourmeal.app.controller.MealDataManager
-import ourmeal.app.controller.PriceCacheManager
-import ourmeal.app.controller.PriceSettingsManager
-import ourmeal.app.controller.ProductAliasManager
 import ourmeal.app.controller.ShoppingRouteManager
 import java.io.File
 
@@ -35,9 +32,6 @@ class AppDataSandbox : ExternalResource() {
     runCatching { DataManager(context).loadLists() }
     runCatching { DishSuggestionManager(context).load() }
     runCatching { ShoppingRouteManager(context).load() }
-    runCatching { PriceSettingsManager(context).update { it } }
-    runCatching { ProductAliasManager(context).load() }
-    runCatching { PriceCacheManager(context).load() }
     restoreBackup()
   }
 

@@ -22,7 +22,6 @@ internal fun AppCompatActivity.ourmealDialog(destructive: Boolean = false): Mate
     else R.style.ThemeOverlay_Ourmeal_AlertDialog)
 
 /** Shared keyboard, validation and submission behavior for creation forms. */
-@Suppress("DEPRECATION") // Dialog windows still need resize on supported Android releases.
 internal fun AlertDialog.prepareForm(
   field: TextInputLayout,
   input: TextInputEditText,

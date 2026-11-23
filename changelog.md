@@ -5,12 +5,6 @@
 ### CASTELLANO
 
 #### NUEVO
-
-- conecta el comparador android con `backend/`, una api ktor con catálogo postgresql, historial, resolución de nombres, validación de ciudad y tiendas, votos de alias e ingesta web en segundo plano; comparte modelos y reglas de cantidades mediante `shared/`, conservando los ficheros del teléfono.
-- añade `PriceComparisonEndToEndTest` para verificar ajustes, ciudad, api, postgresql y supermercado ganador por kilo con datos ficticios, incluidos detalle, giro, letra ampliada y desactivación; incorpora pruebas de aislamiento, marca y formato, anomalías y contrato del backend.
-
-- añade `price-reader/`, un lector de ingesta kotlin que descubre cadenas dentro de la ciudad seleccionada mediante openstreetmap y lee precios json-ld con chromium o chrome real, javascript y perfiles separados por ciudad, cadena y dominio; incluye reglas de navegación y pruebas con páginas controladas; el servicio http se integra mediante `backend/`.
-
 - incorpora `project-web/` como sitio publico de OurMeal con una pagina principal, una demo interactiva de menus y listas de la compra, y las paginas legales de aviso legal, privacidad y cookies.
 - añade documentacion de proyecto, ayuda, arquitectura y contribucion en `.docs/`, `agents.md` y `claude.md`.
 - reemplaza la interfaz de la aplicación Android por un sistema visual basado en la landing de `project-web/`, con tipografías Bricolage Grotesque y Source Sans 3, paleta de marca, iconos vectoriales y componentes Material 3.
@@ -41,23 +35,12 @@
 - comparte las listas en el orden en que se muestran y avisa al abrir una lista de cuántos productos aprendió del último viaje.
 - añade `ShoppingRouteTest.kt` y `ShoppingRouteOrderTest.kt` para el aprendizaje del recorrido y el orden de la lista.
 - añade `.docs/manager.md`, las guías de `.docs/-github-guides/` y `.docs/repo-audit-and-fix.md` para gestionar commits, pull requests, merges, releases, changelog y ramas.
-- añade un comparador de precios opcional, desactivado por defecto, que muestra bajo cada producto pendiente el supermercado de la ciudad donde sale más barato por kilo, litro o unidad, nunca por envase.
-- añade la pantalla `Ajustes` con el interruptor del comparador, la ciudad por ubicación aproximada o por nombre y la elección de supermercados, con atribución a OpenStreetMap.
-- muestra al tocar la línea de precio todas las cadenas con su precio, fecha y origen, y avisa cuando el envase más barato sale más caro por kilo o cuando el precio más bajo es antiguo.
-- pregunta una vez qué producto es cuando el servicio duda, recuerda la elección en `product_aliases.json` y guarda los precios seis horas en `price_cache.json` para verlos sin conexión.
-- añade el cliente `PriceService` con Retrofit y OkHttp, `BuildConfig.PRICE_API_URL` y la configuración `network_security_config.xml`, que solo permite http en depuración hacia el emulador.
-- añade `PriceComparisonTest.kt`, `PriceModelsTest.kt`, `PriceServiceTest.kt` y `PriceComparisonListTest.kt` para el cálculo, la validación de respuestas, el cliente http y la lista.
-- añade `.docs/DECISIONS.md` con las dependencias y decisiones del comparador, y en `.docs/new-features/` la estrategia de precios de supermercados y la guía de desarrollo del comparador.
 
 #### CAMBIOS
 - exigir español de españa y conservar `ñ` y `Ñ`, incluso en formatos que pidan escribir sin acentos
 
 - completar las guías de gestión y el contexto específico del proyecto; conservar las reglas técnicas y verificar las rutas
 - corregir el ejemplo de promociones entre ramas para evitar destinos idénticos al origen
-- declara los permisos `INTERNET` y `ACCESS_COARSE_LOCATION`, usados solo por el comparador de precios; la ubicación se pide al tocar `Usar mi ubicación` y nunca se guarda ni se envía.
-- sustituye el estado `Pendiente` de cada producto por su línea de precio mientras el comparador está activo, y añade el acceso a `Ajustes` en el menú y en cada lista.
-- mueve `TextNormalizer.kt` (`normalizeName` y `matchKey`) de `app` a `shared/`, con el mismo paquete y comportamiento, para que el cliente y el backend compartan las reglas de texto.
-- actualiza `readme.md`, `claude.md`, `agents.md` y los documentos de `.docs/info-project/` con el comparador, sus módulos y sus comandos de prueba.
 
 - unifica los formularios de creación de listas y productos en un contenedor desplazable con mensaje propio, texto de ayuda, contador de caracteres y espacio reservado para errores.
 - distingue la acción principal de los diálogos con un botón relleno y aplica color de error a las confirmaciones destructivas mediante `ThemeOverlay.Ourmeal.DestructiveDialog`.
@@ -108,17 +91,10 @@
 - retira la tarjeta diaria `day_meal_item.xml` al sustituirla por el tablero semanal del menú.
 - retira `project-web/` y sus dependencias, paginas, estilos, recursos y artefactos generados al finalizar la fase temporal del sitio web.
 - retira `.docs/guidelines/commit-guidelines.md` y `.docs/guidelines/pr-merge-release-guidelines.md`, sustituidas por las guías de `.docs/-github-guides/`.
-- retira de `.docs/new-features/` las especificaciones `compra-desde-el-menu.md`, `historial-de-platos.md` y `recorrido-de-compra.md`, ya implementadas.
 
 ### ENGLISH
 
 #### ADDED
-
-- connect the android comparison to `backend/`, a ktor api with a postgresql catalogue, price history, name resolution, city and store validation, alias votes and background web ingestion; share models and quantity rules through `shared/` while preserving the phone's data files.
-- add `PriceComparisonEndToEndTest` to verify settings, city selection, api, postgresql and the winning supermarket per kilo using synthetic data, including details, rotation, enlarged text and disabling; cover location isolation, brand and pack restrictions, anomalies and the backend contract.
-
-- add `price-reader/`, a kotlin ingestion reader that discovers chains within the selected city using openstreetmap and reads json-ld prices with real chromium or chrome, javascript and profiles separated by city, chain and domain; include navigation rules and tests with controlled pages; `backend/` integrates the http service.
-
 - add `project-web/` as the public OurMeal website with a home page, an interactive meal and shopping-list demo, and legal notice, privacy, and cookies pages.
 - add project, help, architecture, and contribution documentation in `.docs/`, `agents.md`, and `claude.md`.
 - replace the Android interface with a visual system based on the `project-web/` landing page, using Bricolage Grotesque and Source Sans 3, brand palette, vector icons, and Material 3 components.
@@ -149,23 +125,12 @@
 - share lists in the order they are shown and announce on opening a list how many products the last trip taught.
 - add `ShoppingRouteTest.kt` and `ShoppingRouteOrderTest.kt` for route learning and list ordering.
 - add `.docs/manager.md`, the `.docs/-github-guides/` guides and `.docs/repo-audit-and-fix.md` to manage commits, pull requests, merges, releases, changelog and branches.
-- add an optional price comparison, off by default, that shows under each pending product the city supermarket where it is cheapest per kilo, litre or unit, never per pack.
-- add the `Ajustes` screen with the comparison switch, the city by approximate location or by name and the choice of supermarkets, with OpenStreetMap attribution.
-- show every chain's price, date and origin when the price line is tapped, warning when the cheapest pack is dearer per kilo or the lowest price is old.
-- ask once which product is meant when the service is unsure, remember the choice in `product_aliases.json` and keep prices for six hours in `price_cache.json` for offline use.
-- add the `PriceService` client with Retrofit and OkHttp, `BuildConfig.PRICE_API_URL` and `network_security_config.xml`, which allows http only in debug builds towards the emulator host.
-- add `PriceComparisonTest.kt`, `PriceModelsTest.kt`, `PriceServiceTest.kt` and `PriceComparisonListTest.kt` for the calculation, response validation, http client and list.
-- add `.docs/DECISIONS.md` with the comparison's dependencies and decisions, and in `.docs/new-features/` the supermarket price strategy and the comparison development guide.
 
 #### CHANGED
 - require spanish from spain and preserve `ñ` and `Ñ`, including formats that omit vowel accents
 
 - complete repository management guides and project-specific context; preserve technical rules and verify paths
 - correct the branch promotion example to avoid destinations identical to the source
-- declare the `INTERNET` and `ACCESS_COARSE_LOCATION` permissions, used only by the price comparison; location is asked on tapping `Usar mi ubicación` and is never stored or sent.
-- replace each product's `Pendiente` status with its price line while the comparison is on, and add access to `Ajustes` from the menu and each list.
-- move `TextNormalizer.kt` (`normalizeName` and `matchKey`) from `app` to `shared/`, keeping the package and behaviour, so the client and backend share the text rules.
-- update `readme.md`, `claude.md`, `agents.md` and the `.docs/info-project/` documents with the comparison, its modules and its test commands.
 
 - unify list and product creation forms in a scrollable container with their own message, helper text, character counter, and reserved space for errors.
 - distinguish the primary dialog action with a filled button and apply the error color to destructive confirmations through `ThemeOverlay.Ourmeal.DestructiveDialog`.
@@ -216,4 +181,3 @@
 - remove the daily card `day_meal_item.xml` in favor of the weekly menu board.
 - remove `project-web/` and its dependencies, pages, styles, assets, and generated artifacts after completing the temporary website phase.
 - remove `.docs/guidelines/commit-guidelines.md` and `.docs/guidelines/pr-merge-release-guidelines.md`, replaced by the `.docs/-github-guides/` guides.
-- remove the `compra-desde-el-menu.md`, `historial-de-platos.md` and `recorrido-de-compra.md` specifications from `.docs/new-features/`, now implemented.

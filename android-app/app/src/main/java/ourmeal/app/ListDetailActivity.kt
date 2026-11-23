@@ -26,14 +26,8 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import ourmeal.app.controller.DataManager
 import ourmeal.app.controller.ItemAdapter
-import ourmeal.app.controller.PriceCacheManager
-import ourmeal.app.controller.PriceLineSource
-import ourmeal.app.controller.PriceSettingsManager
-import ourmeal.app.controller.ProductAliasManager
 import ourmeal.app.controller.ShoppingRouteManager
-import ourmeal.app.model.ItemPriceState
 import ourmeal.app.model.ListItem
-import ourmeal.app.model.PriceSettings
 import ourmeal.app.model.RouteChange
 import ourmeal.app.model.RouteStop
 import ourmeal.app.model.ShoppingRoute
@@ -61,11 +55,6 @@ class ListDetailActivity : AppCompatActivity() {
   private var route: ShoppingRoute? = null
   private val routeMutex = Mutex()
   private var isBindingRoute = false
-  private lateinit var priceSettingsManager: PriceSettingsManager
-  private lateinit var prices: ListPrices
-  /** Null until read; the notice and price lines stay hidden while unknown or unreadable. */
-  private var priceSettings: PriceSettings? = null
-  private var priceSettingsJob: Job? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -82,43 +71,15 @@ class ListDetailActivity : AppCompatActivity() {
     routeManager = ShoppingRouteManager(this)
     listId = intent.getLongExtra(EXTRA_LIST_ID, -1L)
 
-    priceSettingsManager = PriceSettingsManager(this)
-    prices = ListPrices(lifecycleScope, ProductAliasManager(this), PriceCacheManager(this)) {
-      adapter.refreshPrices()
-      renderPriceNotice()
-    }
-    adapter = ItemAdapter(
-      onCheck = ::setCompleted,
-      onDelete = ::confirmDelete,
-      prices = PriceLineSource { item ->
-        val settings = prices.settings ?: priceSettings?.takeIf { it.isReady && PriceFeature.isAvailable }
-          ?: return@PriceLineSource null
-        val state = prices.stateFor(item.name) ?: ItemPriceState.Loading
-        priceLine(item.name, state, settings::chainName, System.currentTimeMillis())
-      },
-      onPriceClick = ::openPrice
-    )
+    adapter = ItemAdapter(onCheck = ::setCompleted, onDelete = ::confirmDelete)
     binding.recyclerViewItems.layoutManager = LinearLayoutManager(this)
     binding.recyclerViewItems.adapter = adapter
     binding.btnBack.setOnClickListener { finish() }
-    binding.btnSettings.setOnClickListener { openSettings() }
     binding.btnAddItem.setOnClickListener { showAddDialog() }
     binding.btnShare.setOnClickListener { shareList() }
     binding.routeOrder.switchRouteOrder.setOnCheckedChangeListener { _, checked -> setSortByRoute(checked) }
     binding.routeOrder.btnForgetRoute.setOnClickListener { confirmForgetRoute() }
     loadList()
-  }
-
-  override fun onStart() {
-    super.onStart()
-    // Settings may have changed in the settings screen since the list was last visible.
-    loadPriceSettings()
-  }
-
-  override fun onStop() {
-    priceSettingsJob?.cancel()
-    prices.stop()
-    super.onStop()
   }
 
   private fun loadList() {
@@ -198,7 +159,6 @@ class ListDetailActivity : AppCompatActivity() {
     binding.tvListTitle.isVisible = false
     binding.tvListSubtitle.isVisible = false
     binding.routeOrder.root.isVisible = false
-    binding.priceNotice.root.isVisible = false
     binding.tvItemCount.text = ""
   }
 
@@ -233,7 +193,6 @@ class ListDetailActivity : AppCompatActivity() {
     binding.btnShare.isEnabled = total > 0 && !isSaving
     renderItemsState(total == 0)
     renderRoute(list)
-    syncPrices()
   }
 
   private fun renderItemsState(empty: Boolean) {
@@ -261,7 +220,6 @@ class ListDetailActivity : AppCompatActivity() {
     binding.tvListTitle.isVisible = false
     binding.tvListSubtitle.isVisible = false
     binding.routeOrder.root.isVisible = false
-    binding.priceNotice.root.isVisible = false
     binding.tvItemCount.text = ""
     binding.recyclerViewItems.isVisible = false
     binding.statePanel.root.reveal()
@@ -282,7 +240,6 @@ class ListDetailActivity : AppCompatActivity() {
     binding.tvListTitle.isVisible = false
     binding.tvListSubtitle.isVisible = false
     binding.routeOrder.root.isVisible = false
-    binding.priceNotice.root.isVisible = false
     binding.tvItemCount.text = ""
     binding.recyclerViewItems.isVisible = false
     binding.statePanel.root.reveal()
@@ -688,77 +645,6 @@ class ListDetailActivity : AppCompatActivity() {
       }
       if (isFinishing || isDestroyed) return@launch
       onResult(result)
-    }
-  }
-
-  // COMPARADOR DE PRECIOS
-
-  private fun openSettings() {
-    startActivity(Intent(this, SettingsActivity::class.java))
-  }
-
-  private fun loadPriceSettings() {
-    priceSettingsJob?.cancel()
-    priceSettingsJob = lifecycleScope.launch {
-      val settings = withContext(Dispatchers.IO) {
-        try { priceSettingsManager.load() } catch (_: IOException) { null }
-      }
-      priceSettings = settings
-      val service = settings?.takeIf { it.isReady }?.let(PriceFeature::service)
-      if (settings == null || service == null) {
-        prices.stop()
-      } else {
-        prices.start(service, settings)
-      }
-      syncPrices()
-      renderPriceNotice()
-    }
-  }
-
-  /** Pending products are compared; bought ones lose their price line. */
-  private fun syncPrices(force: Boolean = false) {
-    val list = currentList ?: return
-    if (!prices.isActive) return
-    prices.update(list.items.filterNot { it.isCompleted }.map { it.name }, force)
-  }
-
-  private fun renderPriceNotice() {
-    val notice = binding.priceNotice
-    val settings = priceSettings
-    val list = currentList
-    if (settings == null || !settings.enabled || list == null) {
-      notice.root.isVisible = false
-      return
-    }
-    val (text, action) = when {
-      !PriceFeature.isAvailable -> getString(R.string.prices_notice_unavailable) to null
-      !settings.isReady -> getString(R.string.prices_notice_setup) to getString(R.string.prices_setup)
-      prices.connection == PriceConnection.OFFLINE -> getString(R.string.prices_notice_offline) to getString(R.string.retry)
-      prices.connection == PriceConnection.FAILED -> getString(R.string.prices_notice_failed) to getString(R.string.retry)
-      else -> getString(R.string.prices_notice_ready, settings.city?.name.orEmpty()) to getString(R.string.settings_open)
-    }
-    notice.tvPriceNotice.text = text
-    notice.btnPriceSettings.isVisible = action != null
-    action?.let { notice.btnPriceSettings.text = it }
-    val retries = prices.connection != PriceConnection.OK && settings.isReady
-    notice.btnPriceSettings.setOnClickListener { if (retries) syncPrices(force = true) else openSettings() }
-    notice.root.isVisible = true
-  }
-
-  private fun openPrice(adapterItem: ListItem) {
-    val name = adapterItem.name
-    when (val state = prices.stateFor(name)) {
-      is ItemPriceState.Compared -> {
-        val settings = prices.settings ?: return
-        showPriceDetail(state, settings) { prices.reset(name) }
-      }
-      is ItemPriceState.NeedsChoice ->
-        showPriceChoice(name, state.options, onChoose = { prices.choose(name, it) }, onSkip = { prices.skip(name) })
-      is ItemPriceState.NotFound ->
-        showPriceNotFound(name, state.options, onChoose = { prices.choose(name, it) }, onSkip = { prices.skip(name) })
-      ItemPriceState.Skipped -> showPriceSkipped(name) { prices.reset(name) }
-      ItemPriceState.Offline, ItemPriceState.Failed -> syncPrices(force = true)
-      ItemPriceState.Loading, null -> Unit
     }
   }
 

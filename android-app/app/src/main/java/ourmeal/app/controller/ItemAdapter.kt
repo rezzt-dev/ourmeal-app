@@ -9,26 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import app.ourmeat.R
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import ourmeal.app.model.ListItem
 
-/** What the price line of a pending product shows; null hides it. */
-fun interface PriceLineSource {
-  fun lineFor(item: ListItem): PriceLineView?
-}
-
-/** Text, colour resource, accessible name and whether tapping the price line opens something. */
-data class PriceLineView(val text: String, @ColorRes val color: Int, val description: String, val actionable: Boolean)
-
 class ItemAdapter(
   private val onCheck: (ListItem, Boolean) -> Unit,
-  private val onDelete: (ListItem) -> Unit,
-  private val prices: PriceLineSource = PriceLineSource { null },
-  private val onPriceClick: (ListItem) -> Unit = {}
+  private val onDelete: (ListItem) -> Unit
 ) : RecyclerView.Adapter<ItemAdapter.Holder>() {
   private val items = mutableListOf<ListItem>()
   private var interactionsEnabled = true
@@ -41,7 +27,6 @@ class ItemAdapter(
     val check: MaterialCheckBox = view.findViewById(R.id.cbItemCompleted)
     val name: TextView = view.findViewById(R.id.tvItemName)
     val status: TextView = view.findViewById(R.id.tvItemStatus)
-    val price: MaterialButton = view.findViewById(R.id.btnItemPrice)
     val delete: ImageButton = view.findViewById(R.id.btnDeleteItem)
   }
 
@@ -68,23 +53,10 @@ class ItemAdapter(
     notifyItemRangeChanged(0, items.size)
   }
 
-  /** Redraws only the price lines, without touching checks, focus or scroll. */
-  fun refreshPrices() {
-    if (items.isNotEmpty()) notifyItemRangeChanged(0, items.size, PAYLOAD_PRICE)
-  }
-
   override fun getItemId(position: Int): Long = items[position].id
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
     Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_list_item, parent, false))
-
-  override fun onBindViewHolder(holder: Holder, position: Int, payloads: MutableList<Any>) {
-    if (payloads.isNotEmpty() && payloads.all { it == PAYLOAD_PRICE }) {
-      bindPrice(holder, items[position])
-    } else {
-      onBindViewHolder(holder, position)
-    }
-  }
 
   override fun onBindViewHolder(holder: Holder, position: Int) {
     val item = items[position]
@@ -120,31 +92,7 @@ class ItemAdapter(
     }
     holder.delete.contentDescription = context.getString(R.string.delete_item, item.name)
     holder.delete.setOnClickListener { onDelete(item) }
-    bindPrice(holder, item)
-  }
-
-  private fun bindPrice(holder: Holder, item: ListItem) {
-    val line = if (item.isCompleted) null else prices.lineFor(item)
-    holder.price.isVisible = line != null
-    // The checkbox already says the product is pending: the price line takes the status place.
-    holder.status.isVisible = line == null
-    if (line == null) {
-      holder.price.setOnClickListener(null)
-      return
-    }
-    holder.price.text = line.text
-    holder.price.setTextColor(ContextCompat.getColor(holder.itemView.context, line.color))
-    holder.price.contentDescription = line.description
-    // A line that only reports progress is read, not offered as a button.
-    holder.price.isClickable = line.actionable
-    holder.price.isFocusable = line.actionable
-    holder.price.isEnabled = interactionsEnabled || !line.actionable
-    holder.price.setOnClickListener(if (line.actionable) View.OnClickListener { onPriceClick(item) } else null)
   }
 
   override fun getItemCount(): Int = items.size
-
-  private companion object {
-    const val PAYLOAD_PRICE = "price"
-  }
 }

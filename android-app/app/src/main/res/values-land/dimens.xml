@@ -7,8 +7,4 @@
   <dimen name="type_headline">28sp</dimen>
   <dimen name="type_title">22sp</dimen>
 
-  <!-- AJUSTES: EN HORIZONTAL EL TEXTO NO OCUPA TODO EL ANCHO -->
-
-  <dimen name="settings_gutter">120dp</dimen>
-
 </resources>

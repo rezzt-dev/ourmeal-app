@@ -19,9 +19,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:paddingStart="6dp"
-    android:paddingEnd="6dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="2dp">
+    android:paddingEnd="6dp">
 
     <com.google.android.material.checkbox.MaterialCheckBox
       android:id="@+id/cbItemCompleted"
@@ -44,15 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/ink" />
-
-      <!-- Cheapest supermarket per kilo, litre or unit; it takes the place of the status line. -->
-      <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnItemPrice"
-        style="@style/Widget.Ourmeal.Button.Price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-8dp"
-        android:visibility="gone" />
 
       <TextView
         android:id="@+id/tvItemStatus"
