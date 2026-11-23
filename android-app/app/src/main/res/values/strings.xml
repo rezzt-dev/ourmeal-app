@@ -27,13 +27,13 @@
   <string name="open_lists">Mis listas</string>
   <string name="week_previous">Semana anterior</string>
   <string name="week_next">Semana siguiente</string>
-  <string name="open_calendar">Elegir semana en el calendario</string>
+  <string name="open_calendar">Elegir fecha en el calendario</string>
 
   <!-- Historial de platos -->
   <string name="history_use_suggestion">Usar %1$s</string>
   <string name="history_hide_action">Dejar de sugerir</string>
   <string name="history_hidden">Ya no se sugerirá «%1$s».</string>
-  <string name="history_hide_error">No se pudo guardar el cambio</string>
+  <string name="history_hide_error">No se pudo guardar el cambio.</string>
   <string name="history_repeat_same_week">También está el %1$s en la %2$s.</string>
   <plurals name="history_repeat_recent">
     <item quantity="one">Ya estuvo en el menú hace %d día.</item>
@@ -45,7 +45,7 @@
   <string name="prepare_shopping_hint">Planifica algún plato para preparar la compra.</string>
   <string name="menu_shopping_kicker">Del menú a la compra</string>
   <string name="menu_shopping_title">Prepara la compra</string>
-  <string name="menu_shopping_week">Semana del %1$s</string>
+  <string name="menu_shopping_week">Menú de la semana: %1$s</string>
   <string name="menu_shopping_loading">Reuniendo los platos de la semana…</string>
   <string name="menu_shopping_dishes_title">Platos</string>
   <string name="menu_shopping_occurrence">%1$s, %2$s</string>
@@ -121,7 +121,7 @@
   <string name="lists_error_title">No pudimos abrir tus listas.</string>
   <string name="lists_error_body">Tus datos siguen guardados. Vuelve a intentarlo.</string>
   <string name="add_list">Nueva lista</string>
-  <string name="list_created">Lista creada</string>
+  <string name="list_created">Lista creada.</string>
   <string name="list_create_error">No se pudo guardar. Inténtalo de nuevo.</string>
   <string name="list_name_label">Nombre de la lista</string>
   <string name="list_name_required">Escribe un nombre para la lista</string>
@@ -132,12 +132,12 @@
   <string name="delete_list_title">Eliminar lista</string>
   <string name="delete_list_message">¿Eliminar «%1$s» y todos sus productos?</string>
   <string name="delete_list_message_empty">¿Eliminar «%1$s»?</string>
-  <string name="list_deleted">Lista eliminada</string>
-  <string name="list_delete_error">No se pudo eliminar la lista</string>
+  <string name="list_deleted">Lista eliminada.</string>
+  <string name="list_delete_error">No se pudo eliminar la lista.</string>
   <string name="back_to_menu">Volver al menú</string>
 
   <!-- Detalle de lista -->
-  <string name="detail_kicker">Tu compra, en orden</string>
+  <string name="detail_kicker">Lista de la compra</string>
   <string name="detail_subtitle">Marca los productos mientras compras.</string>
   <string name="detail_loading">Abriendo tu lista…</string>
   <string name="detail_error_title">No pudimos abrir la lista.</string>
@@ -150,7 +150,6 @@
   <string name="items_empty_title">Todavía no hay productos.</string>
   <string name="items_empty_body">Añade el primero y prepara tu próxima compra.</string>
   <string name="items_empty_label">Una lista en blanco</string>
-  <string name="progress_empty">Todo empieza con una idea.</string>
   <string name="progress_done">¡Compra completada!</string>
   <string name="progress_partial">%1$d de %2$d en la cesta</string>
   <string name="add_item">Añadir producto</string>
@@ -159,14 +158,14 @@
   <string name="add_item_message">¿Qué necesitas para tu próxima compra?</string>
   <string name="item_name_label">Producto</string>
   <string name="item_name_required">Escribe el nombre del producto</string>
-  <string name="item_added">Producto añadido</string>
+  <string name="item_added">Producto añadido.</string>
   <string name="item_exists">Ese producto ya está en la lista</string>
   <string name="item_save_error">No se pudo guardar. Inténtalo de nuevo.</string>
-  <string name="item_deleted">Producto eliminado</string>
-  <string name="item_delete_error">No se pudo eliminar el producto</string>
-  <string name="item_toggle_error">No se pudo guardar el cambio</string>
-  <string name="delete_item_title">Quitar producto</string>
-  <string name="delete_item_message">¿Quitar «%1$s» de esta lista?</string>
+  <string name="item_deleted">Producto eliminado.</string>
+  <string name="item_delete_error">No se pudo eliminar el producto.</string>
+  <string name="item_toggle_error">No se pudo guardar el cambio.</string>
+  <string name="delete_item_title">Eliminar producto</string>
+  <string name="delete_item_message">¿Eliminar «%1$s» de esta lista?</string>
   <string name="mark_bought">Marcar %1$s como comprado</string>
   <string name="mark_pending">Marcar %1$s como pendiente</string>
   <string name="item_status_pending">Pendiente</string>
@@ -190,9 +189,9 @@
   <string name="route_status_unavailable">No pudimos leer tu recorrido; la lista sigue el orden en que la escribiste.</string>
   <string name="route_forget_title">¿Olvidar tu recorrido?</string>
   <string name="route_forget_message">OurMeal olvidará el orden aprendido en todas tus listas, por ejemplo si cambias de tienda. Tus listas y productos no cambian.</string>
-  <string name="route_forgotten">Recorrido olvidado</string>
-  <string name="route_forget_error">No se pudo olvidar el recorrido</string>
-  <string name="route_save_error">No se pudo guardar el orden elegido</string>
+  <string name="route_forgotten">Recorrido olvidado.</string>
+  <string name="route_forget_error">No se pudo olvidar el recorrido.</string>
+  <string name="route_save_error">No se pudo guardar el orden elegido.</string>
   <plurals name="route_status_partial">
     <item quantity="one">%1$d de %2$d pendiente sigue tu recorrido; el resto va al final.</item>
     <item quantity="other">%1$d de %2$d pendientes siguen tu recorrido; el resto va al final.</item>
@@ -211,7 +210,6 @@
   <string name="cancel">Cancelar</string>
   <string name="delete">Eliminar</string>
   <string name="undo">Deshacer</string>
-  <string name="back">Volver</string>
   <string name="list_name_dialog_message">Ponle un nombre fácil de reconocer.</string>
   <string name="progress_completion">Progreso de la compra</string>
 

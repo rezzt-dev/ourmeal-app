@@ -1,9 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Touch feedback of a day chip plus a visible ring when it has keyboard focus. -->
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
   android:color="@color/hairline">
+  <item>
+    <selector>
+      <item android:state_focused="true">
+        <shape>
+          <stroke android:width="2dp" android:color="@color/ink" />
+          <corners android:radius="@dimen/radius_card" />
+        </shape>
+      </item>
+      <item android:drawable="@android:color/transparent" />
+    </selector>
+  </item>
   <item android:id="@android:id/mask">
     <shape>
       <solid android:color="@android:color/white" />
-      <corners android:radius="10dp" />
+      <corners android:radius="@dimen/radius_card" />
     </shape>
   </item>
 </ripple>

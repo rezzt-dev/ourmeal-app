@@ -17,8 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
+        android:paddingStart="@dimen/screen_gutter"
+        android:paddingEnd="@dimen/screen_gutter"
         android:paddingTop="16dp"
         android:paddingBottom="24dp">
 
@@ -137,15 +137,13 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
               android:id="@+id/btnPreviousWeek"
+              style="@style/Widget.Ourmeal.Button.Cream.Icon"
               android:layout_width="48dp"
               android:layout_height="48dp"
-              android:background="@drawable/bg_cream"
-              android:foreground="?attr/selectableItemBackgroundBorderless"
               android:contentDescription="@string/week_previous"
-              android:padding="14dp"
-              android:src="@drawable/ic_chevron_left" />
+              app:icon="@drawable/ic_chevron_left" />
 
             <com.google.android.material.button.MaterialButton
               android:id="@+id/btnOpenCalendar"
@@ -163,15 +161,13 @@
               app:icon="@drawable/ic_calendar"
               app:iconGravity="textStart" />
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
               android:id="@+id/btnNextWeek"
+              style="@style/Widget.Ourmeal.Button.Cream.Icon"
               android:layout_width="48dp"
               android:layout_height="48dp"
-              android:background="@drawable/bg_cream"
-              android:foreground="?attr/selectableItemBackgroundBorderless"
               android:contentDescription="@string/week_next"
-              android:padding="14dp"
-              android:src="@drawable/ic_chevron_right" />
+              app:icon="@drawable/ic_chevron_right" />
           </LinearLayout>
         </LinearLayout>
 

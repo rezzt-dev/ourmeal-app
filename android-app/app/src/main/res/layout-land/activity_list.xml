@@ -11,8 +11,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:baselineAligned="false"
-    android:paddingStart="32dp"
-    android:paddingEnd="32dp"
+    android:paddingStart="@dimen/screen_gutter"
+    android:paddingEnd="@dimen/screen_gutter"
     android:paddingTop="12dp"
     android:paddingBottom="16dp">
 
@@ -33,7 +33,6 @@
         style="@style/Widget.Ourmeal.Button.Text.Muted"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:contentDescription="@string/back"
         android:text="@string/back_to_menu"
         app:icon="@drawable/ic_arrow_back"
         app:iconTint="@color/muted" />

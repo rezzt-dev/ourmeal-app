@@ -86,8 +86,7 @@ class ListActivity : AppCompatActivity() {
       }
       lists = loaded.sortedByDescending { it.createdAt }
       adapter.submitList(lists)
-      binding.tvListCount.text =
-        resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
+      showListCount(lists.size)
       binding.btnAddList.isEnabled = true
       if (lists.isEmpty()) {
         showEmptyState()
@@ -181,8 +180,7 @@ class ListActivity : AppCompatActivity() {
       dialog.dismiss()
       lists = (listOf(list) + lists).sortedByDescending { it.createdAt }
       adapter.submitList(lists)
-      binding.tvListCount.text =
-        resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
+      showListCount(lists.size)
       binding.btnAddList.isEnabled = true
       binding.recyclerViewLists.reveal()
       binding.statePanel.root.isVisible = false
@@ -229,8 +227,7 @@ class ListActivity : AppCompatActivity() {
       }
       lists = lists.filterNot { it.id == list.id }
       adapter.submitList(lists)
-      binding.tvListCount.text =
-        resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
+      showListCount(lists.size)
       if (lists.isEmpty()) showEmptyState()
       binding.rootLists.showSnackbar(
         message = getString(R.string.list_deleted),
@@ -261,8 +258,7 @@ class ListActivity : AppCompatActivity() {
       }
       lists = (lists + list).sortedByDescending { it.createdAt }
       adapter.submitList(lists)
-      binding.tvListCount.text =
-        resources.getQuantityString(R.plurals.list_count, lists.size, lists.size)
+      showListCount(lists.size)
       binding.recyclerViewLists.reveal()
       binding.statePanel.root.isVisible = false
     }
@@ -286,5 +282,11 @@ class ListActivity : AppCompatActivity() {
         binding.root.post(undo)
       }
     }
+  }
+
+  /** The empty state already says there are no lists, so the counter only shows real ones. */
+  private fun showListCount(count: Int) {
+    binding.tvListCount.text =
+      if (count == 0) "" else resources.getQuantityString(R.plurals.list_count, count, count)
   }
 }

@@ -35,6 +35,7 @@
 - comparte las listas en el orden en que se muestran y avisa al abrir una lista de cuántos productos aprendió del último viaje.
 - añade `ShoppingRouteTest.kt` y `ShoppingRouteOrderTest.kt` para el aprendizaje del recorrido y el orden de la lista.
 - añade `.docs/manager.md`, las guías de `.docs/-github-guides/` y `.docs/repo-audit-and-fix.md` para gestionar commits, pull requests, merges, releases, changelog y ramas.
+- añade `.docs/agent-docs/ui-ux-audit.md` como cuaderno de seguimiento del pulido visual y de experiencia, con inventario de pantallas, pendientes, dudas y cambios hechos.
 
 #### CAMBIOS
 - exigir español de españa y conservar `ñ` y `Ñ`, incluso en formatos que pidan escribir sin acentos
@@ -76,6 +77,11 @@
 - documenta la preparación de la compra en `.docs/info-project/`, `claude.md` y `agents.md`.
 - usa las versiones variables de Bricolage Grotesque y Source Sans 3 con una escala tipográfica semántica en `res/values/dimens.xml`, pesos reales por estilo, tamaño óptico ajustado a títulos y titulares y cifras tabulares en fechas y progresos.
 - rehace `claude.md` como resumen de las reglas de git y `agents.md` como guía completa en inglés, conservando las reglas del proyecto y sin línea de atribución en los commits.
+- unifica la interfaz con radios de esquina con nombre (`radius_control`, `radius_card`, `radius_container`) y un margen lateral `screen_gutter`, con un mismo contorno para botones secundarios, campos y chips y snackbars alineadas con la columna de contenido.
+- reparte las fichas de dia a lo ancho del selector y rehace las flechas de semana como botones con la misma forma que `Elegir fecha`.
+- muestra un anillo de foco visible con teclado fisico en botones principales y crema, fichas de dia y tarjetas, con los colores `focus_ring_on_brand`, `focus_ring_on_cream` y `card_outline`.
+- oculta el contador y la tarjeta de progreso cuando la lista esta vacia, usa «Eliminar producto» en todo el borrado, diferencia el antetitulo del detalle y termina con punto las snackbars de una frase.
+- sustituye `ic_edit_meal.xml` por el icono de edicion relleno del resto del set.
 
 #### CORREGIDO
 - corrige la prueba instrumentada de contexto para comparar el `applicationId` real `app.ourmeat` y homogeneizar sus finales de línea.
@@ -84,6 +90,8 @@
 - corrige el color del texto de los snackbars, que se veía oscuro sobre fondo oscuro, y ajusta su forma y tipografía al resto de la interfaz.
 - corrige `WeekUtils.startOfWeek()`, que convertía en silencio una semana 53 inexistente, como `2021-W53`, en la primera semana del año siguiente.
 - corrige los estilos de texto y los componentes material, que se mostraban en roboto porque el atributo `fontFamily` heredado de material 3 prevalecía sobre las fuentes de la marca.
+- corrige el aviso de repeticion y las sugerencias, que quedaban ocultos tras el teclado al editar un plato.
+- corrige los nombres accesibles de los botones de volver y de `Elegir fecha`, que no coincidian con el texto visible.
 
 #### ELIMINADO
 - retira la estructura Android anterior ubicada directamente en la raiz del repositorio para sustituirla por la nueva organizacion en `android-app/`.
@@ -91,6 +99,7 @@
 - retira la tarjeta diaria `day_meal_item.xml` al sustituirla por el tablero semanal del menú.
 - retira `project-web/` y sus dependencias, paginas, estilos, recursos y artefactos generados al finalizar la fase temporal del sitio web.
 - retira `.docs/guidelines/commit-guidelines.md` y `.docs/guidelines/pr-merge-release-guidelines.md`, sustituidas por las guías de `.docs/-github-guides/`.
+- retira `bg_cream.xml`, sustituido por `Widget.Ourmeal.Button.Cream.Icon`, y los textos `back` y `progress_empty`, sin uso.
 
 ### ENGLISH
 
@@ -125,6 +134,7 @@
 - share lists in the order they are shown and announce on opening a list how many products the last trip taught.
 - add `ShoppingRouteTest.kt` and `ShoppingRouteOrderTest.kt` for route learning and list ordering.
 - add `.docs/manager.md`, the `.docs/-github-guides/` guides and `.docs/repo-audit-and-fix.md` to manage commits, pull requests, merges, releases, changelog and branches.
+- add `.docs/agent-docs/ui-ux-audit.md` as the tracking notebook for visual and experience polish, with a screen inventory, pending items, open questions, and applied changes.
 
 #### CHANGED
 - require spanish from spain and preserve `ñ` and `Ñ`, including formats that omit vowel accents
@@ -166,6 +176,11 @@
 - document shopping preparation in `.docs/info-project/`, `claude.md`, and `agents.md`.
 - use the variable versions of Bricolage Grotesque and Source Sans 3 with a semantic type scale in `res/values/dimens.xml`, real weights per style, optical size tuned for titles and headlines, and tabular figures in dates and progress.
 - rewrite `claude.md` as the git rules digest and `agents.md` as the full english guide, keeping the project rules and with no attribution line in commits.
+- unify the interface with named corner radii (`radius_control`, `radius_card`, `radius_container`) and a `screen_gutter` side margin, with one outline for secondary buttons, fields, and chips and snackbars aligned with the content column.
+- spread the day chips across the selector and rebuild the week arrows as buttons with the same shape as `Elegir fecha`.
+- show a visible focus ring with a physical keyboard on primary and cream buttons, day chips, and cards, using the colors `focus_ring_on_brand`, `focus_ring_on_cream`, and `card_outline`.
+- hide the counter and progress card when a list is empty, use «Eliminar producto» throughout item deletion, give the list detail its own kicker, and end one-sentence snackbars with a period.
+- replace `ic_edit_meal.xml` with the filled edit icon used by the rest of the set.
 
 #### FIXED
 - fix the instrumented context test to compare the real `app.ourmeat` `applicationId` and normalize its line endings.
@@ -174,6 +189,8 @@
 - fix snackbar text, which rendered dark on a dark background, and align the snackbar shape and typography with the rest of the interface.
 - fix `WeekUtils.startOfWeek()`, which silently turned a missing week 53, such as `2021-W53`, into the first week of the next year.
 - fix text styles and Material components rendering in Roboto because the `fontFamily` attribute inherited from Material 3 took precedence over the brand fonts.
+- fix the repeat warning and suggestions, which stayed hidden behind the keyboard while editing a dish.
+- fix the accessible names of the back buttons and `Elegir fecha`, which did not match their visible text.
 
 #### REMOVED
 - remove the previous Android structure located directly in the repository root and replace it with the new `android-app/` organization.
@@ -181,3 +198,4 @@
 - remove the daily card `day_meal_item.xml` in favor of the weekly menu board.
 - remove `project-web/` and its dependencies, pages, styles, assets, and generated artifacts after completing the temporary website phase.
 - remove `.docs/guidelines/commit-guidelines.md` and `.docs/guidelines/pr-merge-release-guidelines.md`, replaced by the `.docs/-github-guides/` guides.
+- remove `bg_cream.xml`, replaced by `Widget.Ourmeal.Button.Cream.Icon`, and the unused `back` and `progress_empty` strings.

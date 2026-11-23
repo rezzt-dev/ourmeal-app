@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Keyboard focus ring for cream surfaces (buttons and list cards); invisible otherwise. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:color="@color/cream_deep" android:state_focused="true" />
+  <item android:color="@android:color/transparent" />
+</selector>

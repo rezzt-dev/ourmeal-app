@@ -180,13 +180,13 @@ class ListDetailActivity : AppCompatActivity() {
     val total = list.getTotalCount()
     val done = list.getCompletedCount()
     val percentage = list.getCompletionPercentage()
+    // An empty list is explained by its empty state; the counter and progress card would repeat it.
     binding.tvItemCount.text =
-      resources.getQuantityString(R.plurals.item_count, total, total)
-    binding.tvProgress.text = when {
-      total == 0 -> getString(R.string.progress_empty)
-      done == total -> getString(R.string.progress_done)
-      else -> getString(R.string.progress_partial, done, total)
-    }
+      if (total == 0) "" else resources.getQuantityString(R.plurals.item_count, total, total)
+    binding.progressCard.isVisible = total > 0
+    binding.tvProgress.text =
+      if (done == total) getString(R.string.progress_done)
+      else getString(R.string.progress_partial, done, total)
     binding.progressCompletion.setProgressWithMotion(percentage)
     binding.progressCompletion.contentDescription =
       "${getString(R.string.progress_completion)}: $percentage%"

@@ -92,8 +92,7 @@
       android:drawablePadding="12dp"
       android:backgroundTint="@null"
       android:hint="@string/day_lunch_placeholder"
-      android:fontFamily="@font/source_sans_3"
-      android:textColor="@color/ink"
+      android:textAppearance="@style/TextAppearance.Ourmeal.BodyLarge"
       android:textColorHint="@color/muted"
       android:gravity="center_vertical|start"
       android:imeOptions="actionNext|flagNoExtractUi"
@@ -102,8 +101,7 @@
       android:maxLength="120"
       android:minHeight="48dp"
       android:paddingHorizontal="12dp"
-      android:paddingVertical="12dp"
-      android:textSize="@dimen/type_body_large" />
+      android:paddingVertical="12dp" />
     <!-- Chips keep a 48dp touch target, so their own inset gives the 8dp gap below the field. -->
     <HorizontalScrollView
       android:id="@+id/comidaSuggestionsScroll"
@@ -159,8 +157,7 @@
       android:drawablePadding="12dp"
       android:backgroundTint="@null"
       android:hint="@string/day_dinner_placeholder"
-      android:fontFamily="@font/source_sans_3"
-      android:textColor="@color/ink"
+      android:textAppearance="@style/TextAppearance.Ourmeal.BodyLarge"
       android:textColorHint="@color/muted"
       android:gravity="center_vertical|start"
       android:imeOptions="actionDone|flagNoExtractUi"
@@ -169,8 +166,7 @@
       android:maxLength="120"
       android:minHeight="48dp"
       android:paddingHorizontal="12dp"
-      android:paddingVertical="12dp"
-      android:textSize="@dimen/type_body_large" />
+      android:paddingVertical="12dp" />
     <!-- Chips keep a 48dp touch target, so their own inset gives the 8dp gap below the field. -->
     <HorizontalScrollView
       android:id="@+id/cenaSuggestionsScroll"

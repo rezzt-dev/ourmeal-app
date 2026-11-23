@@ -7,4 +7,8 @@
   <dimen name="type_headline">28sp</dimen>
   <dimen name="type_title">22sp</dimen>
 
+  <!-- MARGEN LATERAL DE LAS PANTALLAS EN HORIZONTAL -->
+
+  <dimen name="screen_gutter">32dp</dimen>
+
 </resources>

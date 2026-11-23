@@ -213,9 +213,21 @@ class MainActivity : AppCompatActivity() {
       binding.menuBoard.layoutDaySelector.addView(chip.root)
     }
 
+    spreadDayChips()
     renderSelectedDay()
     updateChipStates()
     updateWeekProgress()
+  }
+
+  /**
+   * Gives each chip an equal share of the row so the week fills it. A chip that needs more room,
+   * e.g. with an enlarged font, keeps its natural width and the row scrolls instead of wrapping.
+   */
+  private fun spreadDayChips() {
+    binding.menuBoard.daySelectorScroll.doOnLayout { scroll ->
+      val share = (scroll.width - scroll.paddingLeft - scroll.paddingRight) / WeeklyMeals.DAYS.size
+      dayChips.forEach { it.binding.root.minimumWidth = share }
+    }
   }
 
   private fun selectDay(index: Int) {
@@ -286,6 +298,13 @@ class MainActivity : AppCompatActivity() {
   private fun setupMealFields() {
     watchMeal(binding.menuBoard.etComida, MealSlot.COMIDA)
     watchMeal(binding.menuBoard.etCena, MealSlot.CENA)
+    // Focus arrives before the keyboard shrinks the window, so scroll again once it has.
+    binding.mainScroll.addOnLayoutChangeListener { _, _, top, _, bottom, _, oldTop, _, oldBottom ->
+      if (bottom - top >= oldBottom - oldTop) return@addOnLayoutChangeListener
+      listOf(binding.menuBoard.etComida, binding.menuBoard.etCena)
+        .firstOrNull { it.hasFocus() }
+        ?.let(::scrollFieldIntoView)
+    }
     binding.menuBoard.etComida.setOnEditorActionListener { _, action, _ ->
       if (action == EditorInfo.IME_ACTION_NEXT) {
         binding.menuBoard.etCena.requestFocus()

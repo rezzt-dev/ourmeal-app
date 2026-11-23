@@ -6,10 +6,10 @@
   android:layout_height="wrap_content"
   android:layout_marginBottom="8dp"
   app:cardBackgroundColor="@color/surface"
-  app:cardCornerRadius="10dp"
+  app:cardCornerRadius="@dimen/radius_card"
   app:cardElevation="0dp"
   app:rippleColor="@color/ripple_dark"
-  app:strokeColor="@color/hairline"
+  app:strokeColor="@color/card_outline"
   app:strokeWidth="1dp">
 
   <LinearLayout

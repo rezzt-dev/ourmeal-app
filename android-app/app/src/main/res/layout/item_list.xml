@@ -8,10 +8,11 @@
   android:clickable="true"
   android:focusable="true"
   app:cardBackgroundColor="@color/cream"
-  app:cardCornerRadius="12dp"
+  app:cardCornerRadius="@dimen/radius_card"
   app:cardElevation="0dp"
   app:rippleColor="@color/ripple_dark"
-  app:strokeWidth="0dp">
+  app:strokeColor="@color/focus_ring_on_cream"
+  app:strokeWidth="2dp">
 
   <LinearLayout
     android:layout_width="match_parent"

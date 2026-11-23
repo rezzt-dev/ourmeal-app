@@ -1,9 +1,14 @@
 package ourmeal.app
 
 import android.view.View
+import android.view.ViewGroup
+import app.ourmeat.R
 import com.google.android.material.snackbar.Snackbar
 
-/** Shows a themed snackbar, optionally anchored above a persistent action bar. */
+/**
+ * Shows a themed snackbar, optionally anchored above a persistent action bar. Its sides line up
+ * with the screen gutter instead of Material's narrower default margin.
+ */
 internal fun View.showSnackbar(
   message: String,
   actionLabel: String? = null,
@@ -15,6 +20,12 @@ internal fun View.showSnackbar(
     anchor?.let(::setAnchorView)
     if (actionLabel != null && onAction != null) {
       setAction(actionLabel) { onAction() }
+    }
+    (view.layoutParams as? ViewGroup.MarginLayoutParams)?.let { params ->
+      val gutter = view.resources.getDimensionPixelSize(R.dimen.screen_gutter)
+      params.leftMargin = gutter
+      params.rightMargin = gutter
+      view.layoutParams = params
     }
   }.show()
 }
