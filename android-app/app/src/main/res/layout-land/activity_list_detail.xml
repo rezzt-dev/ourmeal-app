@@ -87,6 +87,18 @@
           android:max="100"
           android:progressBackgroundTint="@color/sage_deep"
           android:progressTint="@color/cream_deep" />
+
+        <!-- Read as one sentence by screen readers; hidden until a product has a price. -->
+        <TextView
+          android:id="@+id/tvEstimate"
+          style="@style/TextAppearance.Ourmeal.Meta.Strong"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:accessibilityLiveRegion="polite"
+          android:fontFeatureSettings="tnum"
+          android:textColor="@color/dark_ink"
+          android:visibility="gone" />
       </LinearLayout>
 
       <include

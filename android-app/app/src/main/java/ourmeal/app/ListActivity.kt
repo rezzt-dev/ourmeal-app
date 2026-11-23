@@ -48,6 +48,9 @@ class ListActivity : AppCompatActivity() {
     binding.recyclerViewLists.adapter = adapter
     binding.btnBackToMain.setOnClickListener { finish() }
     binding.btnAddList.setOnClickListener { showCreateDialog() }
+    binding.btnOpenPurchases.setOnClickListener {
+      startActivity(Intent(this, PurchaseHistoryActivity::class.java))
+    }
     loadLists()
   }
 
@@ -180,7 +183,7 @@ class ListActivity : AppCompatActivity() {
   }
 
   /** An error the open form can show stays in it; otherwise it becomes a snackbar. */
-  private fun showFormError(form: NameForm, message: String) {
+  private fun showFormError(form: OpenForm, message: String) {
     if (form.dialog.isShowing) {
       form.showError(message)
     } else {

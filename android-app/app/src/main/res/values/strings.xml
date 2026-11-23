@@ -288,6 +288,105 @@
     <item quantity="other">OurMeal aprendió el orden de %d productos de tu última compra.</item>
   </plurals>
 
+  <!-- Precios anotados -->
+  <string name="price_add_description">Anotar el precio de %1$s</string>
+  <string name="price_edit_description">%1$s cuesta %2$s. Cambiar el precio</string>
+  <string name="price_remembered_description">%1$s costó %2$s la última vez. Anotar el precio</string>
+  <string name="price_title">Precio de «%1$s»</string>
+  <string name="price_message">OurMeal lo recordará la próxima vez que lo pongas en una lista.</string>
+  <string name="price_message_remembered">La última vez costó %1$s. Cámbialo si ha subido o bajado.</string>
+  <string name="price_label">Precio</string>
+  <string name="price_helper">Por ejemplo: 1,25. Déjalo vacío para quitarlo.</string>
+  <string name="price_invalid">Escribe un importe con hasta dos decimales, por ejemplo 1,25</string>
+  <string name="price_zero">El precio tiene que ser mayor que 0</string>
+  <string name="price_too_large">Como máximo 9999,99 €</string>
+  <string name="price_remove">Quitar precio</string>
+  <string name="price_saved">Precio anotado.</string>
+  <string name="price_removed">Precio quitado.</string>
+  <string name="price_save_error">No se pudo guardar el precio. Inténtalo de nuevo.</string>
+  <string name="price_memory_failed">El precio está anotado, pero no se pudo recordar para la próxima vez.</string>
+  <string name="price_estimate">Total estimado: %1$s</string>
+  <string name="price_estimate_description_all">Total estimado de la lista: %1$s.</string>
+  <string name="price_share_line">%1$s · %2$s</string>
+  <string name="share_list_plain">Compartir sin precios</string>
+  <string name="share_list_with_prices">Compartir con precios</string>
+  <plurals name="price_estimate_unpriced">
+    <item quantity="one">Total estimado: %1$s · %2$d sin precio</item>
+    <item quantity="other">Total estimado: %1$s · %2$d sin precio</item>
+  </plurals>
+  <plurals name="price_estimate_description">
+    <item quantity="one">Total estimado de la lista: %1$s, sin contar %2$d producto sin precio.</item>
+    <item quantity="other">Total estimado de la lista: %1$s, sin contar %2$d productos sin precio.</item>
+  </plurals>
+
+  <!-- Historial de compras -->
+  <string name="purchases_open">Mis compras</string>
+  <string name="purchases_open_description">Ver mis compras anteriores</string>
+  <string name="purchases_kicker">Lo que ya has comprado</string>
+  <string name="purchases_title_first">Tus compras,</string>
+  <string name="purchases_title_second">a un toque.</string>
+  <string name="purchases_intro">Cada vez que marcas productos en una lista, OurMeal guarda la compra, aunque después borres la lista.</string>
+  <string name="purchases_section_title">Compras recientes</string>
+  <string name="purchases_loading">Cargando tus compras…</string>
+  <string name="purchases_empty_title">Aún no hay compras guardadas.</string>
+  <string name="purchases_empty_body">Marca los productos de una lista mientras compras y la compra aparecerá aquí.</string>
+  <string name="purchases_error_title">No pudimos abrir tus compras.</string>
+  <string name="purchases_error_body">Tus datos siguen guardados. Vuelve a intentarlo.</string>
+  <string name="purchase_in_progress">En curso</string>
+  <string name="purchase_in_progress_hint">Se cerrará cuando dejes de marcar productos un rato.</string>
+  <string name="purchase_today">Hoy, %1$s</string>
+  <string name="purchase_yesterday">Ayer, %1$s</string>
+  <string name="purchase_date">%1$s, %2$s</string>
+  <string name="purchase_meta">%1$s · %2$s</string>
+  <string name="purchase_list_deleted">%1$s (lista borrada)</string>
+  <string name="purchase_unnamed_list">Lista sin nombre</string>
+  <string name="purchase_minutes">%1$d&#160;min</string>
+  <string name="purchase_hours">%1$d&#160;h %2$d&#160;min</string>
+  <string name="purchase_item_line">%1$s · %2$s</string>
+  <string name="purchase_spend">Gasto anotado: %1$s</string>
+  <string name="purchase_repeat">Repetir esta compra</string>
+  <string name="purchase_repeat_description">Repetir la compra de %1$s en una lista nueva</string>
+  <string name="purchase_repeat_error">No se pudo crear la lista. Inténtalo de nuevo.</string>
+  <string name="purchase_repeated">Compra repetida en una lista nueva, con todo pendiente.</string>
+  <string name="purchase_delete_description">Borrar del historial la compra de %1$s</string>
+  <string name="purchase_delete_title">¿Borrar esta compra del historial?</string>
+  <string name="purchase_delete_message">Se borrará la compra de «%1$s» del %2$s. Tus listas no cambian.</string>
+  <string name="purchase_delete_confirm">Borrar</string>
+  <string name="purchase_deleted">Compra borrada del historial.</string>
+  <string name="purchase_delete_error">No se pudo borrar la compra.</string>
+  <string name="purchase_show_products">Ver productos</string>
+  <string name="purchase_hide_products">Ocultar productos</string>
+  <string name="purchase_expanded">Productos visibles</string>
+  <string name="purchase_collapsed">Productos ocultos</string>
+  <plurals name="purchases_count">
+    <item quantity="one">%d compra</item>
+    <item quantity="other">%d compras</item>
+  </plurals>
+  <plurals name="purchase_spend_partial">
+    <item quantity="one">Gasto anotado: %1$s · %2$d sin precio</item>
+    <item quantity="other">Gasto anotado: %1$s · %2$d sin precio</item>
+  </plurals>
+  <plurals name="purchase_preview">
+    <item quantity="one">%1$s y %2$d más</item>
+    <item quantity="other">%1$s y %2$d más</item>
+  </plurals>
+
+  <!-- Widget del menú de hoy -->
+  <string name="widget_today_name">Menú de hoy</string>
+  <string name="widget_today_picker_description">La comida y la cena de hoy en tu pantalla de inicio. Tócalo para abrir el menú.</string>
+  <string name="widget_today_short">Hoy</string>
+  <string name="widget_unplanned">Sin planificar</string>
+  <string name="widget_empty_title">Nada planificado para hoy</string>
+  <string name="widget_empty_body">Toca para elegir la comida y la cena.</string>
+  <string name="widget_error_title">No pudimos leer tu menú</string>
+  <string name="widget_error_body">Toca para abrir OurMeal.</string>
+  <string name="widget_loading">Cargando el menú de hoy…</string>
+  <string name="widget_planned_description">Menú de hoy, %1$s. Comida: %2$s. Cena: %3$s. Toca para abrir el menú.</string>
+  <string name="widget_empty_description">Menú de hoy, %1$s: nada planificado. Toca para abrir el menú.</string>
+  <string name="widget_error_description">No pudimos leer tu menú. Toca para abrir OurMeal.</string>
+  <string name="widget_preview_lunch">Lentejas con verduras</string>
+  <string name="widget_preview_dinner">Tortilla de patatas</string>
+
   <!-- Acciones y estados compartidos -->
   <string name="retry">Reintentar</string>
   <string name="create">Crear lista</string>

@@ -41,6 +41,12 @@
 - permitir cambiar el nombre de una lista o de un producto con una pulsación larga o la acción de accesibilidad `Cambiar nombre`, sin perder su estado y con deshacer.
 - añadir a cada lista `Desmarcar todo`, `Quitar los comprados` y `Duplicar la lista`, con deshacer; desmarcar en bloque no enseña nada al recorrido de compra.
 - añadir pruebas unitarias de la edición del menú, el texto compartido y la reutilización de listas, y `MenuToolsTest.kt` y `ListReuseFlowTest.kt` con `UiTestSupport.kt` para los flujos completos.
+- añadir precios opcionales por producto en centimos, con entrada que acepta coma o punto, el ultimo precio recordado en `product_prices.json` y el total estimado de la lista con los productos sin precio contados aparte.
+- preguntar al compartir una lista con precios si incluirlos, y compartirla sin ellos por defecto.
+- añadir `Mis compras`, accesible desde `Mis listas`, que guarda en `purchase_history.json` cada viaje a la tienda con su fecha, lista, productos, duracion y gasto anotado, aunque se borre la lista; una compra corta tambien cuenta.
+- repetir una compra anterior como lista nueva con todo pendiente con un solo toque y deshacer, y borrar compras del historial con confirmacion y deshacer.
+- añadir el widget `Menú de hoy` con la comida y la cena del dia en dos tamaños, que abre el menu en hoy y se actualiza al guardar, al abrir la aplicacion y tras la medianoche sin permisos.
+- añadir `ItemPriceTest.kt`, `PurchaseHistoryTest.kt` y `TodayMenuTest.kt`, y `ItemPriceFlowTest.kt`, `PurchaseHistoryFlowTest.kt` y `TodayMenuWidgetTest.kt` para los flujos completos.
 
 #### CAMBIOS
 - exigir español de españa y conservar `ñ` y `Ñ`, incluso en formatos que pidan escribir sin acentos
@@ -90,6 +96,7 @@
 - unificar los formularios de crear, renombrar y duplicar en `openNameForm` y ampliar `CreationFormState` para reabrir cada formulario con su finalidad tras recrear la pantalla.
 - colocar el botón de compartir junto a `Preparar la compra` y ampliar el texto de ayuda para explicar también por qué compartir está deshabilitado con la semana vacía.
 - declarar en `AndroidManifest.xml` un `FileProvider` no exportado limitado a `cache/shared/` y documentar las funciones nuevas en `agents.md` y `.docs/info-project/`.
+- unificar la lectura segura y la escritura atomica de los ficheros json nuevos en `JsonDocument.kt` y permitir en `prepareForm` formularios que se envian vacios para quitar un valor.
 
 #### CORREGIDO
 - corrige la prueba instrumentada de contexto para comparar el `applicationId` real `app.ourmeat` y homogeneizar sus finales de línea.
@@ -148,6 +155,12 @@
 - allow renaming a list or a product with a long press or the `Cambiar nombre` accessibility action, keeping its state, with undo.
 - add `Desmarcar todo`, `Quitar los comprados` and `Duplicar la lista` to each list, with undo; a bulk uncheck teaches nothing to the shopping route.
 - add unit tests for menu editing, shared text and list reuse, plus `MenuToolsTest.kt` and `ListReuseFlowTest.kt` with `UiTestSupport.kt` for the full flows.
+- add optional per-product prices in cents, with input that accepts a comma or a dot, the last price remembered in `product_prices.json` and the list's estimated total with unpriced products counted apart.
+- ask whether to include prices when sharing a list that has them, and share it without them by default.
+- add `Mis compras`, opened from `Mis listas`, which keeps every trip to the shop in `purchase_history.json` with its date, list, products, duration and noted spend, even after the list is deleted.
+- repeat a past trip as a new pending list with one tap and undo, and remove trips from the history with confirmation and undo.
+- add the `Menú de hoy` widget with today's lunch and dinner in two sizes, which opens the menu on today and refreshes on save, on app open and after midnight without permissions.
+- add `ItemPriceTest.kt`, `PurchaseHistoryTest.kt` and `TodayMenuTest.kt`, plus `ItemPriceFlowTest.kt`, `PurchaseHistoryFlowTest.kt` and `TodayMenuWidgetTest.kt` for the full flows.
 
 #### CHANGED
 - require spanish from spain and preserve `ñ` and `Ñ`, including formats that omit vowel accents
@@ -197,6 +210,7 @@
 - unify the create, rename and duplicate forms in `openNameForm` and extend `CreationFormState` to reopen each form for its purpose after the screen is recreated.
 - place the share button next to `Preparar la compra` and extend the hint text to also explain why sharing is disabled for an empty week.
 - declare in `AndroidManifest.xml` a non-exported `FileProvider` limited to `cache/shared/` and document the new features in `agents.md` and `.docs/info-project/`.
+- unify the safe read and atomic write of the new json files in `JsonDocument.kt` and let `prepareForm` submit blank forms to remove an optional value.
 
 #### FIXED
 - fix the instrumented context test to compare the real `app.ourmeat` `applicationId` and normalize its line endings.

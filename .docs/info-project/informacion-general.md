@@ -24,6 +24,9 @@ decidir qué comer cada día y recordar todo lo que hay que comprar suele hacers
 - **compartir el menú**: la semana visible se comparte como texto, un día por línea con su comida y su cena, o como imagen, para avisar a quien cocina o come en casa aunque no tenga la aplicación.
 - **copiar y vaciar el menú**: un día se copia a otros días y la semana anterior a la visible; por defecto solo se rellenan los huecos vacíos y sustituir lo escrito se pide de forma explícita. también se vacía un día o la semana entera, siempre con opción de deshacer.
 - **editar y reutilizar listas**: una pulsación larga cambia el nombre de una lista o de un producto sin borrarlo. cada lista permite desmarcar todo, quitar lo comprado o duplicarse como lista nueva con todo pendiente, con opción de deshacer.
+- **precios anotados**: cada producto admite un precio opcional que la aplicación recuerda para la próxima vez que se añada. la lista muestra el total estimado y cuántos productos no tienen precio. todo se calcula en el teléfono y sin conexión, y los precios solo se comparten si el usuario lo elige.
+- **mis compras**: cada viaje a la tienda queda guardado con su fecha, su lista, sus productos, su duración y el gasto anotado, aunque después se borre la lista. cualquier compra se repite con un toque como lista nueva con todo pendiente.
+- **widget del menú de hoy**: un widget de la pantalla de inicio muestra la comida y la cena de hoy y abre el menú al tocarlo, sin permisos ni notificaciones.
 
 ## PARA QUIEN ES
 

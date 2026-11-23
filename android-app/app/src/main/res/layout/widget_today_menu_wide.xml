@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Today's menu on a wide home screen widget, lunch and dinner side by side. It is also the
+  widget picker's preview, so its defaults are example dishes; TodayMenuWidget sets every text
+  and visibility before a placed widget shows it.
+-->
+<!-- The frame is read as one sentence; its content is hidden from screen readers, so both are needed. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@android:id/background"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/bg_widget"
+  android:clipToOutline="true"
+  android:contentDescription="@string/widget_today_name"
+  android:padding="@dimen/widget_padding"
+  tools:ignore="UselessParent">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:importantForAccessibility="noHideDescendants"
+    android:orientation="vertical">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:orientation="horizontal">
+
+      <TextView
+        style="@style/Widget.Ourmeal.HomeWidget.Heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/widget_today_short" />
+
+      <TextView
+        android:id="@+id/widgetDate"
+        style="@style/Widget.Ourmeal.HomeWidget.Date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/widgetMeals"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:baselineAligned="false"
+      android:orientation="horizontal">
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+          style="@style/Widget.Ourmeal.HomeWidget.Slot"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/day_lunch" />
+
+        <TextView
+          android:id="@+id/widgetLunch"
+          style="@style/Widget.Ourmeal.HomeWidget.Dish"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="2dp"
+          android:text="@string/widget_preview_lunch" />
+      </LinearLayout>
+
+      <!-- Plain views are not allowed in widgets; an empty frame draws the divider. -->
+      <FrameLayout
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:background="@color/outline" />
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+          style="@style/Widget.Ourmeal.HomeWidget.Slot"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/day_dinner" />
+
+        <TextView
+          android:id="@+id/widgetDinner"
+          style="@style/Widget.Ourmeal.HomeWidget.Dish"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="2dp"
+          android:text="@string/widget_preview_dinner" />
+      </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/widgetMessage"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:orientation="vertical"
+      android:visibility="gone">
+
+      <TextView
+        android:id="@+id/widgetMessageTitle"
+        style="@style/Widget.Ourmeal.HomeWidget.Dish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+      <TextView
+        android:id="@+id/widgetMessageBody"
+        style="@style/Widget.Ourmeal.HomeWidget.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp" />
+    </LinearLayout>
+  </LinearLayout>
+</FrameLayout>

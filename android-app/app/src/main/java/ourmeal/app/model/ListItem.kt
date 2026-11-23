@@ -19,5 +19,9 @@ data class ListItem(
   var updatedAt: Long = System.currentTimeMillis(),
 
   @SerializedName("notes")
-  var notes: String? = null
+  var notes: String? = null,
+
+  /** Price written by the user for this list, in euro cents; null when none was written. */
+  @SerializedName("price_cents")
+  var priceCents: Long? = null
 )

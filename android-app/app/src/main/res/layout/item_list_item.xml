@@ -52,6 +52,16 @@
         android:textColor="@color/muted" />
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/btnItemPrice"
+      style="@style/Widget.Ourmeal.Button.Price"
+      android:layout_width="wrap_content"
+      android:layout_height="48dp"
+      android:layout_marginStart="4dp"
+      android:contentDescription="@string/price_label"
+      app:icon="@drawable/ic_price_tag"
+      app:iconGravity="textStart" />
+
     <ImageButton
       android:id="@+id/btnDeleteItem"
       android:layout_width="48dp"

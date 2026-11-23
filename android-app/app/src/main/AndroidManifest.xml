@@ -22,6 +22,24 @@
         android:name="android.support.FILE_PROVIDER_PATHS"
         android:resource="@xml/shared_files" />
     </provider>
+    <!--
+      Home screen widget with today's menu. Only the system delivers its broadcasts: widget
+      updates, its own midnight alarm and changes of clock, time zone or language.
+    -->
+    <receiver
+      android:name="ourmeal.app.TodayMenuWidget"
+      android:exported="false"
+      android:label="@string/widget_today_name">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="android.intent.action.TIME_SET" />
+        <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+        <action android:name="android.intent.action.LOCALE_CHANGED" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/today_menu_widget_info" />
+    </receiver>
     <activity
       android:name="ourmeal.app.ListDetailActivity"
       android:exported="false"
@@ -30,6 +48,9 @@
       android:name="ourmeal.app.MenuShoppingActivity"
       android:exported="false"
       android:windowSoftInputMode="adjustResize" />
+    <activity
+      android:name="ourmeal.app.PurchaseHistoryActivity"
+      android:exported="false" />
     <activity
       android:name="ourmeal.app.ListActivity"
       android:exported="false"

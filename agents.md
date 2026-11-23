@@ -149,6 +149,9 @@ what the app does, according to the current code:
 - share a list as text, in the order shown, to print, save or send it.
 - share the visible week's menu as text or as an image (`FileProvider` over `cacheDir/shared/`), copy a day or the previous week, and clear a day or the week, with undo.
 - rename lists and products with a long press, and uncheck all, remove bought products or duplicate a list, with undo; bulk changes never teach the shopping route.
+- write an optional price per product in euro cents, remember the last price of each product for later lists and show the list's estimated total with how many products have no price; prices are only shared when the user picks `Compartir con precios`.
+- keep every trip to the shop in `Mis compras` (opened from `Mis listas`), with its date, list, products, duration and noted spend, even after the list is deleted, and repeat any trip as a new pending list with one tap and undo.
+- show today's lunch and dinner in the `Menú de hoy` home screen widget, which opens the menu on today; it needs no permission and sends no notification.
 
 proposed features not implemented yet are specified in `.docs/new-features/`; never present them as existing until they are implemented and verified. main audience: families, couples, people organizing their diet and anyone replacing paper lists with a tidier flow.
 
@@ -163,7 +166,7 @@ proposed features not implemented yet are specified in `.docs/new-features/`; ne
 - **xml views with view binding**; no jetpack compose.
 
 ### DATA & STORAGE
-- **json files in `filesDir`**, written with `AtomicFile` and **gson 2.10.1**: `user_lists.json`, `meal_plans.json`, `dish_suggestions.json`, `dish_ingredients.json` and `shopping_route.json`.
+- **json files in `filesDir`**, written with `AtomicFile` and **gson 2.10.1**: `user_lists.json`, `meal_plans.json`, `dish_suggestions.json`, `dish_ingredients.json`, `shopping_route.json`, `purchase_history.json` (last 100 trips) and `product_prices.json` (last 500 remembered prices). new files go through `JsonDocument`.
 - persistence operations are serialized with a process-wide shared lock so read-modify-write stays atomic across activities.
 - a damaged file is never overwritten: managers report a read failure and the screen keeps working without writing.
 
@@ -190,7 +193,7 @@ ourmeal-app/
 │       ├── proguard-rules.pro       # default; minify is off
 │       └── src/
 │           ├── main/
-│           │   ├── AndroidManifest.xml   # 4 activities, file provider, no permissions, allowBackup=true
+│           │   ├── AndroidManifest.xml   # 5 activities, today widget receiver, file provider, no permissions, allowBackup=true
 │           │   ├── assets/licenses/      # OFL texts of bricolage grotesque and source sans 3
 │           │   ├── java/ourmeal/app/
 │           │   │   ├── OurmealApplication.kt   # forces MODE_NIGHT_YES: one palette on every device
@@ -198,7 +201,11 @@ ourmeal-app/
 │           │   │   ├── MealSuggestions.kt      # suggestion strip and repeat hint of one meal field
 │           │   │   ├── MenuShoppingActivity.kt # turns a week's dishes into list products
 │           │   │   ├── ListActivity.kt         # shopping lists
-│           │   │   ├── ListDetailActivity.kt   # products of a list, sorted by the learned route
+│           │   │   ├── ListDetailActivity.kt   # products of a list, sorted by the learned route, with prices
+│           │   │   ├── PurchaseHistoryActivity.kt # "Mis compras": past trips, repeat one as a new list
+│           │   │   ├── PurchaseLog.kt          # writes what is marked in a list to the purchase history
+│           │   │   ├── PriceForm.kt            # price form of a product: parsing, errors, remove
+│           │   │   ├── TodayMenuWidget.kt      # home screen widget with today's menu, midnight refresh
 │           │   │   ├── OurmealDialogs.kt       # name forms (create, rename, duplicate): keyboard, validation, single submit
 │           │   │   ├── Sharing.kt              # share intents and the off-screen menu image
 │           │   │   ├── ScreenUi.kt             # loading, empty and error panels
@@ -211,7 +218,9 @@ ourmeal-app/
 │           │   │   │   ├── DishSuggestionManager.kt # dish_suggestions.json (hidden dishes)
 │           │   │   │   ├── DishMemoryManager.kt     # dish_ingredients.json
 │           │   │   │   ├── ShoppingRouteManager.kt  # shopping_route.json
-│           │   │   │   ├── ListAdapter.kt / ItemAdapter.kt  # DiffUtil, stable ids
+│           │   │   │   ├── JsonDocument.kt          # safe read and atomic write of one json file, per-file lock
+│           │   │   │   ├── PurchaseHistoryManager.kt / ProductPriceManager.kt  # purchase_history.json, product_prices.json
+│           │   │   │   ├── ListAdapter.kt / ItemAdapter.kt / PurchaseTripAdapter.kt  # DiffUtil, stable ids
 │           │   │   └── model/                  # pure kotlin, no android dependencies
 │           │   │       ├── UserList.kt, ListItem.kt, AppData.kt     # lists
 │           │   │       ├── WeeklyMeals.kt, Meal.kt, MealSlot.kt     # menu (COMIDA | CENA)
@@ -221,6 +230,8 @@ ourmeal-app/
 │           │   │       ├── MenuDish.kt, DishMemory.kt, ShoppingDraft.kt, ShoppingMerge.kt  # shopping from the menu
 │           │   │       ├── MenuEditing.kt, MenuShare.kt             # copy/clear the menu and its shared text
 │           │   │       ├── ListReuse.kt                             # rename, bulk uncheck, remove bought, undo
+│           │   │       ├── ItemPrice.kt, PurchaseHistory.kt         # prices in cents, remembered prices, trips
+│           │   │       ├── TodayMenu.kt                             # lunch and dinner of one date
 │           │   │       └── ShoppingRoute.kt                         # learned shopping route
 │           │   └── res/        # color, drawable, font (variable ttf), layout + layout-land, values + values-land, xml
 │           ├── test/java/ourmeal/app/         # junit 4 unit tests of the models
@@ -346,8 +357,8 @@ el módulo `android-app/` contiene la aplicación android.
 | instrumented | `android-app/app/src/androidTest/java/ourmeal/app/` | `AndroidJUnitRunner` | androidx junit 1.2.1, espresso 3.6.1 |
 
 ### COVERAGE
-- **unit:** `DishHistoryTest` (dish records, habitual suggestions), `DishMemoryTest`, `MenuDishTest`, `ModelTest` (`UserList`, `WeeklyMeals`), `ShoppingDraftTest`, `ShoppingMergeTest`, `ShoppingRouteTest`, `SuggestionSettingsTest`, `WeekUtilsTest`.
-- **instrumented:** `CreationFormTest` (empty names not submitted, draft survives recreation, dark theme forced), `MealSuggestionsTest`, `MenuShoppingTest`, `ShoppingRouteOrderTest`, `ExampleInstrumentedTest` (real `applicationId` `app.ourmeat`).
+- **unit:** `DishHistoryTest` (dish records, habitual suggestions), `DishMemoryTest`, `ItemPriceTest`, `MenuDishTest`, `ModelTest` (`UserList`, `WeeklyMeals`), `PurchaseHistoryTest`, `ShoppingDraftTest`, `ShoppingMergeTest`, `ShoppingRouteTest`, `SuggestionSettingsTest`, `TodayMenuTest`, `WeekUtilsTest`.
+- **instrumented:** `CreationFormTest` (empty names not submitted, draft survives recreation, dark theme forced), `ItemPriceFlowTest`, `MealSuggestionsTest`, `MenuShoppingTest`, `PurchaseHistoryFlowTest`, `ShoppingRouteOrderTest`, `TodayMenuWidgetTest` (what the widget opens), `ExampleInstrumentedTest` (real `applicationId` `app.ourmeat`). how the widget is drawn by a launcher is checked by hand.
 - instrumented tests that read or write app data must use the `AppDataSandbox` rule, which moves the device's files aside and restores them at the end.
 - the instrumented tests avoid espresso input injection, which is incompatible with api 37; real touch, keyboard and scrolling are covered by manual emulator checks.
 
@@ -369,7 +380,7 @@ before considering a task finished:
 each feature owns one json file in `filesDir`, written atomically with `AtomicFile` under a shared lock. the format of `meal_plans.json` is stable: the dish history is built by reading every saved week in one load, without changing the format.
 
 ### 2. A DAMAGED FILE IS NEVER OVERWRITTEN
-`DishSuggestionManager`, `DishMemoryManager` and `ShoppingRouteManager` return an empty value when the file does not exist and fail (ioexception / null / false) when it cannot be read; the screen then disables the dependent feature instead of writing over data the user may still need.
+`DishSuggestionManager`, `DishMemoryManager`, `ShoppingRouteManager` and the `JsonDocument` managers (`PurchaseHistoryManager`, `ProductPriceManager`) return an empty value when the file does not exist and fail (ioexception / null / false) when it cannot be read; the screen then disables the dependent feature instead of writing over data the user may still need.
 
 ### 3. ONE DARK THEME
 `OurmealApplication` forces `MODE_NIGHT_YES`, so every device shows the same palette (`Theme.Ourmeal`, based on `Theme.Material3.Dark.NoActionBar`) regardless of the system theme.
@@ -383,12 +394,18 @@ each feature owns one json file in `filesDir`, written atomically with `AtomicFi
 ### 6. SUGGESTIONS NEVER BLOCK
 repeat warnings (same week or last 13 days) are hints under each dish; the user can always repeat a dish. hidden dishes come back when the user types them again.
 
+### 7. PURCHASE HISTORY AND PRICES
+a trip is the products marked in one list, closed after the same 45-minute gap as the route. unlike the route, a short trip still counts, because products marked at home were bought all the same; bulk unchecks and removals never reach the history. prices are integer euro cents; a list shows its own price or else the remembered one, marked with `≈`.
+
+### 8. TODAY WIDGET WITHOUT PERMISSIONS
+the widget never writes data. it is refreshed after each save of the current week, when the app opens, on clock, time zone and locale changes and by an inexact, non-waking alarm after midnight, so no exact-alarm or boot permission is needed. the midnight refresh on a real device is checked by hand.
+
 ---
 
 ## SECURITY CONSIDERATIONS
 
 ### PERMISSIONS
-the manifest declares **no permissions** (no `INTERNET`): nothing leaves the device and there is no telemetry or account. a non-exported `FileProvider` exposes only `cacheDir/shared/` (`res/xml/shared_files.xml`), and only to the app the user picks when sharing the menu as an image; user data in `filesDir` is never exposed.
+the manifest declares **no permissions** (no `INTERNET`): nothing leaves the device and there is no telemetry or account. the `TodayMenuWidget` receiver is not exported: only the system delivers its widget, alarm, time and locale broadcasts. a non-exported `FileProvider` exposes only `cacheDir/shared/` (`res/xml/shared_files.xml`), and only to the app the user picks when sharing the menu as an image; user data in `filesDir` is never exposed.
 
 ### BACKUP POLICY
 `android:allowBackup="true"` with the template `backup_rules.xml` and `data_extraction_rules.xml`: the json files are included in android backups and device transfer. any change here affects privacy and must be documented (`TODO(owner)`: there is no privacy policy yet).

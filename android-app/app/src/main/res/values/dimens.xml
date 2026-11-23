@@ -22,4 +22,8 @@
 
   <dimen name="screen_gutter">24dp</dimen>
 
+  <!-- WIDGET DE LA PANTALLA DE INICIO -->
+
+  <dimen name="widget_padding">16dp</dimen>
+
 </resources>

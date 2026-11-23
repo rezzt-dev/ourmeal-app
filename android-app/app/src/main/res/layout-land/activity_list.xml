@@ -28,14 +28,38 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-      <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnBackToMain"
-        style="@style/Widget.Ourmeal.Button.Text.Muted"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:text="@string/back_to_menu"
-        app:icon="@drawable/ic_arrow_back"
-        app:iconTint="@color/muted" />
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnBackToMain"
+          style="@style/Widget.Ourmeal.Button.Text.Muted"
+          android:layout_width="wrap_content"
+          android:layout_height="48dp"
+          android:text="@string/back_to_menu"
+          app:icon="@drawable/ic_arrow_back"
+          app:iconTint="@color/muted" />
+
+        <Space
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnOpenPurchases"
+          style="@style/Widget.Ourmeal.Button.Text"
+          android:layout_width="wrap_content"
+          android:layout_height="48dp"
+          android:layout_marginStart="8dp"
+          android:contentDescription="@string/purchases_open_description"
+          android:paddingStart="10dp"
+          android:paddingEnd="0dp"
+          android:text="@string/purchases_open"
+          app:icon="@drawable/ic_history" />
+      </LinearLayout>
 
       <TextView
         style="@style/TextAppearance.Ourmeal.Label"

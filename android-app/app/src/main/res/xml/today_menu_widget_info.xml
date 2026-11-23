@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Lunch and dinner of today. Refreshed when the menu is saved, when the app opens and once after
+  midnight with an inexact alarm, so it needs no permission and never polls (no update period).
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+  android:description="@string/widget_today_picker_description"
+  android:initialLayout="@layout/widget_today_menu_compact"
+  android:minWidth="250dp"
+  android:minHeight="110dp"
+  android:minResizeWidth="110dp"
+  android:minResizeHeight="110dp"
+  android:previewLayout="@layout/widget_today_menu_wide"
+  android:resizeMode="horizontal|vertical"
+  android:targetCellWidth="4"
+  android:targetCellHeight="2"
+  android:updatePeriodMillis="0"
+  android:widgetCategory="home_screen" />

@@ -374,6 +374,22 @@
   </style>
 
 
+  <!-- Price of a product row: its amount, or a tag icon while it has none. -->
+  <style name="Widget.Ourmeal.Button.Price" parent="Widget.Ourmeal.Button.Text">
+    <item name="android:textAppearance">@style/TextAppearance.Ourmeal.Price</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:minWidth">48dp</item>
+    <item name="android:paddingStart">10dp</item>
+    <item name="android:paddingEnd">10dp</item>
+    <item name="iconTint">@color/muted</item>
+    <item name="iconSize">20dp</item>
+    <item name="iconPadding">0dp</item>
+  </style>
+
+  <style name="TextAppearance.Ourmeal.Price" parent="TextAppearance.Ourmeal.Body.Strong">
+    <item name="android:fontFeatureSettings">"tnum"</item>
+  </style>
+
   <!-- CAMPOS DE TEXTO -->
 
   <style name="Widget.Ourmeal.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
@@ -473,6 +489,53 @@
     <item name="android:textColor">@color/ink</item>
     <item name="android:textSize">@dimen/type_body</item>
     <item name="android:letterSpacing">0</item>
+  </style>
+
+  <!-- WIDGET DEL MENU DE HOY -->
+  <!-- The launcher inflates widgets outside the app theme: these styles set every attribute themselves. -->
+
+  <style name="Widget.Ourmeal.HomeWidget.Heading" parent="">
+    <item name="android:fontFamily">@font/bricolage_grotesque</item>
+    <item name="android:textFontWeight">800</item>
+    <item name="android:textColor">@color/brand</item>
+    <item name="android:textSize">20sp</item>
+    <item name="android:maxLines">1</item>
+  </style>
+
+  <style name="Widget.Ourmeal.HomeWidget.Date" parent="">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
+    <item name="android:textColor">@color/muted</item>
+    <item name="android:textSize">14sp</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:ellipsize">end</item>
+  </style>
+
+  <style name="Widget.Ourmeal.HomeWidget.Slot" parent="">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
+    <item name="android:textColor">@color/sage</item>
+    <item name="android:textSize">13sp</item>
+    <item name="android:letterSpacing">0.02</item>
+    <item name="android:maxLines">1</item>
+  </style>
+
+  <style name="Widget.Ourmeal.HomeWidget.Dish" parent="">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">600</item>
+    <item name="android:textColor">@color/ink</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:maxLines">2</item>
+    <item name="android:ellipsize">end</item>
+  </style>
+
+  <style name="Widget.Ourmeal.HomeWidget.Body" parent="">
+    <item name="android:fontFamily">@font/source_sans_3</item>
+    <item name="android:textFontWeight">400</item>
+    <item name="android:textColor">@color/muted</item>
+    <item name="android:textSize">14sp</item>
+    <item name="android:maxLines">3</item>
+    <item name="android:ellipsize">end</item>
   </style>
 
   <!-- DIALOGOS Y SNACKBAR -->

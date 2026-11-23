@@ -26,9 +26,13 @@ import kotlinx.coroutines.withContext
 import ourmeal.app.controller.DataManager
 import ourmeal.app.controller.ItemAdapter
 import ourmeal.app.controller.MergeOutcome
+import ourmeal.app.controller.ProductPriceManager
+import ourmeal.app.controller.PurchaseHistoryManager
 import ourmeal.app.controller.ShoppingRouteManager
-import ourmeal.app.model.ItemMark
 import ourmeal.app.model.ListItem
+import ourmeal.app.model.PriceEstimate
+import ourmeal.app.model.PriceInput
+import ourmeal.app.model.PurchasedItem
 import ourmeal.app.model.RouteChange
 import ourmeal.app.model.RouteStop
 import ourmeal.app.model.ShoppingRoute
@@ -36,12 +40,16 @@ import ourmeal.app.model.UserList
 import ourmeal.app.model.allPending
 import ourmeal.app.model.copyName
 import ourmeal.app.model.deepCopy
+import ourmeal.app.model.estimate
+import ourmeal.app.model.formatPrice
 import ourmeal.app.model.hasOtherItemNamed
 import ourmeal.app.model.inRouteOrder
 import ourmeal.app.model.itemName
 import ourmeal.app.model.matchKey
 import ourmeal.app.model.routePlacement
+import ourmeal.app.model.shownPrice
 import ourmeal.app.model.withItemName
+import ourmeal.app.model.withItemPrice
 import ourmeal.app.model.withMarks
 import ourmeal.app.model.withRestored
 import ourmeal.app.model.withoutBought
@@ -51,6 +59,8 @@ class ListDetailActivity : AppCompatActivity() {
   private lateinit var binding: ActivityListDetailBinding
   private lateinit var dataManager: DataManager
   private lateinit var routeManager: ShoppingRouteManager
+  private lateinit var priceManager: ProductPriceManager
+  private lateinit var purchases: PurchaseLog
   private lateinit var adapter: ItemAdapter
   private var currentList: UserList? = null
   private var listId = -1L
@@ -60,8 +70,12 @@ class ListDetailActivity : AppCompatActivity() {
   private var pendingUndo: (() -> Unit)? = null
   /** A result from the menu is announced once, not again after recreation. */
   private var showMenuResult = false
-  /** A list just duplicated from another one offers to undo it, once. */
+  /** A list just duplicated, or made again from a past trip, offers to undo it, once. */
   private var showDuplicated = false
+  private var showRepeated = false
+  /** Remembered prices by product key; null while their file cannot be read. */
+  private var rememberedPrices: Map<String, Long>? = null
+  private val priceMutex = Mutex()
   /** Null while the route file cannot be read; the list then keeps its stored order. */
   private var route: ShoppingRoute? = null
   private val routeMutex = Mutex()
@@ -72,6 +86,7 @@ class ListDetailActivity : AppCompatActivity() {
     creationForm = CreationFormState(this)
     showMenuResult = savedInstanceState == null && intent.hasExtra(EXTRA_ADDED_COUNT)
     showDuplicated = savedInstanceState == null && intent.getBooleanExtra(EXTRA_DUPLICATED, false)
+    showRepeated = savedInstanceState == null && intent.getBooleanExtra(EXTRA_REPEATED, false)
     enableEdgeToEdge(
       statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
       navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT)
@@ -81,14 +96,23 @@ class ListDetailActivity : AppCompatActivity() {
     binding.root.applyScreenInsets()
     dataManager = DataManager(this)
     routeManager = ShoppingRouteManager(this)
+    priceManager = ProductPriceManager(this)
+    purchases = PurchaseLog(lifecycleScope, PurchaseHistoryManager(this))
     listId = intent.getLongExtra(EXTRA_LIST_ID, -1L)
 
-    adapter = ItemAdapter(onCheck = ::setCompleted, onRename = ::showRenameItemDialog, onDelete = ::confirmDelete)
+    adapter = ItemAdapter(
+      onCheck = ::setCompleted,
+      onRename = ::showRenameItemDialog,
+      onPrice = ::showPriceDialog,
+      onDelete = ::confirmDelete
+    )
     binding.recyclerViewItems.layoutManager = LinearLayoutManager(this)
     binding.recyclerViewItems.adapter = adapter
+    // A list made again from a past trip goes back to the history it was opened from.
+    if (intent.getBooleanExtra(EXTRA_FROM_PURCHASES, false)) binding.btnBack.setText(R.string.purchases_open)
     binding.btnBack.setOnClickListener { finish() }
     binding.btnAddItem.setOnClickListener { showAddDialog() }
-    binding.btnShare.setOnClickListener { shareList() }
+    binding.btnShare.setOnClickListener { showShareOptions(it) }
     binding.btnListActions.setOnClickListener { showListActions(it) }
     binding.routeOrder.switchRouteOrder.setOnCheckedChangeListener { _, checked -> setSortByRoute(checked) }
     binding.routeOrder.btnForgetRoute.setOnClickListener { confirmForgetRoute() }
@@ -100,35 +124,41 @@ class ListDetailActivity : AppCompatActivity() {
     currentList = null
     renderLoading()
     loadJob = lifecycleScope.launch {
-      var failed = false
-      val (list, learned) = try {
+      val loaded = try {
         withContext(Dispatchers.IO) {
-          // A trip that ended since the last visit is learned now, before sorting the list.
-          val settled = routeManager.update { it.settle(System.currentTimeMillis()) }
-          dataManager.getListById(listId) to settled
+          LoadedList(
+            list = dataManager.getListById(listId),
+            // A trip that ended since the last visit is learned now, before sorting the list.
+            route = routeManager.update { it.settle(System.currentTimeMillis()) },
+            // Without remembered prices the list still shows, and lets the user write, its own.
+            prices = try { priceManager.load().byKey() } catch (_: IOException) { null }
+          )
         }
       } catch (_: IOException) {
-        failed = true
-        null to null
+        null
       }
       binding.loadingPanel.root.isVisible = false
-      if (failed) {
+      if (loaded == null) {
         showErrorState()
         return@launch
       }
+      val list = loaded.list
       if (list == null) {
         showMissingState()
         return@launch
       }
-      route = learned?.route
+      route = loaded.route?.route
+      rememberedPrices = loaded.prices
+      adapter.setRememberedPrices(loaded.prices.orEmpty())
       bindList(list)
-      if (!announceMenuResult() && !announceDuplicated()) announceLearnedRoute(learned?.learned ?: 0)
+      if (!announceMenuResult() && !announceDuplicated()) announceLearnedRoute(loaded.route?.learned ?: 0)
       creationForm.restore { kind, target ->
         when (kind) {
           FormKind.CREATE -> showAddDialog()
           FormKind.RENAME_ITEM -> currentList?.items?.firstOrNull { it.id == target }?.let(::showRenameItemDialog)
           FormKind.RENAME_LIST -> showRenameListDialog()
           FormKind.DUPLICATE_LIST -> showDuplicateDialog()
+          FormKind.PRICE_ITEM -> currentList?.items?.firstOrNull { it.id == target }?.let(::showPriceDialog)
         }
       }
     }
@@ -211,6 +241,7 @@ class ListDetailActivity : AppCompatActivity() {
     binding.progressCompletion.contentDescription =
       "${getString(R.string.progress_completion)}: $percentage%"
     binding.btnShare.isEnabled = total > 0 && !isSaving
+    renderEstimate(list)
     renderItemsState(total == 0)
     renderRoute(list)
   }
@@ -333,7 +364,7 @@ class ListDetailActivity : AppCompatActivity() {
   }
 
   /** An error the open form can show stays in it; otherwise it becomes a snackbar. */
-  private fun showFormError(form: NameForm, message: String) {
+  private fun showFormError(form: OpenForm, message: String) {
     if (form.dialog.isShowing) form.showError(message) else showMessage(message)
   }
 
@@ -378,6 +409,8 @@ class ListDetailActivity : AppCompatActivity() {
       if (saved) {
         keepKeyboardPlace(shownAt, item.id)
         learnRoute(item.name, completed, markedAt)
+        val price = item.shownPrice(rememberedPrices.orEmpty())?.cents
+        purchases.marked(list.id, list.name, PurchasedItem(item.id, item.name, price, markedAt), bought = completed)
       }
     }
   }
@@ -467,9 +500,26 @@ class ListDetailActivity : AppCompatActivity() {
     }
   }
 
-  private fun shareList() {
+  /** Prices are only shared when the user chooses so; a list without any shares at once. */
+  private fun showShareOptions(anchor: View) {
+    val list = currentList ?: return
+    if (list.items.isEmpty() || isSaving) return
+    if (!list.items.estimate(rememberedPrices.orEmpty()).hasPrices) return shareList(withPrices = false)
+    PopupMenu(this, anchor).apply {
+      menu.add(Menu.NONE, SHARE_PLAIN, Menu.NONE, R.string.share_list_plain)
+      menu.add(Menu.NONE, SHARE_WITH_PRICES, Menu.NONE, R.string.share_list_with_prices)
+      setOnMenuItemClickListener { item ->
+        shareList(withPrices = item.itemId == SHARE_WITH_PRICES)
+        true
+      }
+      show()
+    }
+  }
+
+  private fun shareList(withPrices: Boolean) {
     val list = currentList ?: return
     if (list.items.isEmpty()) return
+    val remembered = rememberedPrices.orEmpty()
     val text = buildString {
       appendLine(list.name)
       appendLine(getString(R.string.share_header))
@@ -481,10 +531,13 @@ class ListDetailActivity : AppCompatActivity() {
           list.getTotalCount()
         )
       )
+      if (withPrices) appendLine(estimateText(list.items.estimate(remembered)))
       appendLine()
       // Whoever receives the list gets it in the order shown, route included.
       displayedItems(list).forEach { item ->
-        appendLine("${if (item.isCompleted) "[x]" else "[ ]"} ${item.name}")
+        val price = item.shownPrice(remembered)?.takeIf { withPrices }?.let { formatPrice(it.cents) }
+        val name = if (price == null) item.name else getString(R.string.price_share_line, item.name, price)
+        appendLine("${if (item.isCompleted) "[x]" else "[ ]"} $name")
       }
     }
     if (!startShareChooser(textShareIntent(list.name, text), getString(R.string.share_chooser))) {
@@ -786,13 +839,19 @@ class ListDetailActivity : AppCompatActivity() {
     }
   }
 
-  /** True when the duplicate was announced. Undo deletes the copy and goes back to the lists. */
+  /**
+   * True when a duplicate or a repeated trip was announced. Undo deletes the new list and goes
+   * back to the screen it came from.
+   */
   private fun announceDuplicated(): Boolean {
-    if (!showDuplicated) return false
+    if (!showDuplicated && !showRepeated) return false
+    val message = if (showRepeated) R.string.purchase_repeated else R.string.list_duplicated
     showDuplicated = false
+    showRepeated = false
     intent.removeExtra(EXTRA_DUPLICATED)
+    intent.removeExtra(EXTRA_REPEATED)
     binding.rootDetail.showSnackbar(
-      message = getString(R.string.list_duplicated),
+      message = getString(message),
       actionLabel = getString(R.string.undo),
       anchor = binding.actionBar,
       onAction = ::undoDuplicate
@@ -812,6 +871,96 @@ class ListDetailActivity : AppCompatActivity() {
       setSaving(false)
       if (deleted) finish() else showMessage(getString(R.string.list_delete_error))
     }
+  }
+
+  // PRECIOS ANOTADOS
+
+  private fun showPriceDialog(adapterItem: ListItem) {
+    val item = currentList?.items?.firstOrNull { it.id == adapterItem.id } ?: return
+    if (isSaving || creationForm.isShowing) return
+    openPriceForm(
+      state = creationForm,
+      target = item.id,
+      itemName = item.name,
+      current = item.shownPrice(rememberedPrices.orEmpty())
+    ) { form, input -> savePrice(item.id, form, input) }
+  }
+
+  /** An empty price removes the one written in the list and stops offering the remembered one. */
+  private fun savePrice(itemId: Long, form: PriceForm, input: PriceInput) {
+    if (isSaving) return
+    val list = currentList ?: return form.dialog.dismiss()
+    val item = list.items.firstOrNull { it.id == itemId } ?: return form.dialog.dismiss()
+    val cents = when (input) {
+      is PriceInput.Valid -> input.cents
+      PriceInput.Empty -> null
+      PriceInput.Zero -> return form.showError(getString(R.string.price_zero))
+      PriceInput.TooLarge -> return form.showError(getString(R.string.price_too_large))
+      PriceInput.Invalid -> return form.showError(getString(R.string.price_invalid))
+    }
+    if (cents == null && item.shownPrice(rememberedPrices.orEmpty()) == null) return form.dialog.dismiss()
+    val updated = list.withItemPrice(itemId, cents, System.currentTimeMillis()) ?: return form.dialog.dismiss()
+    form.clearError()
+    form.setBusy(true)
+    saveListChange(updated) { saved ->
+      form.setBusy(false)
+      if (!saved) {
+        showFormError(form, getString(R.string.price_save_error))
+        return@saveListChange
+      }
+      form.dialog.dismiss()
+      purchases.priced(list.id, itemId, cents)
+      rememberPrice(item.name, cents)
+    }
+  }
+
+  /** Remembered for the next list, in call order; a memory that cannot be read is left untouched. */
+  private fun rememberPrice(name: String, cents: Long?) {
+    val now = System.currentTimeMillis()
+    lifecycleScope.launch {
+      val stored = withContext(NonCancellable) {
+        priceMutex.withLock {
+          withContext(Dispatchers.IO) {
+            priceManager.update { if (cents == null) it.forget(name) else it.remember(name, cents, now) }
+          }
+        }
+      }
+      if (isFinishing || isDestroyed) return@launch
+      if (stored != null) {
+        rememberedPrices = stored.byKey()
+        adapter.setRememberedPrices(stored.byKey())
+        updateSummary()
+      }
+      showMessage(
+        getString(
+          when {
+            stored == null -> R.string.price_memory_failed
+            cents == null -> R.string.price_removed
+            else -> R.string.price_saved
+          }
+        )
+      )
+    }
+  }
+
+  /** The total counts the price written in the list or else the remembered one. */
+  private fun renderEstimate(list: UserList) {
+    val estimate = list.items.estimate(rememberedPrices.orEmpty())
+    binding.tvEstimate.isVisible = estimate.hasPrices
+    if (!estimate.hasPrices) return
+    val total = formatPrice(estimate.totalCents)
+    binding.tvEstimate.text = estimateText(estimate)
+    binding.tvEstimate.contentDescription = if (estimate.unpriced == 0) {
+      getString(R.string.price_estimate_description_all, total)
+    } else {
+      resources.getQuantityString(R.plurals.price_estimate_description, estimate.unpriced, total, estimate.unpriced)
+    }
+  }
+
+  private fun estimateText(estimate: PriceEstimate): String {
+    val total = formatPrice(estimate.totalCents)
+    return if (estimate.unpriced == 0) getString(R.string.price_estimate, total)
+    else resources.getQuantityString(R.plurals.price_estimate_unpriced, estimate.unpriced, total, estimate.unpriced)
   }
 
   // RECORRIDO DE COMPRA
@@ -957,15 +1106,21 @@ class ListDetailActivity : AppCompatActivity() {
     }
   }
 
+  private class LoadedList(val list: UserList?, val route: RouteChange?, val prices: Map<String, Long>?)
+
   companion object {
     const val EXTRA_LIST_ID = "LIST_ID"
     const val EXTRA_ADDED_COUNT = "ADDED_COUNT"
     const val EXTRA_SKIPPED_COUNT = "SKIPPED_COUNT"
     const val EXTRA_MEMORY_FAILED = "MEMORY_FAILED"
     const val EXTRA_DUPLICATED = "DUPLICATED"
+    const val EXTRA_REPEATED = "REPEATED"
+    const val EXTRA_FROM_PURCHASES = "FROM_PURCHASES"
     private const val ACTION_RENAME = 1
     private const val ACTION_UNCHECK_ALL = 2
     private const val ACTION_REMOVE_BOUGHT = 3
     private const val ACTION_DUPLICATE = 4
+    private const val SHARE_PLAIN = 1
+    private const val SHARE_WITH_PRICES = 2
   }
 }

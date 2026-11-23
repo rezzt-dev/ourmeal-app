@@ -72,6 +72,40 @@ para aprender un viaje hacen falta al menos tres productos marcados a lo largo d
 
 en una lista con productos, toca el botón de compartir. la aplicación prepara un texto con el nombre de la lista, el resumen de lo comprado y cada producto, en el orden en que los ves, marcado como `[x]` comprado o `[ ]` pendiente. elige la aplicación con la que enviarlo o guardarlo.
 
+si algún producto tiene precio, el botón pregunta antes si compartir `Sin precios` o `Con precios`. los precios solo viajan en el texto cuando eliges la segunda opción, que añade el total estimado y el precio tras cada producto.
+
+### ANOTAR PRECIOS
+
+cada producto tiene, junto a su papelera, un botón con una etiqueta:
+
+1. tócalo y escribe el precio en euros, con coma o con punto: `2,5`, `2.50` o `3` valen. el precio tiene que ser mayor que 0 y como máximo 9999,99 €.
+2. el precio aparece en la fila y, en la tarjeta de progreso, el total estimado de la lista con cuántos productos no tienen precio.
+3. la próxima vez que pongas ese producto en cualquier lista, la aplicación muestra el último precio que anotaste, atenuado y con el signo `≈`. tócalo para confirmarlo o cambiarlo.
+4. para quitar un precio, deja el campo vacío o toca `Quitar precio`. así también deja de recordarse.
+
+el total es una estimación: suma el precio anotado en la lista o, si no hay, el recordado. todo se calcula en el teléfono, sin conexión, y la moneda es siempre el euro.
+
+### MIS COMPRAS
+
+cada vez que marcas productos de una lista, ourmeal guarda la compra: la fecha, la lista, los productos en el orden en que los cogiste, la duración y lo que costaron si anotaste sus precios. la compra se conserva aunque después borres la lista, quites los comprados o la desmarques entera.
+
+1. en `Mis listas`, toca `Mis compras` arriba a la derecha.
+2. cada compra muestra los primeros productos; toca la flecha para ver todos, con su precio.
+3. toca `Repetir esta compra` para crear una lista nueva con los mismos productos, todos pendientes. se abre al momento y justo después puedes tocar `Deshacer`. si ya tienes una lista con ese nombre, la nueva lleva la fecha de hoy.
+4. para borrar una compra del historial, toca su papelera y confírmalo. justo después puedes tocar `Deshacer`; tus listas no cambian.
+
+una compra aparece `En curso` mientras sigues marcando productos y se cierra tras 45 minutos sin marcar nada. a diferencia del recorrido, cuenta aunque sea corta: marcar en casa lo que ya compraste también es una compra. se guardan las 100 compras más recientes.
+
+### EL MENU DE HOY EN LA PANTALLA DE INICIO
+
+el widget `Menú de hoy` muestra la comida y la cena de hoy sin abrir la aplicación:
+
+1. mantén pulsada la pantalla de inicio, elige `Widgets`, busca `OurMeal` y arrastra `Menú de hoy`.
+2. puedes cambiar su tamaño: estrecho, muestra un plato debajo del otro; ancho, la comida y la cena lado a lado.
+3. tócalo para abrir el menú en el día de hoy, aunque estuvieras viendo otra semana.
+
+se actualiza al guardar el menú de esta semana, al abrir la aplicación y poco después de medianoche, o la primera vez que usas el teléfono tras ella. no necesita permisos ni envía notificaciones.
+
 ### CAMBIAR NOMBRES Y REUTILIZAR UNA LISTA
 
 mantén pulsada una lista o un producto para cambiar su nombre; con un lector de pantalla, usa la acción `Cambiar nombre`. el producto conserva si está comprado y su sitio en la lista. si el nuevo nombre ya lo tiene otro producto, la aplicación lo avisa.

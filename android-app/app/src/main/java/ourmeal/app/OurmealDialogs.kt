@@ -26,10 +26,14 @@ internal fun AppCompatActivity.ourmealDialog(destructive: Boolean = false): Mate
   MaterialAlertDialogBuilder(this, if (destructive) R.style.ThemeOverlay_Ourmeal_DestructiveDialog
     else R.style.ThemeOverlay_Ourmeal_AlertDialog)
 
-/** Shared keyboard, validation and submission behavior for creation forms. */
+/**
+ * Shared keyboard, validation and submission behavior for creation forms. A form that
+ * [allowsEmpty] can be submitted blank, for example to remove an optional value.
+ */
 internal fun AlertDialog.prepareForm(
   field: TextInputLayout,
   input: TextInputEditText,
+  allowsEmpty: Boolean = false,
   onSubmit: (Button) -> Unit
 ) {
   setCanceledOnTouchOutside(false)
@@ -40,7 +44,8 @@ internal fun AlertDialog.prepareForm(
   setOnShowListener {
     val confirm = getButton(AlertDialog.BUTTON_POSITIVE)
     fun updateAction() {
-      confirm.isEnabled = input.isEnabled && normalizeName(input.text?.toString().orEmpty()).isNotEmpty()
+      confirm.isEnabled = input.isEnabled &&
+        (allowsEmpty || normalizeName(input.text?.toString().orEmpty()).isNotEmpty())
     }
     updateAction()
     input.doAfterTextChanged {
@@ -83,17 +88,23 @@ internal data class NameFormSpec(
   val initial: String = ""
 )
 
+/** An open form that can show an error under its field while it is on screen. */
+internal interface OpenForm {
+  val dialog: AlertDialog
+  fun showError(message: String)
+}
+
 /** The parts of an open name form that its submit handler uses. */
 internal class NameForm(
-  val dialog: AlertDialog,
+  override val dialog: AlertDialog,
   private val field: TextInputLayout,
   private val input: TextInputEditText,
   @StringRes private val confirmLabel: Int,
   @StringRes private val busyLabel: Int
-) {
+) : OpenForm {
   val name: String get() = normalizeName(input.text?.toString().orEmpty())
 
-  fun showError(message: String) {
+  override fun showError(message: String) {
     field.error = message
   }
 
@@ -153,7 +164,7 @@ private class FormParts(
 )
 
 /** What an open form does, so it can be reopened for the same purpose after recreation. */
-internal enum class FormKind { CREATE, RENAME_LIST, RENAME_ITEM, DUPLICATE_LIST }
+internal enum class FormKind { CREATE, RENAME_LIST, RENAME_ITEM, DUPLICATE_LIST, PRICE_ITEM }
 
 /**
  * Restore an unfinished creation or edit form after rotation or system recreation, once data is

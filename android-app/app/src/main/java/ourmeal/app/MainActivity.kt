@@ -131,6 +131,17 @@ class MainActivity : AppCompatActivity() {
     setupMealFields()
     setupSuggestions()
     loadWeek()
+    // Opening the app also brings the home screen widget up to date, for example after midnight.
+    if (savedInstanceState == null) TodayMenuWidget.requestRefresh(applicationContext)
+  }
+
+  /**
+   * The home screen widget opens the menu on today, even if another week was on screen. The
+   * action is handled at once, so the launch intent is kept and nothing replays it on recreation.
+   */
+  override fun onNewIntent(intent: Intent) {
+    super.onNewIntent(intent)
+    if (intent.action == ACTION_SHOW_TODAY) goToToday()
   }
 
   override fun onSaveInstanceState(outState: Bundle) {
@@ -555,7 +566,14 @@ class MainActivity : AppCompatActivity() {
     lifecycleScope.launch {
       val saved = withContext(NonCancellable) {
         saveMutex.withLock {
-          withContext(Dispatchers.IO) { dataManager.saveWeeklyMeal(snapshot) }
+          withContext(Dispatchers.IO) {
+            dataManager.saveWeeklyMeal(snapshot).also { saved ->
+              // Inside the write, which outlives the screen, so closing the app still refreshes it.
+              if (saved && snapshot.weekId == WeekUtils.getCurrentWeekId()) {
+                TodayMenuWidget.requestRefresh(applicationContext)
+              }
+            }
+          }
         }
       }
       if (saved) {
@@ -914,19 +932,21 @@ class MainActivity : AppCompatActivity() {
     Error(R.string.save_error, R.color.error)
   }
 
-  private companion object {
-    const val STATE_WEEK_ID = "week_id"
-    const val STATE_SELECTED_DAY = "selected_day"
-    const val WEEK_PICKER_TAG = "week_picker"
-    const val SAVE_DELAY_MS = 700L
-    const val SHARE_AS_TEXT = 1
-    const val SHARE_AS_IMAGE = 2
-    const val TOOL_COPY_DAY = 1
-    const val TOOL_COPY_PREVIOUS = 2
-    const val TOOL_CLEAR_DAY = 3
-    const val TOOL_CLEAR_WEEK = 4
-    const val MENU_SHARE_EMPTY = "—"
-    const val MENU_IMAGE_FILE = "menu.png"
-    val spanish: Locale = Locale.forLanguageTag("es-ES")
+  companion object {
+    /** Shows today's day of the current week; sent by the home screen widget. */
+    const val ACTION_SHOW_TODAY = "ourmeal.app.action.SHOW_TODAY"
+    private const val STATE_WEEK_ID = "week_id"
+    private const val STATE_SELECTED_DAY = "selected_day"
+    private const val WEEK_PICKER_TAG = "week_picker"
+    private const val SAVE_DELAY_MS = 700L
+    private const val SHARE_AS_TEXT = 1
+    private const val SHARE_AS_IMAGE = 2
+    private const val TOOL_COPY_DAY = 1
+    private const val TOOL_COPY_PREVIOUS = 2
+    private const val TOOL_CLEAR_DAY = 3
+    private const val TOOL_CLEAR_WEEK = 4
+    private const val MENU_SHARE_EMPTY = "—"
+    private const val MENU_IMAGE_FILE = "menu.png"
+    private val spanish: Locale = Locale.forLanguageTag("es-ES")
   }
 }
