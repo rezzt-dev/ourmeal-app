@@ -185,6 +185,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/menu_section_title" />
+
+          <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMenuTools"
+            style="@style/Widget.Ourmeal.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/menu_tools_description"
+            android:enabled="false"
+            android:text="@string/menu_tools"
+            app:icon="@drawable/ic_copy"
+            app:iconSize="16dp" />
         </LinearLayout>
 
         <include
@@ -215,16 +227,36 @@
           android:orientation="vertical"
           android:visibility="gone">
 
-          <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnPrepareShopping"
-            style="@style/Widget.Ourmeal.Button.Secondary"
+          <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:minHeight="56dp"
-            android:text="@string/prepare_shopping"
-            app:icon="@drawable/ic_basket"
-            app:iconGravity="textStart" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+              android:id="@+id/btnShareMenu"
+              style="@style/Widget.Ourmeal.Button.Icon"
+              android:layout_width="56dp"
+              android:layout_height="56dp"
+              android:contentDescription="@string/share_menu"
+              app:icon="@drawable/ic_share"
+              app:iconGravity="textStart"
+              app:iconPadding="0dp"
+              app:iconTint="@color/button_secondary_text" />
+
+            <com.google.android.material.button.MaterialButton
+              android:id="@+id/btnPrepareShopping"
+              style="@style/Widget.Ourmeal.Button.Secondary"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="8dp"
+              android:layout_weight="1"
+              android:maxLines="2"
+              android:minHeight="56dp"
+              android:text="@string/prepare_shopping"
+              app:icon="@drawable/ic_basket"
+              app:iconGravity="textStart" />
+          </LinearLayout>
 
           <TextView
             android:id="@+id/tvPrepareShoppingHint"

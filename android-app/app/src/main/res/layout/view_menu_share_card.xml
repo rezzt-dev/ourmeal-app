@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drawn off screen into the image of the shared menu; it is never shown in the app, so no
+     window background lies beneath it and its own background is what the image shows. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:background="@color/cream"
+  android:orientation="vertical"
+  android:paddingHorizontal="28dp"
+  android:paddingTop="28dp"
+  android:paddingBottom="20dp"
+  tools:ignore="Overdraw">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <View
+      android:layout_width="8dp"
+      android:layout_height="8dp"
+      android:background="@drawable/bg_dot" />
+
+    <TextView
+      style="@style/TextAppearance.Ourmeal.Wordmark"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:text="@string/home_wordmark"
+      android:textColor="@color/dark_ink" />
+  </LinearLayout>
+
+  <TextView
+    style="@style/TextAppearance.Ourmeal.Headline"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:text="@string/share_menu_card_title"
+    android:textColor="@color/dark_ink" />
+
+  <TextView
+    android:id="@+id/tvShareWeek"
+    style="@style/TextAppearance.Ourmeal.Meta.Strong"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:textColor="@color/cream_deep" />
+
+  <LinearLayout
+    android:id="@+id/layoutShareDays"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:orientation="vertical" />
+</LinearLayout>

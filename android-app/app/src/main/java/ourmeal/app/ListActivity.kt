@@ -4,14 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.ourmeat.R
 import app.ourmeat.databinding.ActivityListBinding
-import app.ourmeat.databinding.DialogCreateListBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -19,7 +17,7 @@ import kotlinx.coroutines.withContext
 import ourmeal.app.controller.DataManager
 import ourmeal.app.controller.ListAdapter
 import ourmeal.app.model.UserList
-import ourmeal.app.model.normalizeName
+import ourmeal.app.model.itemName
 import java.io.IOException
 
 class ListActivity : AppCompatActivity() {
@@ -45,7 +43,7 @@ class ListActivity : AppCompatActivity() {
     binding.root.applyScreenInsets()
     dataManager = DataManager(this)
 
-    adapter = ListAdapter(onOpen = ::openList, onDelete = ::confirmDelete)
+    adapter = ListAdapter(onOpen = ::openList, onRename = ::showRenameDialog, onDelete = ::confirmDelete)
     binding.recyclerViewLists.layoutManager = LinearLayoutManager(this)
     binding.recyclerViewLists.adapter = adapter
     binding.btnBackToMain.setOnClickListener { finish() }
@@ -94,7 +92,12 @@ class ListActivity : AppCompatActivity() {
         binding.recyclerViewLists.reveal()
         binding.statePanel.root.isVisible = false
       }
-      creationForm.restore(::showCreateDialog)
+      creationForm.restore { kind, target ->
+        when (kind) {
+          FormKind.RENAME_LIST -> lists.firstOrNull { it.id == target }?.let(::showRenameDialog)
+          else -> showCreateDialog()
+        }
+      }
     }
   }
 
@@ -126,36 +129,29 @@ class ListActivity : AppCompatActivity() {
 
   private fun showCreateDialog() {
     if (isSaving || creationForm.isShowing) return
-    val builder = ourmealDialog()
-    val dialogBinding = DialogCreateListBinding.inflate(android.view.LayoutInflater.from(builder.context))
-    val dialog = builder
-      .setTitle(R.string.add_list)
-      .setView(dialogBinding.root)
-      .setNegativeButton(R.string.cancel, null)
-      .setPositiveButton(R.string.create, null)
-      .create()
-
-    creationForm.attach(dialog, dialogBinding.etListName)
-    dialog.prepareForm(dialogBinding.listNameField, dialogBinding.etListName) { confirm ->
-      createList(dialog, confirm, dialogBinding)
-    }
-    dialog.show()
+    openNameForm(
+      state = creationForm,
+      kind = FormKind.CREATE,
+      nameKind = NameKind.LIST,
+      spec = NameFormSpec(
+        title = R.string.add_list,
+        message = getString(R.string.list_name_dialog_message),
+        confirm = R.string.create,
+        busy = R.string.creating
+      ),
+      onSubmit = ::createList
+    )
   }
 
-  private fun createList(
-    dialog: AlertDialog,
-    confirm: android.widget.Button,
-    dialogBinding: DialogCreateListBinding
-  ) {
+  private fun createList(form: NameForm) {
     if (isSaving) return
-    val name = normalizeName(dialogBinding.etListName.text?.toString().orEmpty())
+    val name = form.name
     if (name.isEmpty()) {
-      dialogBinding.listNameField.error = getString(R.string.list_name_required)
+      form.showError(getString(R.string.list_name_required))
       return
     }
-    dialogBinding.listNameField.error = null
-    dialog.setFormSaving(dialogBinding.listNameField, true)
-    confirm.setText(R.string.creating)
+    form.clearError()
+    form.setBusy(true)
     setSaving(true)
 
     lifecycleScope.launch {
@@ -163,21 +159,12 @@ class ListActivity : AppCompatActivity() {
       val saved = withContext(Dispatchers.IO) { dataManager.saveLists(listOf(list) + lists) }
       if (isFinishing || isDestroyed) return@launch
       setSaving(false)
-      dialog.setFormSaving(dialogBinding.listNameField, false)
-      confirm.setText(R.string.create)
+      form.setBusy(false)
       if (!saved) {
-        confirm.isEnabled = true
-        if (dialog.isShowing) {
-          dialogBinding.listNameField.error = getString(R.string.list_create_error)
-        } else {
-          binding.rootLists.showSnackbar(
-            message = getString(R.string.list_create_error),
-            anchor = binding.btnAddList
-          )
-        }
+        showFormError(form, getString(R.string.list_create_error))
         return@launch
       }
-      dialog.dismiss()
+      form.dialog.dismiss()
       lists = (listOf(list) + lists).sortedByDescending { it.createdAt }
       adapter.submitList(lists)
       showListCount(lists.size)
@@ -189,6 +176,93 @@ class ListActivity : AppCompatActivity() {
         message = getString(R.string.list_created),
         anchor = binding.btnAddList
       )
+    }
+  }
+
+  /** An error the open form can show stays in it; otherwise it becomes a snackbar. */
+  private fun showFormError(form: NameForm, message: String) {
+    if (form.dialog.isShowing) {
+      form.showError(message)
+    } else {
+      binding.rootLists.showSnackbar(message = message, anchor = binding.btnAddList)
+    }
+  }
+
+  // EDITAR NOMBRES
+
+  private fun showRenameDialog(list: UserList) {
+    if (isSaving || creationForm.isShowing) return
+    openNameForm(
+      state = creationForm,
+      kind = FormKind.RENAME_LIST,
+      nameKind = NameKind.LIST,
+      target = list.id,
+      spec = NameFormSpec(
+        title = R.string.rename_list_title,
+        message = getString(R.string.rename_list_message),
+        confirm = R.string.save,
+        busy = R.string.saving,
+        initial = list.name
+      )
+    ) { form -> submitRename(list.id, form) }
+  }
+
+  private fun submitRename(listId: Long, form: NameForm) {
+    if (isSaving) return
+    val list = lists.firstOrNull { it.id == listId } ?: return form.dialog.dismiss()
+    val name = itemName(form.name)
+    if (name.isEmpty()) {
+      form.showError(getString(R.string.list_name_required))
+      return
+    }
+    if (name == list.name) {
+      form.dialog.dismiss()
+      return
+    }
+    form.clearError()
+    form.setBusy(true)
+    renameList(listId, from = list.name, to = name) { saved ->
+      form.setBusy(false)
+      if (!saved) {
+        showFormError(form, getString(R.string.rename_error))
+        return@renameList
+      }
+      form.dialog.dismiss()
+      binding.rootLists.showSnackbar(
+        message = getString(R.string.list_renamed),
+        actionLabel = getString(R.string.undo),
+        anchor = binding.btnAddList,
+        onAction = { undoRename(listId, renamedTo = name, previous = list.name) }
+      )
+    }
+  }
+
+  /** Undo only applies while the list still has the name it was given. */
+  private fun undoRename(listId: Long, renamedTo: String, previous: String) {
+    if (isSaving) {
+      pendingUndo = { undoRename(listId, renamedTo, previous) }
+      return
+    }
+    if (lists.firstOrNull { it.id == listId }?.name != renamedTo) return
+    renameList(listId, from = renamedTo, to = previous) { saved ->
+      if (!saved) {
+        binding.rootLists.showSnackbar(message = getString(R.string.rename_error), anchor = binding.btnAddList)
+      }
+    }
+  }
+
+  /** Renames on disk, so products changed meanwhile on another screen are kept. */
+  private fun renameList(listId: Long, from: String, to: String, onResult: (Boolean) -> Unit) {
+    setSaving(true)
+    lifecycleScope.launch {
+      val saved = withContext(Dispatchers.IO) { dataManager.renameList(listId, to) }
+      if (isFinishing || isDestroyed) return@launch
+      setSaving(false)
+      if (saved) {
+        lists = lists.map { if (it.id == listId && it.name == from) it.copy(name = to) else it }
+        adapter.submitList(lists)
+      }
+      onResult(saved)
     }
   }
 

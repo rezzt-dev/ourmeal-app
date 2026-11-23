@@ -1,21 +1,20 @@
 package ourmeal.app
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.ourmeat.R
 import app.ourmeat.databinding.ActivityListDetailBinding
-import app.ourmeat.databinding.DialogAddItemBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -26,16 +25,26 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import ourmeal.app.controller.DataManager
 import ourmeal.app.controller.ItemAdapter
+import ourmeal.app.controller.MergeOutcome
 import ourmeal.app.controller.ShoppingRouteManager
+import ourmeal.app.model.ItemMark
 import ourmeal.app.model.ListItem
 import ourmeal.app.model.RouteChange
 import ourmeal.app.model.RouteStop
 import ourmeal.app.model.ShoppingRoute
 import ourmeal.app.model.UserList
+import ourmeal.app.model.allPending
+import ourmeal.app.model.copyName
+import ourmeal.app.model.deepCopy
+import ourmeal.app.model.hasOtherItemNamed
 import ourmeal.app.model.inRouteOrder
+import ourmeal.app.model.itemName
 import ourmeal.app.model.matchKey
 import ourmeal.app.model.routePlacement
-import ourmeal.app.model.normalizeName
+import ourmeal.app.model.withItemName
+import ourmeal.app.model.withMarks
+import ourmeal.app.model.withRestored
+import ourmeal.app.model.withoutBought
 import java.io.IOException
 
 class ListDetailActivity : AppCompatActivity() {
@@ -51,6 +60,8 @@ class ListDetailActivity : AppCompatActivity() {
   private var pendingUndo: (() -> Unit)? = null
   /** A result from the menu is announced once, not again after recreation. */
   private var showMenuResult = false
+  /** A list just duplicated from another one offers to undo it, once. */
+  private var showDuplicated = false
   /** Null while the route file cannot be read; the list then keeps its stored order. */
   private var route: ShoppingRoute? = null
   private val routeMutex = Mutex()
@@ -60,6 +71,7 @@ class ListDetailActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     creationForm = CreationFormState(this)
     showMenuResult = savedInstanceState == null && intent.hasExtra(EXTRA_ADDED_COUNT)
+    showDuplicated = savedInstanceState == null && intent.getBooleanExtra(EXTRA_DUPLICATED, false)
     enableEdgeToEdge(
       statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
       navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT)
@@ -71,12 +83,13 @@ class ListDetailActivity : AppCompatActivity() {
     routeManager = ShoppingRouteManager(this)
     listId = intent.getLongExtra(EXTRA_LIST_ID, -1L)
 
-    adapter = ItemAdapter(onCheck = ::setCompleted, onDelete = ::confirmDelete)
+    adapter = ItemAdapter(onCheck = ::setCompleted, onRename = ::showRenameItemDialog, onDelete = ::confirmDelete)
     binding.recyclerViewItems.layoutManager = LinearLayoutManager(this)
     binding.recyclerViewItems.adapter = adapter
     binding.btnBack.setOnClickListener { finish() }
     binding.btnAddItem.setOnClickListener { showAddDialog() }
     binding.btnShare.setOnClickListener { shareList() }
+    binding.btnListActions.setOnClickListener { showListActions(it) }
     binding.routeOrder.switchRouteOrder.setOnCheckedChangeListener { _, checked -> setSortByRoute(checked) }
     binding.routeOrder.btnForgetRoute.setOnClickListener { confirmForgetRoute() }
     loadList()
@@ -109,8 +122,15 @@ class ListDetailActivity : AppCompatActivity() {
       }
       route = learned?.route
       bindList(list)
-      if (!announceMenuResult()) announceLearnedRoute(learned?.learned ?: 0)
-      creationForm.restore(::showAddDialog)
+      if (!announceMenuResult() && !announceDuplicated()) announceLearnedRoute(learned?.learned ?: 0)
+      creationForm.restore { kind, target ->
+        when (kind) {
+          FormKind.CREATE -> showAddDialog()
+          FormKind.RENAME_ITEM -> currentList?.items?.firstOrNull { it.id == target }?.let(::showRenameItemDialog)
+          FormKind.RENAME_LIST -> showRenameListDialog()
+          FormKind.DUPLICATE_LIST -> showDuplicateDialog()
+        }
+      }
     }
   }
 
@@ -253,46 +273,38 @@ class ListDetailActivity : AppCompatActivity() {
   }
 
   private fun showAddDialog() {
-    if (isSaving || creationForm.isShowing) return
-    val list = currentList ?: return
-    val builder = ourmealDialog()
-    val dialogBinding = DialogAddItemBinding.inflate(android.view.LayoutInflater.from(builder.context))
-    val dialog = builder
-      .setTitle(R.string.add_item_title)
-      .setView(dialogBinding.root)
-      .setNegativeButton(R.string.cancel, null)
-      .setPositiveButton(R.string.add, null)
-      .create()
-
-    creationForm.attach(dialog, dialogBinding.etItemName)
-    dialog.prepareForm(dialogBinding.itemNameField, dialogBinding.etItemName) { confirm ->
-      addItem(list, dialog, confirm, dialogBinding)
-    }
-    dialog.show()
+    if (isSaving || creationForm.isShowing || currentList == null) return
+    openNameForm(
+      state = creationForm,
+      kind = FormKind.CREATE,
+      nameKind = NameKind.PRODUCT,
+      spec = NameFormSpec(
+        title = R.string.add_item_title,
+        message = getString(R.string.add_item_message),
+        confirm = R.string.add,
+        busy = R.string.adding
+      ),
+      onSubmit = ::addItem
+    )
   }
 
-  private fun addItem(
-    list: UserList,
-    dialog: AlertDialog,
-    confirm: android.widget.Button,
-    dialogBinding: DialogAddItemBinding
-  ) {
+  private fun addItem(form: NameForm) {
     if (isSaving) return
-    val name = normalizeName(dialogBinding.etItemName.text?.toString().orEmpty())
+    val list = currentList ?: return
+    val name = form.name
     if (name.isEmpty()) {
-      dialogBinding.itemNameField.error = getString(R.string.item_name_required)
+      form.showError(getString(R.string.item_name_required))
       return
     }
     val key = matchKey(name)
     val duplicate = displayedItems(list).indexOfFirst { matchKey(it.name) == key }
     if (duplicate >= 0) {
-      dialogBinding.itemNameField.error = getString(R.string.item_exists)
+      form.showError(getString(R.string.item_exists))
       binding.recyclerViewItems.scrollToPosition(duplicate)
       return
     }
-    dialogBinding.itemNameField.error = null
-    dialog.setFormSaving(dialogBinding.itemNameField, true)
-    confirm.setText(R.string.adding)
+    form.clearError()
+    form.setBusy(true)
 
     val item = ListItem(nextItemId(list), name, false, System.currentTimeMillis())
     list.items.add(0, item)
@@ -302,22 +314,13 @@ class ListDetailActivity : AppCompatActivity() {
       val saved = withContext(Dispatchers.IO) { dataManager.updateList(snapshot) }
       if (isFinishing || isDestroyed) return@launch
       setSaving(false)
-      dialog.setFormSaving(dialogBinding.itemNameField, false)
-      confirm.setText(R.string.add)
+      form.setBusy(false)
       if (!saved) {
         list.items.remove(item)
-        confirm.isEnabled = true
-        if (dialog.isShowing) {
-          dialogBinding.itemNameField.error = getString(R.string.item_save_error)
-        } else {
-          binding.rootDetail.showSnackbar(
-            message = getString(R.string.item_save_error),
-            anchor = binding.actionBar
-          )
-        }
+        showFormError(form, getString(R.string.item_save_error))
         return@launch
       }
-      dialog.dismiss()
+      form.dialog.dismiss()
       val shown = displayedItems(list)
       adapter.submitList(shown)
       binding.recyclerViewItems.scrollToPosition(shown.indexOfFirst { it.id == item.id }.coerceAtLeast(0))
@@ -327,6 +330,15 @@ class ListDetailActivity : AppCompatActivity() {
         anchor = binding.actionBar
       )
     }
+  }
+
+  /** An error the open form can show stays in it; otherwise it becomes a snackbar. */
+  private fun showFormError(form: NameForm, message: String) {
+    if (form.dialog.isShowing) form.showError(message) else showMessage(message)
+  }
+
+  private fun showMessage(message: String) {
+    binding.rootDetail.showSnackbar(message = message, anchor = binding.actionBar)
   }
 
   private fun nextItemId(list: UserList): Long =
@@ -475,18 +487,8 @@ class ListDetailActivity : AppCompatActivity() {
         appendLine("${if (item.isCompleted) "[x]" else "[ ]"} ${item.name}")
       }
     }
-    val intent = Intent(Intent.ACTION_SEND).apply {
-      type = "text/plain"
-      putExtra(Intent.EXTRA_SUBJECT, list.name)
-      putExtra(Intent.EXTRA_TEXT, text)
-    }
-    try {
-      startActivity(Intent.createChooser(intent, getString(R.string.share_chooser)))
-    } catch (_: ActivityNotFoundException) {
-      binding.rootDetail.showSnackbar(
-        message = getString(R.string.share_error),
-        anchor = binding.actionBar
-      )
+    if (!startShareChooser(textShareIntent(list.name, text), getString(R.string.share_chooser))) {
+      showMessage(getString(R.string.share_error))
     }
   }
 
@@ -495,6 +497,7 @@ class ListDetailActivity : AppCompatActivity() {
     adapter.setInteractionsEnabled(!saving)
     binding.btnAddItem.isEnabled = !saving
     binding.btnShare.isEnabled = !saving && (currentList?.items?.isNotEmpty() == true)
+    binding.btnListActions.isEnabled = !saving
     if (!saving) {
       pendingUndo?.let { undo ->
         pendingUndo = null
@@ -503,7 +506,313 @@ class ListDetailActivity : AppCompatActivity() {
     }
   }
 
-  private fun UserList.snapshot(): UserList = copy(items = items.map { it.copy() }.toMutableList())
+  private fun UserList.snapshot(): UserList = deepCopy()
+
+  /**
+   * Shows [updated] at once and writes it; on failure the previous list comes back and
+   * [onResult] receives false so the caller can say what was not saved.
+   */
+  private fun saveListChange(updated: UserList, onResult: (Boolean) -> Unit) {
+    val previous = currentList ?: return
+    setSaving(true)
+    showList(updated)
+    val snapshot = updated.snapshot()
+    lifecycleScope.launch {
+      val saved = withContext(Dispatchers.IO) { dataManager.updateList(snapshot) }
+      if (isFinishing || isDestroyed) return@launch
+      if (!saved) showList(previous)
+      setSaving(false)
+      onResult(saved)
+    }
+  }
+
+  private fun showList(list: UserList) {
+    currentList = list
+    binding.tvListTitle.text = list.name
+    submitKeepingScroll(list)
+    updateSummary()
+  }
+
+  // EDITAR NOMBRES Y REUTILIZAR LA LISTA
+
+  /** Each action is disabled when it would do nothing; the list can always be renamed. */
+  private fun showListActions(anchor: View) {
+    val list = currentList ?: return
+    if (isSaving) return
+    val hasBought = list.getCompletedCount() > 0
+    PopupMenu(this, anchor).apply {
+      menu.add(Menu.NONE, ACTION_RENAME, Menu.NONE, R.string.rename_action)
+      menu.add(Menu.NONE, ACTION_UNCHECK_ALL, Menu.NONE, R.string.list_uncheck_all).isEnabled = hasBought
+      menu.add(Menu.NONE, ACTION_REMOVE_BOUGHT, Menu.NONE, R.string.list_remove_bought).isEnabled = hasBought
+      menu.add(Menu.NONE, ACTION_DUPLICATE, Menu.NONE, R.string.list_duplicate).isEnabled = list.items.isNotEmpty()
+      setOnMenuItemClickListener { item ->
+        when (item.itemId) {
+          ACTION_RENAME -> showRenameListDialog()
+          ACTION_UNCHECK_ALL -> uncheckAll()
+          ACTION_REMOVE_BOUGHT -> confirmRemoveBought()
+          ACTION_DUPLICATE -> showDuplicateDialog()
+        }
+        true
+      }
+      show()
+    }
+  }
+
+  private fun showRenameListDialog() {
+    val list = currentList ?: return
+    if (isSaving || creationForm.isShowing) return
+    openNameForm(
+      state = creationForm,
+      kind = FormKind.RENAME_LIST,
+      nameKind = NameKind.LIST,
+      target = list.id,
+      spec = NameFormSpec(
+        title = R.string.rename_list_title,
+        message = getString(R.string.rename_list_message),
+        confirm = R.string.save,
+        busy = R.string.saving,
+        initial = list.name
+      ),
+      onSubmit = ::renameList
+    )
+  }
+
+  private fun renameList(form: NameForm) {
+    if (isSaving) return
+    val list = currentList ?: return form.dialog.dismiss()
+    val name = itemName(form.name)
+    if (name.isEmpty()) {
+      form.showError(getString(R.string.list_name_required))
+      return
+    }
+    if (name == list.name) {
+      form.dialog.dismiss()
+      return
+    }
+    val previous = list.name
+    form.clearError()
+    form.setBusy(true)
+    saveListChange(list.deepCopy().copy(name = name)) { saved ->
+      form.setBusy(false)
+      if (!saved) {
+        showFormError(form, getString(R.string.rename_error))
+        return@saveListChange
+      }
+      form.dialog.dismiss()
+      offerUndo(getString(R.string.list_renamed)) {
+        val current = currentList ?: return@offerUndo null
+        if (current.name != name) null else current.deepCopy().copy(name = previous)
+      }
+    }
+  }
+
+  private fun showRenameItemDialog(adapterItem: ListItem) {
+    val item = currentList?.items?.firstOrNull { it.id == adapterItem.id } ?: return
+    if (isSaving || creationForm.isShowing) return
+    openNameForm(
+      state = creationForm,
+      kind = FormKind.RENAME_ITEM,
+      nameKind = NameKind.PRODUCT,
+      target = item.id,
+      spec = NameFormSpec(
+        title = R.string.rename_item_title,
+        message = getString(R.string.rename_item_message),
+        confirm = R.string.save,
+        busy = R.string.saving,
+        initial = item.name
+      )
+    ) { form -> renameItem(item.id, form) }
+  }
+
+  /**
+   * The learned route keys products by name, so a renamed product is placed again once it is
+   * marked under its new name; its old place is dropped with time by the route's stop limit.
+   */
+  private fun renameItem(itemId: Long, form: NameForm) {
+    if (isSaving) return
+    val list = currentList ?: return form.dialog.dismiss()
+    val item = list.items.firstOrNull { it.id == itemId } ?: return form.dialog.dismiss()
+    val name = itemName(form.name)
+    if (name.isEmpty()) {
+      form.showError(getString(R.string.item_name_required))
+      return
+    }
+    if (name == item.name) {
+      form.dialog.dismiss()
+      return
+    }
+    if (list.hasOtherItemNamed(name, exceptId = itemId)) {
+      form.showError(getString(R.string.item_exists))
+      return
+    }
+    val updated = list.withItemName(itemId, name, System.currentTimeMillis()) ?: return form.dialog.dismiss()
+    val previous = item.name
+    form.clearError()
+    form.setBusy(true)
+    saveListChange(updated) { saved ->
+      form.setBusy(false)
+      if (!saved) {
+        showFormError(form, getString(R.string.rename_error))
+        return@saveListChange
+      }
+      form.dialog.dismiss()
+      offerUndo(getString(R.string.item_renamed)) {
+        val current = currentList ?: return@offerUndo null
+        val renamed = current.items.firstOrNull { it.id == itemId } ?: return@offerUndo null
+        if (renamed.name != name || current.hasOtherItemNamed(previous, exceptId = itemId)) null
+        else current.withItemName(itemId, previous, System.currentTimeMillis())
+      }
+    }
+  }
+
+  /** Not a walk through the shop: nothing is written to the learned route. */
+  private fun uncheckAll() {
+    val list = currentList ?: return
+    if (isSaving) return
+    val result = list.allPending(System.currentTimeMillis())
+    if (result.previous.isEmpty()) return
+    saveListChange(result.list) { saved ->
+      if (!saved) {
+        showMessage(getString(R.string.list_bulk_error))
+        return@saveListChange
+      }
+      val count = result.previous.size
+      offerUndo(resources.getQuantityString(R.plurals.list_unchecked, count, count)) {
+        currentList?.withMarks(result.previous)
+      }
+    }
+  }
+
+  private fun confirmRemoveBought() {
+    val list = currentList ?: return
+    val bought = list.getCompletedCount()
+    if (bought == 0 || isSaving) return
+    ourmealDialog(destructive = true)
+      .setTitle(R.string.list_remove_bought_title)
+      .setMessage(resources.getQuantityString(R.plurals.list_remove_bought_message, bought, bought, list.name))
+      .setNegativeButton(R.string.cancel, null)
+      .setPositiveButton(R.string.list_remove_bought_confirm) { _, _ -> removeBought() }
+      .show()
+  }
+
+  private fun removeBought() {
+    val list = currentList ?: return
+    if (isSaving) return
+    val result = list.withoutBought()
+    if (result.removed.isEmpty()) return
+    saveListChange(result.list) { saved ->
+      if (!saved) {
+        showMessage(getString(R.string.list_bulk_error))
+        return@saveListChange
+      }
+      val count = result.removed.size
+      offerUndo(resources.getQuantityString(R.plurals.list_bought_removed, count, count)) {
+        currentList?.withRestored(result.removed)
+      }
+    }
+  }
+
+  /**
+   * Offers to undo the last change. [restore] builds the list to write from the current one, or
+   * returns null when the change no longer applies; an undo tapped during a write runs after it.
+   */
+  private fun offerUndo(message: String, restore: () -> UserList?) {
+    binding.rootDetail.showSnackbar(
+      message = message,
+      actionLabel = getString(R.string.undo),
+      anchor = binding.actionBar,
+      onAction = { undoChange(restore) }
+    )
+  }
+
+  private fun undoChange(restore: () -> UserList?) {
+    if (isSaving) {
+      pendingUndo = { undoChange(restore) }
+      return
+    }
+    val restored = restore() ?: return
+    saveListChange(restored) { saved ->
+      if (!saved) showMessage(getString(R.string.item_save_error))
+    }
+  }
+
+  private fun showDuplicateDialog() {
+    val list = currentList ?: return
+    if (isSaving || creationForm.isShowing) return
+    openNameForm(
+      state = creationForm,
+      kind = FormKind.DUPLICATE_LIST,
+      nameKind = NameKind.LIST,
+      spec = NameFormSpec(
+        title = R.string.duplicate_list_title,
+        message = getString(R.string.duplicate_list_message),
+        confirm = R.string.duplicate_list_confirm,
+        busy = R.string.duplicating,
+        initial = copyName(list.name, getString(R.string.list_copy_suffix))
+      ),
+      onSubmit = ::duplicateList
+    )
+  }
+
+  /** The copy keeps the order of the products, all pending, and opens in place of this list. */
+  private fun duplicateList(form: NameForm) {
+    if (isSaving) return
+    val list = currentList ?: return form.dialog.dismiss()
+    val name = itemName(form.name)
+    if (name.isEmpty()) {
+      form.showError(getString(R.string.list_name_required))
+      return
+    }
+    form.clearError()
+    form.setBusy(true)
+    setSaving(true)
+    val names = list.items.map { it.name }
+    lifecycleScope.launch {
+      val outcome = withContext(Dispatchers.IO) { dataManager.createListWithItems(name, names) }
+      if (isFinishing || isDestroyed) return@launch
+      setSaving(false)
+      form.setBusy(false)
+      if (outcome !is MergeOutcome.Saved) {
+        showFormError(form, getString(R.string.list_duplicate_error))
+        return@launch
+      }
+      form.dialog.dismiss()
+      startActivity(
+        Intent(this@ListDetailActivity, ListDetailActivity::class.java)
+          .putExtra(EXTRA_LIST_ID, outcome.listId)
+          .putExtra(EXTRA_DUPLICATED, true)
+      )
+      finish()
+    }
+  }
+
+  /** True when the duplicate was announced. Undo deletes the copy and goes back to the lists. */
+  private fun announceDuplicated(): Boolean {
+    if (!showDuplicated) return false
+    showDuplicated = false
+    intent.removeExtra(EXTRA_DUPLICATED)
+    binding.rootDetail.showSnackbar(
+      message = getString(R.string.list_duplicated),
+      actionLabel = getString(R.string.undo),
+      anchor = binding.actionBar,
+      onAction = ::undoDuplicate
+    )
+    return true
+  }
+
+  private fun undoDuplicate() {
+    if (isSaving) {
+      pendingUndo = ::undoDuplicate
+      return
+    }
+    setSaving(true)
+    lifecycleScope.launch {
+      val deleted = withContext(Dispatchers.IO) { dataManager.deleteList(listId) }
+      if (isFinishing || isDestroyed) return@launch
+      setSaving(false)
+      if (deleted) finish() else showMessage(getString(R.string.list_delete_error))
+    }
+  }
 
   // RECORRIDO DE COMPRA
 
@@ -653,5 +962,10 @@ class ListDetailActivity : AppCompatActivity() {
     const val EXTRA_ADDED_COUNT = "ADDED_COUNT"
     const val EXTRA_SKIPPED_COUNT = "SKIPPED_COUNT"
     const val EXTRA_MEMORY_FAILED = "MEMORY_FAILED"
+    const val EXTRA_DUPLICATED = "DUPLICATED"
+    private const val ACTION_RENAME = 1
+    private const val ACTION_UNCHECK_ALL = 2
+    private const val ACTION_REMOVE_BOUGHT = 3
+    private const val ACTION_DUPLICATE = 4
   }
 }

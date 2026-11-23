@@ -14,6 +14,7 @@ import ourmeal.app.model.ListItem
 
 class ItemAdapter(
   private val onCheck: (ListItem, Boolean) -> Unit,
+  private val onRename: (ListItem) -> Unit,
   private val onDelete: (ListItem) -> Unit
 ) : RecyclerView.Adapter<ItemAdapter.Holder>() {
   private val items = mutableListOf<ListItem>()
@@ -90,6 +91,7 @@ class ItemAdapter(
     holder.itemView.setOnClickListener {
       if (interactionsEnabled) holder.check.toggle()
     }
+    holder.itemView.setRenameAction(interactionsEnabled) { onRename(item) }
     holder.delete.contentDescription = context.getString(R.string.delete_item, item.name)
     holder.delete.setOnClickListener { onDelete(item) }
   }

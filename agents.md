@@ -147,6 +147,8 @@ what the app does, according to the current code:
 - add, check and delete products in each list, with duplicate detection (ignoring case and accents) and undo.
 - learn the shopping route from the order in which products are checked and sort pending items by it, with a switch back to list order and an option to forget what was learned, with undo.
 - share a list as text, in the order shown, to print, save or send it.
+- share the visible week's menu as text or as an image (`FileProvider` over `cacheDir/shared/`), copy a day or the previous week, and clear a day or the week, with undo.
+- rename lists and products with a long press, and uncheck all, remove bought products or duplicate a list, with undo; bulk changes never teach the shopping route.
 
 proposed features not implemented yet are specified in `.docs/new-features/`; never present them as existing until they are implemented and verified. main audience: families, couples, people organizing their diet and anyone replacing paper lists with a tidier flow.
 
@@ -188,7 +190,7 @@ ourmeal-app/
 │       ├── proguard-rules.pro       # default; minify is off
 │       └── src/
 │           ├── main/
-│           │   ├── AndroidManifest.xml   # 4 activities, no permissions, allowBackup=true
+│           │   ├── AndroidManifest.xml   # 4 activities, file provider, no permissions, allowBackup=true
 │           │   ├── assets/licenses/      # OFL texts of bricolage grotesque and source sans 3
 │           │   ├── java/ourmeal/app/
 │           │   │   ├── OurmealApplication.kt   # forces MODE_NIGHT_YES: one palette on every device
@@ -197,7 +199,8 @@ ourmeal-app/
 │           │   │   ├── MenuShoppingActivity.kt # turns a week's dishes into list products
 │           │   │   ├── ListActivity.kt         # shopping lists
 │           │   │   ├── ListDetailActivity.kt   # products of a list, sorted by the learned route
-│           │   │   ├── OurmealDialogs.kt       # creation forms: keyboard, validation, single submit
+│           │   │   ├── OurmealDialogs.kt       # name forms (create, rename, duplicate): keyboard, validation, single submit
+│           │   │   ├── Sharing.kt              # share intents and the off-screen menu image
 │           │   │   ├── ScreenUi.kt             # loading, empty and error panels
 │           │   │   ├── UiFeedback.kt           # themed snackbars
 │           │   │   ├── UiMotion.kt             # short transitions honouring system animation settings
@@ -216,6 +219,8 @@ ourmeal-app/
 │           │   │       ├── TextNormalizer.kt                        # normalizeName(), matchKey()
 │           │   │       ├── DishHistory.kt, SuggestionSettings.kt    # suggestions and repeat warning
 │           │   │       ├── MenuDish.kt, DishMemory.kt, ShoppingDraft.kt, ShoppingMerge.kt  # shopping from the menu
+│           │   │       ├── MenuEditing.kt, MenuShare.kt             # copy/clear the menu and its shared text
+│           │   │       ├── ListReuse.kt                             # rename, bulk uncheck, remove bought, undo
 │           │   │       └── ShoppingRoute.kt                         # learned shopping route
 │           │   └── res/        # color, drawable, font (variable ttf), layout + layout-land, values + values-land, xml
 │           ├── test/java/ourmeal/app/         # junit 4 unit tests of the models
@@ -383,7 +388,7 @@ repeat warnings (same week or last 13 days) are hints under each dish; the user 
 ## SECURITY CONSIDERATIONS
 
 ### PERMISSIONS
-the manifest declares **no permissions** (no `INTERNET`): nothing leaves the device and there is no telemetry or account.
+the manifest declares **no permissions** (no `INTERNET`): nothing leaves the device and there is no telemetry or account. a non-exported `FileProvider` exposes only `cacheDir/shared/` (`res/xml/shared_files.xml`), and only to the app the user picks when sharing the menu as an image; user data in `filesDir` is never exposed.
 
 ### BACKUP POLICY
 `android:allowBackup="true"` with the template `backup_rules.xml` and `data_extraction_rules.xml`: the json files are included in android backups and device transfer. any change here affects privacy and must be documented (`TODO(owner)`: there is no privacy policy yet).

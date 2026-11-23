@@ -72,6 +72,18 @@ para aprender un viaje hacen falta al menos tres productos marcados a lo largo d
 
 en una lista con productos, toca el botón de compartir. la aplicación prepara un texto con el nombre de la lista, el resumen de lo comprado y cada producto, en el orden en que los ves, marcado como `[x]` comprado o `[ ]` pendiente. elige la aplicación con la que enviarlo o guardarlo.
 
+### CAMBIAR NOMBRES Y REUTILIZAR UNA LISTA
+
+mantén pulsada una lista o un producto para cambiar su nombre; con un lector de pantalla, usa la acción `Cambiar nombre`. el producto conserva si está comprado y su sitio en la lista. si el nuevo nombre ya lo tiene otro producto, la aplicación lo avisa.
+
+en una lista, el botón de más acciones, junto a compartir, ofrece `Cambiar nombre`, `Desmarcar todo`, `Quitar los comprados` y `Duplicar la lista`. las dos acciones de comprados se desactivan si no hay ninguno y quitar pide confirmación. duplicar propone `nombre (copia)`, crea la lista con todos los productos pendientes y la abre. después de cada acción puedes tocar `Deshacer`. desmarcar en bloque no cuenta como un viaje de compra, así que no cambia tu recorrido. un producto renombrado vuelve a ubicarse en el recorrido cuando lo marques con su nombre nuevo.
+
+### COMPARTIR, COPIAR Y VACIAR EL MENU
+
+junto a `Preparar la compra`, el botón de compartir envía la semana visible `Como texto`, un día por línea con un guion en los huecos vacíos, o `Como imagen`. con la semana vacía el botón se desactiva y el texto de debajo explica por qué.
+
+`Copiar o vaciar`, junto al título del menú, permite copiar el día elegido a otros días, copiar la semana anterior, vaciar el día o vaciar la semana. al copiar solo se rellenan los huecos vacíos; si algún hueco ya tiene otro plato, la aplicación pregunta si sustituirlo o rellenar solo los vacíos. vaciar la semana pide confirmación y todas las acciones se pueden deshacer justo después.
+
 ## GUIA PARA DESARROLLADORES
 
 ### REQUISITOS

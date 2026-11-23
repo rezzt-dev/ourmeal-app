@@ -151,6 +151,18 @@
           app:iconTint="@color/button_secondary_text" />
 
         <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnListActions"
+          style="@style/Widget.Ourmeal.Button.Icon"
+          android:layout_width="56dp"
+          android:layout_height="56dp"
+          android:layout_marginStart="8dp"
+          android:contentDescription="@string/list_actions"
+          app:icon="@drawable/ic_more_vert"
+          app:iconGravity="textStart"
+          app:iconPadding="0dp"
+          app:iconTint="@color/button_secondary_text" />
+
+        <com.google.android.material.button.MaterialButton
           android:id="@+id/btnAddItem"
           style="@style/Widget.Ourmeal.Button.Primary"
           android:layout_width="0dp"

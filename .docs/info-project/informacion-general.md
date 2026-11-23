@@ -21,6 +21,9 @@ decidir qué comer cada día y recordar todo lo que hay que comprar suele hacers
 - **recorrido de compra**: al marcar los productos mientras compras, la aplicación aprende en qué orden los coges y ordena los pendientes de cualquier lista según ese recorrido, con lo ya comprado al final. no hay que configurar pasillos ni categorías: basta con comprar como siempre. un interruptor devuelve el orden en que se escribió la lista y otra acción olvida el recorrido aprendido, por ejemplo al cambiar de tienda.
 - **preparar la compra desde el menú**: con un botón bajo el menú, la aplicación reúne los platos de la semana visible y deja escribir los ingredientes de cada uno. al confirmar, los añade a una lista nueva o a una existente sin repetir los productos que ya estaban. la aplicación recuerda los ingredientes de cada plato y los propone la siguiente vez; no los deduce por su cuenta, solo propone lo que el usuario escribió antes.
 - **compartir como texto**: una lista se comparte como texto legible, en el orden en que se ve en pantalla y con la marca de cada producto comprado o pendiente, para enviarla por mensajería o guardarla en una aplicación de notas.
+- **compartir el menú**: la semana visible se comparte como texto, un día por línea con su comida y su cena, o como imagen, para avisar a quien cocina o come en casa aunque no tenga la aplicación.
+- **copiar y vaciar el menú**: un día se copia a otros días y la semana anterior a la visible; por defecto solo se rellenan los huecos vacíos y sustituir lo escrito se pide de forma explícita. también se vacía un día o la semana entera, siempre con opción de deshacer.
+- **editar y reutilizar listas**: una pulsación larga cambia el nombre de una lista o de un producto sin borrarlo. cada lista permite desmarcar todo, quitar lo comprado o duplicarse como lista nueva con todo pendiente, con opción de deshacer.
 
 ## PARA QUIEN ES
 

@@ -9,13 +9,16 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -39,11 +42,23 @@ import ourmeal.app.controller.DishSuggestionManager
 import ourmeal.app.controller.MealDataManager
 import ourmeal.app.model.DishHistory
 import ourmeal.app.model.DishSuggestion
+import ourmeal.app.model.CopyMode
 import ourmeal.app.model.MealSlot
+import ourmeal.app.model.MenuCopy
+import ourmeal.app.model.MenuEdit
+import ourmeal.app.model.MenuShareLabels
+import ourmeal.app.model.SlotChange
 import ourmeal.app.model.SuggestionSettings
 import ourmeal.app.model.WeekUtils
 import ourmeal.app.model.WeeklyMeals
+import ourmeal.app.model.cleared
+import ourmeal.app.model.deepCopy
+import ourmeal.app.model.isDayEmpty
 import ourmeal.app.model.keysWrittenSince
+import ourmeal.app.model.plannedCount
+import ourmeal.app.model.reverted
+import ourmeal.app.model.sharedDays
+import ourmeal.app.model.toShareText
 import ourmeal.app.model.toDishRecords
 import java.io.IOException
 import java.time.Instant
@@ -64,6 +79,9 @@ class MainActivity : AppCompatActivity() {
   private var currentWeeklyMeals: WeeklyMeals? = null
   /** Last copy of the visible week known to be on disk, to tell which dishes were just written. */
   private var savedWeeklyMeals: WeeklyMeals? = null
+  /** The week before the visible one, as stored, to copy it; null until the week is loaded. */
+  private var previousWeekMeals: WeeklyMeals? = null
+  private var isSharingImage = false
   private var history: DishHistory? = null
   /** Null while the settings file cannot be read; hiding suggestions is then unavailable. */
   private var settings: SuggestionSettings? = null
@@ -108,6 +126,8 @@ class MainActivity : AppCompatActivity() {
     }
     binding.btnOpenCalendar.setOnClickListener { openWeekPicker() }
     binding.btnPrepareShopping.setOnClickListener { openShoppingPrep() }
+    binding.btnShareMenu.setOnClickListener { showShareOptions(it) }
+    binding.btnMenuTools.setOnClickListener { showMenuTools(it) }
     setupMealFields()
     setupSuggestions()
     loadWeek()
@@ -124,7 +144,9 @@ class MainActivity : AppCompatActivity() {
     loadJob?.cancel()
     currentWeeklyMeals = null
     savedWeeklyMeals = null
+    previousWeekMeals = null
     history = null
+    binding.btnMenuTools.isEnabled = false
     binding.tvWeekTitle.text = WeekUtils.getWeekDisplay(weekId)
     binding.btnToday.isVisible = weekId != WeekUtils.getCurrentWeekId()
     binding.menuBoard.layoutDaySelector.removeAllViews()
@@ -140,8 +162,10 @@ class MainActivity : AppCompatActivity() {
       val loaded = try {
         withContext(Dispatchers.IO) {
           val weeks = dataManager.loadWeeklyMeals()
+          val previousId = WeekUtils.getPreviousWeek(weekId)
           LoadedWeek(
             plan = weeks.find { it.weekId == weekId } ?: WeeklyMeals(weekId),
+            previous = weeks.find { it.weekId == previousId } ?: WeeklyMeals(previousId),
             history = DishHistory(weeks.toDishRecords(excludeWeekId = weekId)),
             // Settings stay in memory once read, so a hide still being written is never lost.
             settings = knownSettings ?: loadSuggestionSettings()
@@ -157,12 +181,14 @@ class MainActivity : AppCompatActivity() {
         return@launch
       }
       currentWeeklyMeals = loaded.plan
-      savedWeeklyMeals = loaded.plan.snapshot()
+      savedWeeklyMeals = loaded.plan.deepCopy()
+      previousWeekMeals = loaded.previous
       history = loaded.history
       if (settings == null) settings = loaded.settings
       bindWeek()
       binding.menuBoard.root.reveal()
       binding.prepareShoppingPanel.reveal()
+      binding.btnMenuTools.isEnabled = true
       setSaveStatus(SaveStatus.Idle)
     }
   }
@@ -174,6 +200,7 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun showMenuError() {
+    binding.btnMenuTools.isEnabled = false
     binding.menuBoard.root.isVisible = false
     binding.prepareShoppingPanel.isVisible = false
     binding.menuError.root.reveal()
@@ -474,15 +501,13 @@ class MainActivity : AppCompatActivity() {
 
   private fun updateWeekProgress() {
     val plan = currentWeeklyMeals ?: return
-    val filled = WeeklyMeals.DAYS.sumOf { day ->
-      val meal = plan.getMealForDay(day)
-      (if (meal.comida.isNotBlank()) 1 else 0) + (if (meal.cena.isNotBlank()) 1 else 0)
-    }
+    val filled = plan.plannedCount()
     val total = WeeklyMeals.DAYS.size * 2
     binding.tvWeekProgress.text =
       resources.getQuantityString(R.plurals.week_progress, total, filled, total)
-    // The hint explains the disabled state in words, not only by its color.
+    // The hint explains both disabled actions in words, not only by their color.
     binding.btnPrepareShopping.isEnabled = filled > 0
+    binding.btnShareMenu.isEnabled = filled > 0 && !isSharingImage
     binding.tvPrepareShoppingHint.isVisible = filled == 0
   }
 
@@ -522,7 +547,7 @@ class MainActivity : AppCompatActivity() {
    * finish even if the screen is destroyed meanwhile; [onResult] only runs while it is alive.
    */
   private fun saveCurrentWeek(onResult: ((Boolean) -> Unit)? = null) {
-    val snapshot = currentWeeklyMeals?.snapshot()
+    val snapshot = currentWeeklyMeals?.deepCopy()
     if (snapshot == null) {
       onResult?.invoke(true)
       return
@@ -551,9 +576,6 @@ class MainActivity : AppCompatActivity() {
       onResult?.invoke(saved)
     }
   }
-
-  private fun WeeklyMeals.snapshot(): WeeklyMeals =
-    copy(meals = meals.mapValues { it.value.copy() }.toMutableMap())
 
   private fun setSaveStatus(status: SaveStatus) {
     binding.tvSaveStatus.setText(status.label)
@@ -628,6 +650,239 @@ class MainActivity : AppCompatActivity() {
   private fun defaultSelectedDayIndex(): Int =
     if (currentWeekId == WeekUtils.getCurrentWeekId()) dayIndexIn(currentWeekId) else 0
 
+  // COMPARTIR EL MENU
+
+  private fun showShareOptions(anchor: View) {
+    if ((currentWeeklyMeals?.plannedCount() ?: 0) == 0 || isSharingImage) return
+    finishMealEditing()
+    PopupMenu(this, anchor).apply {
+      menu.add(Menu.NONE, SHARE_AS_TEXT, Menu.NONE, R.string.share_menu_as_text)
+      menu.add(Menu.NONE, SHARE_AS_IMAGE, Menu.NONE, R.string.share_menu_as_image)
+      setOnMenuItemClickListener { item ->
+        when (item.itemId) {
+          SHARE_AS_TEXT -> shareMenuAsText()
+          SHARE_AS_IMAGE -> shareMenuAsImage()
+        }
+        true
+      }
+      show()
+    }
+  }
+
+  /** "Lunes 24" for each day of the visible week. */
+  private fun shareDayTitles(): List<String> {
+    val start = WeekUtils.startOfWeek(currentWeekId)
+    return WeeklyMeals.DAYS.mapIndexed { index, day ->
+      getString(R.string.share_menu_day, day, start.plusDays(index.toLong()).format(dayNumberFormat))
+    }
+  }
+
+  private fun shareMenuAsText() {
+    val plan = currentWeeklyMeals ?: return
+    val weekRange = WeekUtils.getWeekDisplay(currentWeekId)
+    val labels = MenuShareLabels(
+      header = getString(R.string.share_menu_header),
+      lunch = getString(R.string.day_lunch),
+      dinner = getString(R.string.day_dinner)
+    )
+    val text = plan.toShareText(labels, weekRange, shareDayTitles())
+    val subject = getString(R.string.share_menu_subject, weekRange)
+    if (!startShareChooser(textShareIntent(subject, text), getString(R.string.share_menu_chooser))) {
+      binding.root.showSnackbar(getString(R.string.share_menu_error))
+    }
+  }
+
+  /**
+   * Draws the week as an image, writes it off the main thread and hands it to the share sheet.
+   * The share button stays disabled meanwhile so the image is not prepared twice.
+   */
+  private fun shareMenuAsImage() {
+    val plan = currentWeeklyMeals ?: return
+    if (isSharingImage) return
+    val weekRange = WeekUtils.getWeekDisplay(currentWeekId)
+    setSharingImage(true)
+    val bitmap = try {
+      renderMenuCard(weekRange, plan.sharedDays(shareDayTitles(), empty = MENU_SHARE_EMPTY))
+    } catch (_: OutOfMemoryError) {
+      null
+    } catch (_: IllegalArgumentException) {
+      null
+    }
+    lifecycleScope.launch {
+      val uri = bitmap?.let { image ->
+        withContext(Dispatchers.IO) {
+          try {
+            cacheSharedImage(image, MENU_IMAGE_FILE)
+          } catch (_: IOException) {
+            null
+          } catch (_: IllegalArgumentException) {
+            null
+          } finally {
+            image.recycle()
+          }
+        }
+      }
+      setSharingImage(false)
+      if (uri == null) {
+        binding.root.showSnackbar(getString(R.string.share_menu_image_error))
+        return@launch
+      }
+      val subject = getString(R.string.share_menu_subject, weekRange)
+      if (!startShareChooser(imageShareIntent(uri, subject), getString(R.string.share_menu_chooser))) {
+        binding.root.showSnackbar(getString(R.string.share_menu_error))
+      }
+    }
+  }
+
+  private fun setSharingImage(sharing: Boolean) {
+    isSharingImage = sharing
+    binding.btnShareMenu.contentDescription =
+      getString(if (sharing) R.string.share_menu_preparing else R.string.share_menu)
+    updateWeekProgress()
+  }
+
+  // COPIAR Y VACIAR EL MENU
+
+  /** Each action says in its own title why it is disabled. */
+  private fun showMenuTools(anchor: View) {
+    val plan = currentWeeklyMeals ?: return
+    if (isChangingWeek || isOpeningShopping) return
+    val day = WeeklyMeals.DAYS.getOrNull(selectedDayIndex) ?: return
+    finishMealEditing()
+    val dayName = day.lowercase(spanish)
+    val dayEmpty = plan.isDayEmpty(day)
+    val weekEmpty = plan.plannedCount() == 0
+    val previousEmpty = (previousWeekMeals?.plannedCount() ?: 0) == 0
+    PopupMenu(this, anchor).apply {
+      fun add(id: Int, enabled: Boolean, title: String) {
+        menu.add(Menu.NONE, id, Menu.NONE, title).isEnabled = enabled
+      }
+      add(TOOL_COPY_DAY, !dayEmpty,
+        getString(if (dayEmpty) R.string.menu_copy_day_empty else R.string.menu_copy_day, dayName))
+      add(TOOL_COPY_PREVIOUS, !previousEmpty, getString(
+        if (previousEmpty) R.string.menu_copy_previous_week_empty else R.string.menu_copy_previous_week))
+      add(TOOL_CLEAR_DAY, !dayEmpty,
+        getString(if (dayEmpty) R.string.menu_clear_day_empty else R.string.menu_clear_day, dayName))
+      add(TOOL_CLEAR_WEEK, !weekEmpty,
+        getString(if (weekEmpty) R.string.menu_clear_week_empty else R.string.menu_clear_week))
+      setOnMenuItemClickListener { item ->
+        when (item.itemId) {
+          TOOL_COPY_DAY -> chooseCopyTargets(day)
+          TOOL_COPY_PREVIOUS -> previousWeekMeals?.let { copyIntoWeek(MenuCopy.ofWeek(it)) }
+          TOOL_CLEAR_DAY -> clearDay(day)
+          TOOL_CLEAR_WEEK -> confirmClearWeek()
+        }
+        true
+      }
+      show()
+    }
+  }
+
+  private fun chooseCopyTargets(from: String) {
+    val plan = currentWeeklyMeals ?: return
+    val weekId = currentWeekId
+    val titles = shareDayTitles()
+    val targets = WeeklyMeals.DAYS.filter { it != from }
+    val checked = BooleanArray(targets.size)
+    val labels = targets.map { day ->
+      val title = titles[WeeklyMeals.DAYS.indexOf(day)]
+      getString(
+        if (plan.isDayEmpty(day)) R.string.menu_copy_target_empty else R.string.menu_copy_target_filled,
+        title
+      )
+    }
+    val dialog = ourmealDialog()
+      .setTitle(getString(R.string.menu_copy_day_title, from.lowercase(spanish)))
+      .setMultiChoiceItems(labels.toTypedArray(), checked) { dialog, which, isChecked ->
+        checked[which] = isChecked
+        (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = checked.any { it }
+      }
+      .setNegativeButton(R.string.cancel, null)
+      .setPositiveButton(R.string.menu_copy_confirm) { _, _ ->
+        // Built when confirmed, so dishes typed while the dialog was open are copied too.
+        val week = currentWeeklyMeals ?: return@setPositiveButton
+        if (weekId != currentWeekId) return@setPositiveButton
+        copyIntoWeek(MenuCopy.ofDay(week, from, targets.filterIndexed { index, _ -> checked[index] }))
+      }
+      .create()
+    dialog.setOnShowListener { dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false }
+    dialog.show()
+  }
+
+  /** Fills blank meals directly; overwriting written ones is an explicit, confirmed choice. */
+  private fun copyIntoWeek(copy: MenuCopy) {
+    val plan = currentWeeklyMeals ?: return
+    val preview = copy.preview(plan)
+    when {
+      preview.fillable + preview.replaceable == 0 ->
+        binding.root.showSnackbar(getString(R.string.menu_copy_nothing))
+      preview.replaceable == 0 -> applyCopy(copy, CopyMode.FILL_EMPTY)
+      else -> {
+        val builder = ourmealDialog(destructive = true)
+          .setTitle(R.string.menu_copy_conflict_title)
+          .setMessage(resources.getQuantityString(
+            R.plurals.menu_copy_conflict_message, preview.replaceable, preview.replaceable))
+          .setNegativeButton(R.string.cancel, null)
+          .setPositiveButton(R.string.menu_copy_replace) { _, _ -> applyCopy(copy, CopyMode.REPLACE) }
+        if (preview.fillable > 0) {
+          builder.setNeutralButton(R.string.menu_copy_fill_only) { _, _ -> applyCopy(copy, CopyMode.FILL_EMPTY) }
+        }
+        builder.show()
+      }
+    }
+  }
+
+  private fun applyCopy(copy: MenuCopy, mode: CopyMode) {
+    val plan = currentWeeklyMeals ?: return
+    val edit = copy.applyTo(plan, mode)
+    applyMenuEdit(edit, resources.getQuantityString(R.plurals.menu_copied, edit.changes.size, edit.changes.size))
+  }
+
+  private fun clearDay(day: String) {
+    val plan = currentWeeklyMeals ?: return
+    applyMenuEdit(plan.cleared(listOf(day)), getString(R.string.menu_cleared_day, day.lowercase(spanish)))
+  }
+
+  private fun confirmClearWeek() {
+    val filled = currentWeeklyMeals?.plannedCount() ?: return
+    if (filled == 0) return
+    ourmealDialog(destructive = true)
+      .setTitle(R.string.menu_clear_week_title)
+      .setMessage(resources.getQuantityString(R.plurals.menu_clear_week_message, filled, filled))
+      .setNegativeButton(R.string.cancel, null)
+      .setPositiveButton(R.string.menu_clear_week_confirm) { _, _ ->
+        val plan = currentWeeklyMeals ?: return@setPositiveButton
+        applyMenuEdit(plan.cleared(), getString(R.string.menu_cleared_week))
+      }
+      .show()
+  }
+
+  /**
+   * Shows [edit] and saves it like any typed change. With a [message], the user can undo it
+   * while the same week is visible; meals edited again since keep the newer text.
+   */
+  private fun applyMenuEdit(edit: MenuEdit, message: String?) {
+    if (edit.changes.isEmpty() || isChangingWeek) return
+    val weekId = currentWeekId
+    currentWeeklyMeals = edit.week
+    renderSelectedDay()
+    updateWeekProgress()
+    scheduleSave()
+    if (message != null) {
+      binding.root.showSnackbar(
+        message = message,
+        actionLabel = getString(R.string.undo),
+        onAction = { undoMenuEdit(weekId, edit.changes) }
+      )
+    }
+  }
+
+  private fun undoMenuEdit(weekId: String, changes: List<SlotChange>) {
+    if (weekId != currentWeekId) return
+    val plan = currentWeeklyMeals ?: return
+    applyMenuEdit(plan.reverted(changes), message = null)
+  }
+
   override fun onPause() {
     cancelPendingSave()
     saveCurrentWeek()
@@ -641,6 +896,7 @@ class MainActivity : AppCompatActivity() {
 
   private class LoadedWeek(
     val plan: WeeklyMeals,
+    val previous: WeeklyMeals,
     val history: DishHistory,
     val settings: SuggestionSettings?
   )
@@ -663,5 +919,14 @@ class MainActivity : AppCompatActivity() {
     const val STATE_SELECTED_DAY = "selected_day"
     const val WEEK_PICKER_TAG = "week_picker"
     const val SAVE_DELAY_MS = 700L
+    const val SHARE_AS_TEXT = 1
+    const val SHARE_AS_IMAGE = 2
+    const val TOOL_COPY_DAY = 1
+    const val TOOL_COPY_PREVIOUS = 2
+    const val TOOL_CLEAR_DAY = 3
+    const val TOOL_CLEAR_WEEK = 4
+    const val MENU_SHARE_EMPTY = "—"
+    const val MENU_IMAGE_FILE = "menu.png"
+    val spanish: Locale = Locale.forLanguageTag("es-ES")
   }
 }

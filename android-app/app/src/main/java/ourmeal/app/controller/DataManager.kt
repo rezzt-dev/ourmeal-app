@@ -63,6 +63,15 @@ class DataManager(context: Context) {
     saveLists(lists)
   }
 
+  /** Renames the stored list without touching its products, which another screen may have changed. */
+  fun renameList(listId: Long, name: String): Boolean = synchronized(FILE_LOCK) {
+    val lists = try { loadLists().toMutableList() } catch (_: IOException) { return false }
+    val index = lists.indexOfFirst { it.id == listId }
+    if (index < 0) return false
+    lists[index] = lists[index].copy(name = itemName(name), updatedAt = System.currentTimeMillis())
+    saveLists(lists)
+  }
+
   fun getListById(listId: Long): UserList? = synchronized(FILE_LOCK) {
     loadLists().find { it.id == listId }
   }

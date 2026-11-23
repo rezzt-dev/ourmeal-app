@@ -40,9 +40,58 @@
     <item quantity="other">Ya estuvo en el menú hace %d días.</item>
   </plurals>
 
+  <!-- Compartir el menú -->
+  <string name="share_menu">Compartir el menú</string>
+  <string name="share_menu_as_text">Como texto</string>
+  <string name="share_menu_as_image">Como imagen</string>
+  <string name="share_menu_chooser">Compartir el menú con</string>
+  <string name="share_menu_header">OurMeal · menú de la semana</string>
+  <string name="share_menu_subject">Menú de la semana · %1$s</string>
+  <string name="share_menu_day">%1$s %2$s</string>
+  <string name="share_menu_card_title">El menú de la semana</string>
+  <string name="share_menu_preparing">Preparando la imagen del menú…</string>
+  <string name="share_menu_error">No hay ninguna app disponible para compartir el menú.</string>
+  <string name="share_menu_image_error">No se pudo preparar la imagen del menú. Prueba a compartirlo como texto.</string>
+
+  <!-- Copiar y vaciar el menú -->
+  <string name="menu_tools">Copiar o vaciar</string>
+  <string name="menu_tools_description">Copiar o vaciar platos del menú</string>
+  <string name="menu_copy_day">Copiar el %1$s a otros días…</string>
+  <string name="menu_copy_day_empty">Copiar el %1$s: aún no tiene platos</string>
+  <string name="menu_copy_previous_week">Copiar la semana anterior</string>
+  <string name="menu_copy_previous_week_empty">Copiar la semana anterior: está vacía</string>
+  <string name="menu_clear_day">Vaciar el %1$s</string>
+  <string name="menu_clear_day_empty">Vaciar el %1$s: ya está vacío</string>
+  <string name="menu_clear_week">Vaciar la semana</string>
+  <string name="menu_clear_week_empty">Vaciar la semana: ya está vacía</string>
+  <string name="menu_copy_day_title">¿A qué días copiar el %1$s?</string>
+  <string name="menu_copy_target_empty">%1$s · sin platos</string>
+  <string name="menu_copy_target_filled">%1$s · ya tiene platos</string>
+  <string name="menu_copy_confirm">Copiar</string>
+  <string name="menu_copy_conflict_title">Algunas comidas ya tienen plato</string>
+  <string name="menu_copy_replace">Sustituir</string>
+  <string name="menu_copy_fill_only">Solo los huecos vacíos</string>
+  <string name="menu_copy_nothing">Esos días ya tenían los mismos platos.</string>
+  <string name="menu_cleared_day">Se vació el %1$s.</string>
+  <string name="menu_cleared_week">Se vació la semana.</string>
+  <string name="menu_clear_week_title">¿Vaciar la semana?</string>
+  <string name="menu_clear_week_confirm">Vaciar</string>
+  <plurals name="menu_copy_conflict_message">
+    <item quantity="one">%d comida ya tiene otro plato. Puedes sustituirlo o rellenar solo los huecos vacíos.</item>
+    <item quantity="other">%d comidas ya tienen otro plato. Puedes sustituirlos o rellenar solo los huecos vacíos.</item>
+  </plurals>
+  <plurals name="menu_copied">
+    <item quantity="one">Se copió %d plato.</item>
+    <item quantity="other">Se copiaron %d platos.</item>
+  </plurals>
+  <plurals name="menu_clear_week_message">
+    <item quantity="one">Se borrará el único plato de esta semana. Podrás deshacerlo justo después.</item>
+    <item quantity="other">Se borrarán los %d platos de esta semana. Podrás deshacerlo justo después.</item>
+  </plurals>
+
   <!-- Preparar la compra -->
   <string name="prepare_shopping">Preparar la compra</string>
-  <string name="prepare_shopping_hint">Planifica algún plato para preparar la compra.</string>
+  <string name="prepare_shopping_hint">Planifica algún plato para compartir el menú o preparar la compra.</string>
   <string name="menu_shopping_kicker">Del menú a la compra</string>
   <string name="menu_shopping_title">Prepara la compra</string>
   <string name="menu_shopping_week">Menú de la semana: %1$s</string>
@@ -176,6 +225,44 @@
   <string name="share_chooser">Compartir lista con</string>
   <string name="share_header">OurMeal · lista de la compra</string>
   <string name="share_error">No hay ninguna app disponible para compartir la lista.</string>
+
+  <!-- Editar nombres y reutilizar listas -->
+  <string name="rename_action">Cambiar nombre</string>
+  <string name="rename_list_title">Cambiar nombre de la lista</string>
+  <string name="rename_list_message">Corrige el nombre; sus productos no cambian.</string>
+  <string name="rename_item_title">Cambiar nombre del producto</string>
+  <string name="rename_item_message">Corrige el nombre; el producto conserva su estado y su sitio en la lista.</string>
+  <string name="save">Guardar</string>
+  <string name="saving">Guardando…</string>
+  <string name="list_renamed">Nombre de la lista cambiado.</string>
+  <string name="item_renamed">Nombre del producto cambiado.</string>
+  <string name="rename_error">No se pudo cambiar el nombre. Inténtalo de nuevo.</string>
+  <string name="list_actions">Más acciones de la lista</string>
+  <string name="list_uncheck_all">Desmarcar todo</string>
+  <string name="list_remove_bought">Quitar los comprados</string>
+  <string name="list_duplicate">Duplicar la lista</string>
+  <string name="list_remove_bought_title">¿Quitar los comprados?</string>
+  <string name="list_remove_bought_confirm">Quitar</string>
+  <string name="list_bulk_error">No se pudo guardar el cambio. La lista sigue como estaba.</string>
+  <string name="duplicate_list_title">Duplicar la lista</string>
+  <string name="duplicate_list_message">La copia tendrá los mismos productos, todos pendientes. La lista original no cambia.</string>
+  <string name="duplicate_list_confirm">Duplicar</string>
+  <string name="duplicating">Duplicando…</string>
+  <string name="list_copy_suffix">" (copia)"</string>
+  <string name="list_duplicate_error">No se pudo duplicar la lista. Inténtalo de nuevo.</string>
+  <string name="list_duplicated">Lista duplicada con todo pendiente.</string>
+  <plurals name="list_unchecked">
+    <item quantity="one">%d producto vuelve a estar pendiente.</item>
+    <item quantity="other">%d productos vuelven a estar pendientes.</item>
+  </plurals>
+  <plurals name="list_remove_bought_message">
+    <item quantity="one">Se quitará %1$d producto ya comprado de «%2$s».</item>
+    <item quantity="other">Se quitarán %1$d productos ya comprados de «%2$s».</item>
+  </plurals>
+  <plurals name="list_bought_removed">
+    <item quantity="one">Se quitó %d producto comprado.</item>
+    <item quantity="other">Se quitaron %d productos comprados.</item>
+  </plurals>
 
   <!-- Recorrido de compra -->
   <string name="route_follow">Seguir mi recorrido</string>

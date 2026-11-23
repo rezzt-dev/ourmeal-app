@@ -36,6 +36,11 @@
 - añade `ShoppingRouteTest.kt` y `ShoppingRouteOrderTest.kt` para el aprendizaje del recorrido y el orden de la lista.
 - añade `.docs/manager.md`, las guías de `.docs/-github-guides/` y `.docs/repo-audit-and-fix.md` para gestionar commits, pull requests, merges, releases, changelog y ramas.
 - añade `.docs/agent-docs/ui-ux-audit.md` como cuaderno de seguimiento del pulido visual y de experiencia, con inventario de pantallas, pendientes, dudas y cambios hechos.
+- compartir el menú de la semana visible como texto, con un día por línea y un guion en los huecos vacíos, o como imagen con la tipografía y la paleta de la aplicación, mediante `FileProvider` y sin permisos nuevos.
+- añadir `Copiar o vaciar` al menú para copiar un día a otros, copiar la semana anterior y vaciar un día o la semana; rellena solo los huecos vacíos salvo que se elija sustituir y ofrece deshacer.
+- permitir cambiar el nombre de una lista o de un producto con una pulsación larga o la acción de accesibilidad `Cambiar nombre`, sin perder su estado y con deshacer.
+- añadir a cada lista `Desmarcar todo`, `Quitar los comprados` y `Duplicar la lista`, con deshacer; desmarcar en bloque no enseña nada al recorrido de compra.
+- añadir pruebas unitarias de la edición del menú, el texto compartido y la reutilización de listas, y `MenuToolsTest.kt` y `ListReuseFlowTest.kt` con `UiTestSupport.kt` para los flujos completos.
 
 #### CAMBIOS
 - exigir español de españa y conservar `ñ` y `Ñ`, incluso en formatos que pidan escribir sin acentos
@@ -82,6 +87,9 @@
 - muestra un anillo de foco visible con teclado fisico en botones principales y crema, fichas de dia y tarjetas, con los colores `focus_ring_on_brand`, `focus_ring_on_cream` y `card_outline`.
 - oculta el contador y la tarjeta de progreso cuando la lista esta vacia, usa «Eliminar producto» en todo el borrado, diferencia el antetitulo del detalle y termina con punto las snackbars de una frase.
 - sustituye `ic_edit_meal.xml` por el icono de edicion relleno del resto del set.
+- unificar los formularios de crear, renombrar y duplicar en `openNameForm` y ampliar `CreationFormState` para reabrir cada formulario con su finalidad tras recrear la pantalla.
+- colocar el botón de compartir junto a `Preparar la compra` y ampliar el texto de ayuda para explicar también por qué compartir está deshabilitado con la semana vacía.
+- declarar en `AndroidManifest.xml` un `FileProvider` no exportado limitado a `cache/shared/` y documentar las funciones nuevas en `agents.md` y `.docs/info-project/`.
 
 #### CORREGIDO
 - corrige la prueba instrumentada de contexto para comparar el `applicationId` real `app.ourmeat` y homogeneizar sus finales de línea.
@@ -135,6 +143,11 @@
 - add `ShoppingRouteTest.kt` and `ShoppingRouteOrderTest.kt` for route learning and list ordering.
 - add `.docs/manager.md`, the `.docs/-github-guides/` guides and `.docs/repo-audit-and-fix.md` to manage commits, pull requests, merges, releases, changelog and branches.
 - add `.docs/agent-docs/ui-ux-audit.md` as the tracking notebook for visual and experience polish, with a screen inventory, pending items, open questions, and applied changes.
+- share the visible week's menu as text, one day per line with a dash for empty meals, or as an image using the app's type and palette, through `FileProvider` and without new permissions.
+- add `Copiar o vaciar` to the menu to copy a day to others, copy the previous week and clear a day or the week; only empty meals are filled unless replacing is chosen, with undo.
+- allow renaming a list or a product with a long press or the `Cambiar nombre` accessibility action, keeping its state, with undo.
+- add `Desmarcar todo`, `Quitar los comprados` and `Duplicar la lista` to each list, with undo; a bulk uncheck teaches nothing to the shopping route.
+- add unit tests for menu editing, shared text and list reuse, plus `MenuToolsTest.kt` and `ListReuseFlowTest.kt` with `UiTestSupport.kt` for the full flows.
 
 #### CHANGED
 - require spanish from spain and preserve `ñ` and `Ñ`, including formats that omit vowel accents
@@ -181,6 +194,9 @@
 - show a visible focus ring with a physical keyboard on primary and cream buttons, day chips, and cards, using the colors `focus_ring_on_brand`, `focus_ring_on_cream`, and `card_outline`.
 - hide the counter and progress card when a list is empty, use «Eliminar producto» throughout item deletion, give the list detail its own kicker, and end one-sentence snackbars with a period.
 - replace `ic_edit_meal.xml` with the filled edit icon used by the rest of the set.
+- unify the create, rename and duplicate forms in `openNameForm` and extend `CreationFormState` to reopen each form for its purpose after the screen is recreated.
+- place the share button next to `Preparar la compra` and extend the hint text to also explain why sharing is disabled for an empty week.
+- declare in `AndroidManifest.xml` a non-exported `FileProvider` limited to `cache/shared/` and document the new features in `agents.md` and `.docs/info-project/`.
 
 #### FIXED
 - fix the instrumented context test to compare the real `app.ourmeat` `applicationId` and normalize its line endings.

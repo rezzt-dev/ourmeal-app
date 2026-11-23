@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One day of the shared menu image. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@color/cream_track" />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:paddingVertical="12dp">
+
+    <TextView
+      android:id="@+id/tvShareDay"
+      style="@style/TextAppearance.Ourmeal.Body.Strong"
+      android:layout_width="108dp"
+      android:layout_height="wrap_content"
+      android:textColor="@color/dark_ink" />
+
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/day_lunch"
+        android:textColor="@color/cream_muted" />
+
+      <TextView
+        android:id="@+id/tvShareLunch"
+        style="@style/TextAppearance.Ourmeal.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_ink" />
+
+      <TextView
+        style="@style/TextAppearance.Ourmeal.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/day_dinner"
+        android:textColor="@color/cream_muted" />
+
+      <TextView
+        android:id="@+id/tvShareDinner"
+        style="@style/TextAppearance.Ourmeal.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_ink" />
+    </LinearLayout>
+  </LinearLayout>
+</LinearLayout>

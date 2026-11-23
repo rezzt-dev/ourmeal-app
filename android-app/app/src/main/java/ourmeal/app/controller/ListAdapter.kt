@@ -16,6 +16,7 @@ import java.util.Locale
 
 class ListAdapter(
   private val onOpen: (UserList) -> Unit,
+  private val onRename: (UserList) -> Unit,
   private val onDelete: (UserList) -> Unit
 ) : RecyclerView.Adapter<ListAdapter.Holder>() {
   private val items = mutableListOf<UserList>()
@@ -83,6 +84,7 @@ class ListAdapter(
     holder.itemView.setOnClickListener {
       if (interactionsEnabled) onOpen(list)
     }
+    holder.itemView.setRenameAction(interactionsEnabled) { onRename(list) }
     holder.delete.contentDescription = context.getString(R.string.delete_list, list.name)
     holder.delete.isEnabled = interactionsEnabled
     holder.delete.setOnClickListener { onDelete(list) }

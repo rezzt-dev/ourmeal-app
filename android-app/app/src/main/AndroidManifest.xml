@@ -12,6 +12,16 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/Theme.Ourmeal">
+    <!-- Hands a shared menu image to the app the user picks; it grants no permission by itself. -->
+    <provider
+      android:name="androidx.core.content.FileProvider"
+      android:authorities="${applicationId}.fileprovider"
+      android:exported="false"
+      android:grantUriPermissions="true">
+      <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/shared_files" />
+    </provider>
     <activity
       android:name="ourmeal.app.ListDetailActivity"
       android:exported="false"
